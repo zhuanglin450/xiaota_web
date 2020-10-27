@@ -1,0 +1,178 @@
+<template>
+  <div>
+    <div class="header">
+      <a class="headertitle">管理系统</a>
+      <ul class="float-right headerInfo">
+        <li>欢迎你</li>
+        <li style="width:4em; text-align:right">管理员</li>
+        <li>[杭州]</li>
+      </ul>
+    </div>
+    <el-container class="navbar">
+      <el-header style="height:3em;">
+        <div style="width:84%; height:100%; float:left; padding-bottom:0.25em">
+          <el-menu
+            style="height:100%;"
+            :default-active="activeIndex"
+            class="el-menu-demo"
+            mode="horizontal"
+            @select="handleSelect"
+            background-color="rgb(50,64,87)"
+            text-color="#fefefe"
+            active-text-color="rgb(37,143,239)">
+            <el-menu-item style="height:100%; line-height:3em" index="1">二维码订单</el-menu-item>
+            <el-menu-item style="height:100%; line-height:3em" index="2">系统管理</el-menu-item>
+          </el-menu>
+        </div>
+        <div style="width:15%; height:100%; float:right; line-height:1.5; font-size:12px; padding:0.8em 0">
+          <div style="height:100%; float:right;">
+            <el-link type="info" @click="personInfo">个人信息</el-link>
+            <span style="margin-left:1em;" class="glyphicon glyphicon-log-out"></span>
+            <el-link type="info" style="margin-right:0.25em;" @click="goOut">退出</el-link>
+          </div>
+        </div>
+      </el-header>
+	    <el-container>
+        <el-aside width="8em">
+		      <ul class="asideMenu">
+			      <li v-for="item in asideMenuData" :key="item.id">{{item.text}}</li>
+    		  </ul>
+	      </el-aside>
+        <el-main>
+		      <router-view/>
+
+	      </el-main>
+	    </el-container>
+    </el-container>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "admin",
+  data() {
+      return {
+        activeIndex: '',
+        asideMenuData:[{
+          index:1,
+          text:"订单信息"
+        }]
+      };
+    },
+    mounted: function() {      
+       let url = this.$route.path;
+       if(url.indexOf("usermanager") != -1)
+       {
+         this.changeMenu(2);
+       }
+       else if(url.indexOf("order") != -1)
+       {
+         this.changeMenu(1);
+       }
+       else
+       {
+         this.changeMenu(0);
+       }
+    },
+    methods: {
+      handleSelect(key, keyPath) {
+        // console.log(key, keyPath);
+        if(key==1)
+        {
+          this.$router.push("/admin/orderList");
+          this.changeMenu(1);
+        }
+        if(key==2)
+        { 
+          this.$router.push("/admin/usermanager");
+          this.changeMenu(2);
+        }
+
+      },
+      
+      //更改二级菜单
+      changeMenu(menuIndex)
+      {        
+        if(menuIndex == 1){
+          this.activeIndex = '1';
+          this.asideMenuData = [{
+            index:1,
+            text:"订单信息"
+          }] 
+        }
+        else if(menuIndex == 2){
+          this.activeIndex = '2';
+          this.asideMenuData = [{
+            index:2,
+            text:"用户管理"
+          }] 
+        }
+        else{
+          this.activeIndex = '';
+          this.asideMenuData = []
+        }
+        
+      }
+      //methods over
+    },
+};
+</script>
+
+<style>
+.admin_a {
+  color: #f0f0f0;
+}
+
+.header {
+  height: 4em;
+  line-height: 4em;
+  background: #1d8ce0;
+  color: #c0ccda;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 0 2em;
+  width: 100%;
+  text-align: left;
+}
+
+.navbar {
+  position: fixed;
+  top: 4em;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.headertitle {
+  font-weight: bold;
+  color: #ffffff;
+  font-size: 14px;
+}
+
+.headerInfo li {
+  float: left;
+  margin-left: 0.5em;
+  color: #f0f0f0;
+}
+
+.el-menu-item {
+  height: 40px;
+  line-height: 40px;
+}
+
+.el-menu.el-menu--horizontal {
+  border-bottom: 0px;
+}
+
+.asideMenu {
+	height: 2em;
+	line-height: 2em;
+	margin-top: 0.75em;
+}
+
+.el-header, .el-aside {
+	background-color:rgb(50,64,87); 
+}
+
+</style>
