@@ -26,9 +26,9 @@
         </div>
         <div style="width:15%; height:100%; float:right; line-height:1.5; font-size:12px; padding:0.8em 0">
           <div style="height:100%; float:right;">
-            <el-link type="info" @click="personInfo">个人信息</el-link>
+            <el-link type="info" @click="personInfo"  style="color:#eeeeee">个人信息</el-link>
             <span style="margin-left:1em;" class="glyphicon glyphicon-log-out"></span>
-            <el-link type="info" style="margin-right:0.25em;" @click="goOut">退出</el-link>
+            <el-link type="info" style="margin-right:0.25em; color:#eeeeee" @click="goOut">退出</el-link>
           </div>
         </div>
       </el-header>
@@ -118,7 +118,11 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.el-menu.el-menu--horizontal {
+  border-bottom: 0px !important;
+}
+
 .admin_a {
   color: #f0f0f0;
 }
@@ -161,10 +165,6 @@ export default {
   line-height: 40px;
 }
 
-.el-menu.el-menu--horizontal {
-  border-bottom: 0px;
-}
-
 .asideMenu {
 	height: 2em;
 	line-height: 2em;
@@ -175,4 +175,7 @@ export default {
 	background-color:rgb(50,64,87); 
 }
 
+.el-header ul.el-menu{
+    border-bottom: 0px;
+}
 </style>

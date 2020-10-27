@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="header">
-      <a class="headertitle">路由宝</a>    
+    <div class="header1">
+      <a class="headertitle1">路由宝</a>    
     </div> 
-    <div class="content">
+    <div class="content1">
         <div><a>用户名:</a><el-input placeholder="用户名" v-model="pName"></el-input></div>
         <div><a>请设置密码:</a><el-input placeholder="请设置密码" v-model="pPassword" show-password style="margin-left:0.5em"></el-input></div>
         <div><a>请确认密码:</a><el-input placeholder="请确认密码" v-model="pPassword" show-password style="margin-left:0.5em"></el-input></div>
@@ -48,7 +48,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 
 .el-link.el-link--info
 {
@@ -60,7 +60,7 @@ export default {
 }
 
 
-.header {
+.header1 {
   height: 4em;
   line-height: 4em;
   background: #1d8ce0;
@@ -70,7 +70,7 @@ export default {
   text-align: left;
 }
 
-.headertitle {
+.headertitle1 {
   font-weight: bold;
   color: #ffffff;
   font-size: 1.875em;
@@ -97,15 +97,16 @@ export default {
     line-height: 3em !important;
 }
 
-.content {
+.content1 {
     margin-top:1.5em;
 }
-.content div{
+.content1 div{
     height:3em;
 }
-.content a{
+.content1 a{
     width: 6em;
     text-align: right;
     display: inline-block;
+    color:#606266;
 }
 </style>

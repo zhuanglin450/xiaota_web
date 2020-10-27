@@ -62,7 +62,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .stitle {
   font-family: "Microsoft YaHei","微软雅黑";  
   height: 2em;

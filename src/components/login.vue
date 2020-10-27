@@ -47,7 +47,7 @@ export default {
   methods: {
     register()
     {
-        this.$router.push("/login");
+        this.$router.push("/register");
     },
     validateForm() {
       this.errorMsg = "";
@@ -100,6 +100,7 @@ export default {
     },
 
     login: function() {
+      this.$router.push("/client/orderlist");
       this.isError = this.validateForm();
       if (!_this.isError) {
 //          $.ajax({
