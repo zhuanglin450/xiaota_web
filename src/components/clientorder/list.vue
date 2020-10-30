@@ -7,8 +7,7 @@
         row-key="id"
         border
         default-expand-all
-        @row-dblclick="tableClick"
-        :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+        @row-dblclick="tableClick">
         <el-table-column header-align="center" prop="No" label="订单号" width="120"></el-table-column>  <!--sortable -->
         <el-table-column header-align="center" prop="name" label="预设名" ></el-table-column>
         <el-table-column align="center" prop="type" label="类型" width="150"></el-table-column>
@@ -52,22 +51,33 @@ export default {
         }]
       };
     },
-    methods: {
-      load(tree, treeNode, resolve) {
-        setTimeout(() => {
-          resolve([
-            {
-              id: 31,
-              date: '2016-05-01',
-              name: '王小虎',
-              info: '上海市普陀区金沙江路 1519 弄'
-            }])
-        }, 1000)
-      },
+    mounted: function() {
+      console.log(this.$route.params);
+    },
+    methods: { 
       //双击跳转
       tableClick(row, column, event){
 
-          this.$router.push("/client/orderdetail");
+        let params = {
+          // 'order_status':0,
+          // 'try_scope':1,
+          // 'account': 'admin1',
+          // 'pay_status': 0,
+          // 'start_time': '2020-10-1',
+          // 'end_time': '2020-10-31',
+           'offset':0,
+           'limit':0
+        };
+        this.$axios.get("/server/distance/qr/order/1", params)
+                //成功返回
+                .then(response => {
+                    console.log(response);
+                })
+                //失败返回
+                .catch(error => {
+                    console.log(error);
+                });
+          //this.$router.push("/client/orderdetail");
       },
       handleCancel(index, row)
       {

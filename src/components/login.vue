@@ -2,18 +2,21 @@
   <div class="bg">
     <div class="login-container">
       <h1 class="title">路由宝</h1>
-      <el-form :model="ruleForm2" ref="ruleForm2" label-position="left" label-width="4em">
+      <el-form :model="ruleForm2" label-position="left" label-width="4em">
         <el-form-item label="账号:" prop="account">
           <el-input type="text" v-model="ruleForm2.account" @change="onChange" auto-complete="off" placeholder="账号"></el-input>
         </el-form-item>
         <el-form-item label="密码:" prop="checkPass">
           <el-input v-model="ruleForm2.checkPass" placeholder="密码" @focus="onKeyup" auto-complete="off" type="password" ></el-input>
         </el-form-item>
-        <div class="alert alert-danger" v-if="isError" style="margin-top: 10px;padding: 5px;">
-            {{errorMsg}}!
-        </div>
+          <!-- <div class="alert alert-danger" v-if="isError" style="margin-top: 10px;padding: 5px;">
+              {{errorMsg}}!
+          </div> -->
+          <el-form-item >
+        <el-alert :title="errorMsg" v-if="isError" type="error" :closable="false"></el-alert>
+          </el-form-item>
         <div style="text-align: center; margin-left: 20px">
-          <el-button @click.native.prevent="login" type="primary" style="width:60%;" :loading="logining">
+          <el-button @click="login" type="primary" style="width:60%;" :loading="logining">
               登录
           </el-button>
         </div>
@@ -26,6 +29,11 @@
 </template>
 
 <script>
+
+// refs 子父组件
+// $route name params/ path query
+// vue代理
+
 var _this;
 // import "../assets/js/util";
 export default {
@@ -36,7 +44,6 @@ export default {
       logining: false, 
       ruleForm2: {
         account: "",
-        name: "",
         checkPass: ""
       }, 
       checked: true,
@@ -52,20 +59,21 @@ export default {
     validateForm() {
       this.errorMsg = "";
       var iserror = false;
-    //   if (isStringEmpty(this.ruleForm2.account)) {
-    //     iserror = true;
-    //     this.errorMsg = "账号不能为空";
-    //   }
-    //   if (!iserror && isStringEmpty(this.ruleForm2.checkPass)) {
-    //     iserror = true;
-    //     this.errorMsg = "密码不能为空";
-    //   }
+      if (this.ruleForm2.account == null || this.ruleForm2.account == "" ) {
+        iserror = true;
+        this.errorMsg = "账号不能为空";
+        return true;
+      }
+      if (this.ruleForm2.checkPass == null || this.ruleForm2.checkPass == "") {
+        iserror = true;
+        this.errorMsg = "密码不能为空";
+        return true;
+      }
       return iserror;
     },
 
     onChange: function() {
-      this.ruleForm2.name = "";
-      this.isError = this.validateForm();
+      // this.isError = this.validateForm();
     },
     onKeyup: function() {
     //   if (
@@ -91,49 +99,53 @@ export default {
     //     //   }
     //     // });
     //   }
-      this.isError = this.validateForm();
+    //  this.isError = this.validateForm();
     },
     reset: function() {
       this.ruleForm2.account = "";
-      this.ruleForm2.name = "";
       this.ruleForm2.checkPass = "";
     },
 
     login: function() {
-      this.$router.push("/client/orderlist");
+      
       this.isError = this.validateForm();
-      if (!_this.isError) {
-//          $.ajax({
-//           url: _this.submitUrl,
-//           type: "POST",
-//           dataType: "json",
-//           data: this.ruleForm2,
-//           success: function(data) {
-//             _this.isError = data.status == 0;
-//             if (!_this.isError) {
-//               sessionStorage.setItem("user", JSON.stringify(data.info));
-// //                            for(let i=0; i < _this.$router.options.routes.length; i++) {
-// //                              if(!_this.$router.options.routes[i].hidden && _this.$router.options.routes[i].children.length > 0) {
-// //                                for(let j=0; j< _this.$router.options.routes[i].children.length; j++) {
-// //                                  if(_this.$router.options.routes[i].children[j].path == "/home/system") {
-// //                                    _this.$router.options.routes[i].children[j].children.splice(0,_this.$router.options.routes[i].children[j].children.length)
-// //                                    _this.$router.options.routes[i].children.splice(j, 1);
-// //                                  }
-// //                                }
-// //                              }
-// //                            }
-//               _this.$router.push({ path: "/home" });
-//             } else {
-//               _this.errorMsg = "请输入正确的用户名和密码！";
-//             }
-        //     }
-        //   },
-        //   error: function(info) {
-        //     _this.errorMsg = "服务器访问出错";
-        //     _this.isError = true;
-        //   }
-        // });
+      if (this.isError) {
+        return ;
       }
+
+      let params = {
+          'account': this.ruleForm2.account, // 'zhuang_admin',
+          'password': this.ruleForm2.checkPass // '123456'
+      };
+      this.$axios.post("/request/login", params)
+          //成功返回
+          .then(response => {
+              if(response.status != 200)
+              {
+                _this.errorMsg = "服务器访问出错";
+                _this.isError = true;
+                return;
+              }
+              
+              if(response.data.code != 200)
+              {
+                _this.errorMsg = "账号或密码错误";
+                _this.isError = true;
+                return;
+              }
+
+              // sessionStorage  
+              // this.$router.push({ path:"/client/orderlist", 
+              //   query: { userid: response.data.data.id} });
+              this.$router.push({ name:"ClientOrderList", 
+                params: { userid: response.data.data.id} });
+          })
+          //失败返回
+          .catch(error => {
+              _this.errorMsg = "服务器访问出错";
+              _this.isError = true;
+                
+          });
     }
   },
 
@@ -156,7 +168,7 @@ export default {
 // });
 </script>
 
-<style lang="scss" scoped >
+<style scoped>
 .bg {
   position: absolute;
   top: 0px;
@@ -200,5 +212,14 @@ export default {
 
 .el-input {
   width:100%
+}
+
+.el-form-item__content {
+  line-height: 2em;
+}
+
+.el-alert {
+  padding: 0 1em;
+  line-height: 2em;
 }
 </style>

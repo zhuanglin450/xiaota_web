@@ -65,22 +65,22 @@ const _router = new Router({
       children: [
         {
           path: '/admin/usermanager',
-          name: 'systemManager_User',
+          name: 'adminSystemManager_User',
           component: systemManager_User,
         },
         {
           path: '/admin/orderList',
-          name: 'orderList',
+          name: 'adminQrOrderList',
           component: QrOrderList,
         },
         {
           path: '/admin/orderDetail',
-          name: 'orderDetail',
+          name: 'adminQrOrderDetail',
           component: QrOrderDetail,
         },
         {
           path: '/admin/orderQrcodeList',
-          name: 'OrderQrcodeList',
+          name: 'adminQrOrderQrcodeList',
           component: QrOrderQrcodeList,
         }
       ]

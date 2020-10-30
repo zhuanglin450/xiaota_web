@@ -5,22 +5,22 @@
 
         <el-form ref="form" label-width="auto">
             <el-form-item label="预设名">
-                <el-input placeholder="预设名" v-model="pShowname"></el-input>
+                <el-input placeholder="预设名" v-model="pShowname"  style="width:100%"></el-input>
             </el-form-item>
             <el-form-item label="长度">
-                <el-input placeholder="长度" v-model="pLen" style="width:10em"></el-input>
+                <el-input-number placeholder="长度" :min="1" v-model="pLen"></el-input-number>
             </el-form-item>
             <el-form-item label="类型">
                 <el-select v-model="pType" default-first-option placeholder="请选择" class="type">
-                    <el-option key="1" label="固定码" value="固定码"></el-option>
-                    <el-option key="2" label="通用码" value="通用码"></el-option>
+                    <el-option key="1" label="固定码" value="1"></el-option>
+                    <el-option key="2" label="通用码" value="0"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="数量">
-                <el-input placeholder="数量" v-model="pNum" style="width:10em"></el-input>
+                <el-input-number placeholder="数量" :min="1" v-model="pNum"></el-input-number>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary">创建</el-button>
+                <el-button type="primary" @click="onSubmit" >创建</el-button>
                 <!-- <el-button>取消</el-button> -->
             </el-form-item>
         </el-form>
@@ -47,13 +47,64 @@ export default {
   data() {
       return { 
           pShowname:"",
-          pLen:"",
-          pType:"",
-          pNum:""
+          pLen:"100",
+          pType:"1",
+          pNum:"10"
       };
     },
     methods: {
       //双击跳转
+
+      onSubmit(){
+
+        if(this.pShowname == null || this.pShowname == "")
+        {
+            this.$message("请输入预设名!");
+            return;
+        }
+
+        let params = {
+            "orders":[{
+                'preset_name': this.pShowname, 
+                'type': this.pType,
+                'distance': this.pLen,
+                'count': this.pNum
+            }]
+        };
+        this.$axios.post("/request/distance/qr/order", params)
+            //成功返回
+            .then(response => {
+                if(response.status != 200)
+                {
+                    this.$alert('提交失败', '提示', {
+                            confirmButtonText: '确定',
+                            type: 'error',
+                    });
+                    return;
+                }
+                
+                if(response.data.code != 200)
+                {     
+                    this.$alert('提交失败', '提示', {
+                            confirmButtonText: '确定',
+                            type: 'error',
+                    });
+                    return;
+                }
+
+                 this.$alert('提交成功', '提示', {
+                        confirmButtonText: '确定',
+                        type: 'success',
+                 });
+            })
+            //失败返回
+            .catch(error => {
+                this.$alert('提交失败', '提示', {
+                        confirmButtonText: '确定',
+                        type: 'error',
+                });                     
+            });
+        }
     }
 };
 </script>
@@ -82,7 +133,7 @@ export default {
 }
 
 .el-input{
-    width:16em;
+    width:12em;
 }
 
 .el-form-item {
@@ -96,5 +147,18 @@ export default {
 .type .el-input
 {
     width:9em;
+}
+
+.el-input-number__decrease
+{
+    left:0.9em;
+    line-height: 2.25em;
+    overflow: hidden;
+}
+.el-input-number__increase
+{
+    right:1.9em;
+    line-height: 2.25em;
+    overflow: hidden;
 }
 </style>

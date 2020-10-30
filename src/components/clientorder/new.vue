@@ -3,16 +3,14 @@
     <h3><a>逐个生成新订单</a></h3>
     <div class="tableStyle">
       <div style="text-align:left">
-          <a>预设名:</a><el-input style="width:16em; margin-left:1em"></el-input>
+          <a>预设名:</a><el-input style="width:16em; margin-left:1em" placeholder="预设名" v-model="pShowname"></el-input>
       </div>
       <el-table
         :data="tableData"
         style="width: 100%;margin-top: 1em;"
         row-key="id"
-        border
-        default-expand-all
-        @row-dblclick="tableClick"
-        :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+        border default-expand-all
+        @row-dblclick="tableClick">
         <el-table-column header-align="center" prop="name" label="二维码名" >
             <template slot-scope="scope">
                 <el-input @click="handleCancel(scope.$index, scope.row)"></el-input>    
@@ -21,8 +19,8 @@
         <el-table-column align="center" prop="type" label="类型" width="150">
             <template  slot-scope="scope">
                 <el-select v-model="scope.row.type" default-first-option placeholder="请选择" class="type">
-                    <el-option key="1" label="固定码" value="固定码"></el-option>
-                    <el-option key="2" label="通用码" value="通用码"></el-option>
+                    <el-option key="1" label="固定码" value="0"></el-option>
+                    <el-option key="2" label="通用码" value="1"></el-option>
                 </el-select>
             </template>
         </el-table-column>
@@ -33,22 +31,16 @@
         </el-table-column>
         <el-table-column align="center" prop="operate" label="操作" width="140">
             <template slot-scope="scope">
-                <el-button type="success" 
-                    icon="el-icon-plus"
-                    size="mini"
-                    circle 
+                <el-button type="success"  icon="el-icon-plus" size="mini" circle 
                     @click="handleCancel(scope.$index, scope.row)">
                 </el-button>
-                <el-button type="danger" 
-                    icon="el-icon-minus"
-                    size="mini"
-                    circle 
+                <el-button type="danger"  icon="el-icon-minus" size="mini" circle 
                     @click="handleCancel(scope.$index, scope.row)">
                 </el-button>
             </template>
         </el-table-column>
       </el-table>
-      <el-button type="primary" style="margin-top:1em">创建</el-button>
+      <el-button @click="onSubmit" type="primary" style="margin-top:1em">创建</el-button>
     </div>
   </div>
 </template>
@@ -58,6 +50,7 @@ export default {
   name: "new",
   data() {
       return {
+        pShowname:"",
         tableData: [{
           id: 1,
           No: 13246,
@@ -77,17 +70,57 @@ export default {
       };
     },
     methods: {
-      load(tree, treeNode, resolve) {
-        setTimeout(() => {
-          resolve([
-            {
-              id: 31,
-              date: '2016-05-01',
-              name: '王小虎',
-              info: '上海市普陀区金沙江路 1519 弄'
-            }])
-        }, 1000)
-      },
+      onSubmit(){
+
+        if(this.pShowname == null || this.pShowname == "")
+        {
+            this.$message("请输入预设名!");
+            return;
+        }
+
+        let params = {
+            "orders":[{
+                'preset_name': this.pShowname, 
+                'type': this.pType,
+                'distance': this.pLen,
+                'count': this.pNum
+            }]
+        };
+        this.$axios.post("/request/distance/qr/order", params)
+            //成功返回
+            .then(response => {
+                if(response.status != 200)
+                {
+                    this.$alert('提交失败', '提示', {
+                            confirmButtonText: '确定',
+                            type: 'error',
+                    });
+                    return;
+                }
+                
+                if(response.data.code != 200)
+                {     
+                    this.$alert('提交失败', '提示', {
+                            confirmButtonText: '确定',
+                            type: 'error',
+                    });
+                    return;
+                }
+
+                 this.$alert('提交成功', '提示', {
+                        confirmButtonText: '确定',
+                        type: 'success',
+                 });
+            })
+            //失败返回
+            .catch(error => {
+                this.$alert('提交失败', '提示', {
+                        confirmButtonText: '确定',
+                        type: 'error',
+                });                     
+            });
+        },
+
       //双击跳转
       tableClick(row, column, event){
 
