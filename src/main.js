@@ -3,15 +3,30 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-
+import 'element-ui/lib/theme-chalk/index.css'
+import "bootstrap/dist/css/bootstrap.min.css"
+import "bootstrap-vue/dist/bootstrap-vue.css"
+import { BootstrapVue ,BootstrapVueIcons} from "bootstrap-vue"
+import store from "./store"
+import "./style/base.css"
+import './style/common.css'
+import {toast} from "../src/assets/js/toast"
 Vue.config.productionTip = false
 
 //element-ui
-import ElementUi from 'element-ui'
-import '../node_modules/element-ui/lib/theme-chalk/index.css'
-Vue.use(ElementUi)
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+import 'font-awesome/css/font-awesome.min.css'
+Array.prototype.getArrayIndex=function(obj){
+  for(var i=0;i<this.length;i++){
+    if(this[i]===obj){
+      return i
+    }
+  }
+  return -1
+}
 
-import './assets/css/common.css'
+
 
 import axios from 'axios'
 // Vue.use(axios);
@@ -26,40 +41,16 @@ import VueRouter from 'vue-router'
 import _router from './router/index.js'
 // 使用配置文件规则
 
-// _router.beforeEach((to, from, next) => {
-//     //NProgress.start();
-//     if (to.path == '/login') {
-//         sessionStorage.removeItem('user');
-//     }
-//     let user = JSON.parse(sessionStorage.getItem('user'));
-//     if (!user && to.path != '/login') {
-//         next({ path: '/login' })
-//     } else {
-//         if(to.path == '/login' || to.path == '/404' || to.path == '/no_permission'
-//             || to.path == '/home' || to.path == '//home/task'
-//             || to.path == '/home/statistics' || to.path == '/home/basic_data'|| to.path == '/home/system') {
-//             next()
-//         } else {
-//             if(user != null && user.rolebs_scope != null){
-//                 if(user.rolebs_scope.indexOf(to.path) != -1) {
-//                     next()
-//                 } else {
-//                     next({ path: '/no_permission' })
-//                 }
-
-//             } else {
-//                 next({ path: '/no_permission' })
-//             }
-//         }
-//         next()
-//     }
-// })
-
+Vue.prototype.toast=toast
+Vue.use(BootstrapVueIcons)
+Vue.use(BootstrapVue);
+Vue.use(ElementUI);
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

@@ -1,0 +1,67 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+.clr:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+li {
+  list-style-type: none;
+}
+
+input {
+  border-width: 1px;
+  background: none;
+  outline: none;
+}
+
+.el-popover {
+  min-width: 90px;
+}
+
+.line-limit-length {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+.table td,.table th{
+  vertical-align: middle;
+  text-align: center;
+}
+.tableDescription{
+  width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.training_class{
+  color: green;
+}
+.verify_class{
+  color: rgb(235, 103, 42);;
+}
+.trainingVerify_class{
+  color:rgb(21, 107, 219)
+}
