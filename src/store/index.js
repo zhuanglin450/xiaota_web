@@ -1,4 +1,4 @@
-// storeæ–‡ä»¶å¤¹ä¸‹index.js
+// storeÎÄ¼ş¼ĞÏÂindex.js
 import fetch from "../assets/js/fetch";
 import Vue from "vue";
 import Vuex from "vuex";
@@ -8,33 +8,33 @@ import homeStore from "./homeStore";
 import loginStore from "./loginStore";
 import dashboard from "./dashboard";
 import ftpInfo from "./ftpInfo";
-import selectLine from "./selectLine";
-import audit from "./audit";
-import logs from "./logs";
+//import selectLine from "./selectLine";
+//import audit from "./audit";
+//import logs from "./logs";
 import mqtt from "./mqtt";
 import common from "./common";
 
 
 
-//ä»¥ä¸‹æ˜¯äº›æ ·ä¾‹ï¼Œ å¯ä»¥æ ¹æ®éœ€è¦ä¿®æ”¹
+//ÒÔÏÂÊÇĞ©ÑùÀı?? ¿ÉÒÔ¸ù¾İĞèÒªĞŞ??
 export default new Vuex.Store({
   modules: {
-    loginStore, // ç™»å½•çŠ¶æ€
-    markTasks, // æ ‡è®°ä»»åŠ¡
-    pictureTask, // å›¾ç‰‡æ ‡ç­¾åˆ—è¡¨
-    modelManagement, // è®­ç»ƒæ¨¡å‹ç»“æœ
-    serverInfo, // æœåŠ¡å™¨ä¿¡æ¯
-    ftpInfo, // FtpæœåŠ¡å™¨ä¿¡æ¯
-    userManagement, // ç”¨æˆ·ç®¡ç†
-    logs, // è®­ç»ƒæ—¥å¿—
-    training_tasks, // è®­ç»ƒä»»åŠ¡
-    training_models, // è®­ç»ƒæ¨¡å‹è¯¦æƒ…
-    training_details, //è®­ç»ƒè¯¦æƒ…
+    loginStore, // µÇÂ¼×´??
+    markTasks, // ±ê¼ÇÈÎÎñ
+    pictureTask, // Í¼Æ¬±êÇ©ÁĞ±í
+    modelManagement, // ÑµÁ·Ä£ĞÍ½á¹û
+    serverInfo, // ·şÎñÆ÷ĞÅ??
+    ftpInfo, // Ftp·şÎñÆ÷ĞÅ??
+    userManagement, // ÓÃ»§¹ÜÀí
+    logs, // ÑµÁ·ÈÕÖ¾
+    training_tasks, // ÑµÁ·ÈÎÎñ
+    training_models, // ÑµÁ·Ä£ĞÍÏêÇé
+    training_details, //ÑµÁ·ÏêÇé
     mqtt, // mqtt
-    common, // é€šç”¨
-    modelManagementAudit, // æ¨¡å‹å®¡æ ¸
-    markTasksAudit, // æ ‡è®°ä»»åŠ¡å®¡æ ¸
-    templateTask // æ ‡ç­¾æ¨¡æ¿çš„å¼¹çª—
+    common, // Í¨ÓÃ
+    modelManagementAudit, // Ä£ĞÍÉóºË
+    markTasksAudit, // ±ê¼ÇÈÎÎñÉóºË
+    templateTask // ±êÇ©Ä£°åµÄµ¯??
   },
   state: {
     modelData: [],
@@ -44,26 +44,26 @@ export default new Vuex.Store({
     setModelData(state, data) {
       data.push({
         id: "",
-        name: "å…¨éƒ¨"
+        name: "È«²¿"
       });
       state.modelData = data;
     },
     setProcedureData(state, data) {
       data.push({
         id: "",
-        name: "å…¨éƒ¨"
+        name: "È«²¿"
       });
       state.procedureData = data;
     }
   },
   actions: {
-    //è·å–æœºå‹åˆ—è¡¨
+    //»ñÈ¡»úĞÍÁĞ±í
     async getModelList({ commit }) {
       // await fetch.get("/api/models/sync_mira_data")
       let data = await fetch.get("/api/models");
       commit("setModelData", data.data.models);
     },
-    //è·å–æŒ‡å®šæœºå‹ä¸‹çš„å·¥åº
+    //»ñÈ¡Ö¸¶¨»úĞÍÏÂµÄ¹¤Ğò
     async getProcedureList({ commit }, stark) {
       // await fetch.get("/api/models/sync_mira_data")
       let data = await fetch.get(
