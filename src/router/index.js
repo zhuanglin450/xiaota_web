@@ -32,7 +32,7 @@ Router.prototype.replace = function replace (to) {
 
 Vue.use(Router)
 
-const _router = new Router({
+const router = new Router({
   mode: "hash",//hash模式的工作原理是hashchange事件，可以在window监听hash的变化。我们在url后面随便添加一个#xx触发这个事件。
   routes: [
     {
@@ -183,4 +183,4 @@ router.beforeEach((to, from, next) => {
     }
   }
 });
-export default _router;
+export default router;

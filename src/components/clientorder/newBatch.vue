@@ -1,19 +1,19 @@
 <template>
   <div>
-    <h3><a>批量生成新订单</a></h3>
+    <h3><a>批量生成新订�?</a></h3>
     <div class="content" style="text-align:left">
 
         <el-form ref="form" label-width="auto">
-            <el-form-item label="预设名">
-                <el-input placeholder="预设名" v-model="pShowname"  style="width:100%"></el-input>
+            <el-form-item label="预设�?">
+                <el-input placeholder="预设�?" v-model="pShowname"  style="width:100%"></el-input>
             </el-form-item>
             <el-form-item label="长度">
                 <el-input-number placeholder="长度" :min="1" v-model="pLen"></el-input-number>
             </el-form-item>
             <el-form-item label="类型">
                 <el-select v-model="pType" default-first-option placeholder="请选择" class="type">
-                    <el-option key="1" label="固定码" value="1"></el-option>
-                    <el-option key="2" label="通用码" value="0"></el-option>
+                    <el-option key="1" label="固定�?" value="1"></el-option>
+                    <el-option key="2" label="通用�?" value="0"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="数量">
@@ -26,12 +26,12 @@
         </el-form>
 
 <!-- 
-        <div><a>预设名:</a><el-input placeholder="预设名" v-model="pShowname"></el-input></div>
+        <div><a>预设�?:</a><el-input placeholder="预设�?" v-model="pShowname"></el-input></div>
         <div><a>长度:</a><el-input placeholder="长度" v-model="pLen"></el-input></div>
         <div><a>类型:</a>
             <el-select v-model="pType" default-first-option placeholder="请选择">
-                <el-option key="1" label="固定码" value="固定码"></el-option>
-                <el-option key="2" label="通用码" value="通用码"></el-option>
+                <el-option key="1" label="固定�?" value="固定�?"></el-option>
+                <el-option key="2" label="通用�?" value="通用�?"></el-option>
             </el-select>
         </div>
         <div><a>数量:</a><el-input placeholder="数量" v-model="pNum"></el-input></div>
@@ -71,7 +71,7 @@ export default {
                 'count': this.pNum
             }]
         };
-        this.$axios.post("/request/distance/qr/order", params)
+        this.$axios.post("/api/distance/qr/order", params)
             //成功返回
             .then(response => {
                 if(response.status != 200)

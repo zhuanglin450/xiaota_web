@@ -2,7 +2,6 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import router from './router'
 import 'element-ui/lib/theme-chalk/index.css'
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap-vue/dist/bootstrap-vue.css"
@@ -38,7 +37,7 @@ import VueRouter from 'vue-router'
 
 //Vue.use(VueRouter)
 // 引用路由配置文件
-import _router from './router/index.js'
+import router from './router/index.js'
 // 使用配置文件规则
 
 Vue.prototype.toast=toast

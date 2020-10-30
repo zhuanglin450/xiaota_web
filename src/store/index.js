@@ -20,21 +20,21 @@ import common from "./common";
 export default new Vuex.Store({
   modules: {
     loginStore, // 登录状??
-    markTasks, // 标记任务
-    pictureTask, // 图片标签列表
-    modelManagement, // 训练模型结果
-    serverInfo, // 服务器信??
-    ftpInfo, // Ftp服务器信??
-    userManagement, // 用户管理
-    logs, // 训练日志
-    training_tasks, // 训练任务
-    training_models, // 训练模型详情
-    training_details, //训练详情
-    mqtt, // mqtt
+//    markTasks, // 标记任务
+//    pictureTask, // 图片标签列表
+//    modelManagement, // 训练模型结果
+//    serverInfo, // 服务器信??
+//    ftpInfo, // Ftp服务器信??
+//    userManagement, // 用户管理
+//    logs, // 训练日志
+//    training_tasks, // 训练任务
+//    training_models, // 训练模型详情
+//    training_details, //训练详情
+//    mqtt, // mqtt
     common, // 通用
-    modelManagementAudit, // 模型审核
-    markTasksAudit, // 标记任务审核
-    templateTask // 标签模板的弹??
+//    modelManagementAudit, // 模型审核
+//    markTasksAudit, // 标记任务审核
+//    templateTask // 标签模板的弹??
   },
   state: {
     modelData: [],
