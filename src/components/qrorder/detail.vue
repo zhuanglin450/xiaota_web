@@ -9,9 +9,7 @@
         :data="tableData"
         style="width: 100%;margin-bottom: 20px;"
         row-key="id"
-        border
-        default-expand-all
-        :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+        border default-expand-all>
         <el-table-column align="center" prop="space" label="间距" width="100"></el-table-column>  <!--sortable -->
         <el-table-column align="center" prop="num" label="数量" width="100"></el-table-column>
         <el-table-column header-align="center" prop="info" label="额外信息"></el-table-column>
@@ -34,46 +32,62 @@ export default {
   name: "orderDetail",
   data() {
       return {
-        tableData: [{
-          id:1,
-          space: 10,
-          num: '100000',
-          info: '王小虎',
-          operate: ''
-        }, {
-          id:2,
-          space: 10,
-          num: '100000',
-          info: '王小虎',
-          operate: ''
-        }, {
-          id:3,  
-          space: 10,
-          num: '100000',
-          info: '王小虎',
-          operate: ''
-        }, {
-          id:4,  
-          space: 10,
-          num: '100000',
-          info: '王小虎',
-          operate: ''
-        }]
+        sdata :[],
+        // tableData: [{
+        //   sdataIndex:0,  
+        //   id:1,
+        //   space: 10,
+        //   num: '100000',
+        //   info: '王小虎'
+        // } ]
+        tableData:[]
       };
     },
-    methods: {
-      load(tree, treeNode, resolve) {
-        setTimeout(() => {
-          resolve([
+    mounted: function() {  
+        let orderid = this.$route.params.orderid;
+        if(orderid == null || orderid == "" || orderid <=0)
+        {
+          this.tableData = [];
+          return;
+        }
+        let params = { 
+          'offset': 0,
+          'limit': 0
+        };
+        this.$axios.get("/api/distance/qr/order/"+orderid, params)
+          //成功返回
+          .then(response => {
+              if(response.status != 200)
             {
-              id: 31,
-              date: '2016-05-01',
-              name: '王小虎',
-              info: '上海市普陀区金沙江路 1519 弄'
+                  this.$message.error("请求数据失败!");
+                  return;
+              }
+              if(response.data.code != 200)
+              {     
+                  this.$message.error( response.data.message);
+                  return;
             }
-          ])
-        }, 1000)
+              this.sdata = response.data.data.order_details;
+              let tableData = [];
+              let i =0;
+              this.sdata.forEach(ele  => {
+                  tableData.push({
+                    sdataIndex : i,
+                    id: ele.qr_id,
+                    space: ele.distance,
+                    num: '1',
+                    info: ele.preset_name
+                  });
+                  i++;
+              });
+              this.tableData = tableData;
+          })
+          //失败返回
+          .catch(error => {
+              this.$message.error("请求数据失败!");
+          });
       },
+    methods: {
       goBack()
       {
           window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
@@ -81,7 +95,8 @@ export default {
       //产生二维码
       handleCreate(index, row)
       {
-        this.$router.push('/admin/orderQrcodeList');
+          this.$router.push({"name":'adminQrOrderQrcodeList', 
+            params:{"qrcontent":this.sdata[row.sdataIndex]}});
       }
     }
 };

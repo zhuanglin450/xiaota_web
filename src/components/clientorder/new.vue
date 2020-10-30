@@ -1,9 +1,9 @@
 <template>
   <div>
-    <h3><a>逐个生成新订�?</a></h3>
+    <h3><a>逐个生成新订单</a></h3>
     <div class="tableStyle">
       <div style="text-align:left">
-          <a>预设�?:</a><el-input style="width:16em; margin-left:1em" placeholder="预设�?" v-model="pShowname"></el-input>
+          <a>预设名:</a><el-input style="width:16em; margin-left:1em" placeholder="预设名" v-model="pShowname"></el-input>
       </div>
       <el-table
         :data="tableData"
@@ -19,8 +19,8 @@
         <el-table-column align="center" prop="type" label="类型" width="150">
             <template  slot-scope="scope">
                 <el-select v-model="scope.row.type" default-first-option placeholder="请选择" class="type">
-                    <el-option key="1" label="固定�?" value="0"></el-option>
-                    <el-option key="2" label="通用�?" value="1"></el-option>
+                    <el-option key="1" label="固定码" value="0"></el-option>
+                    <el-option key="2" label="通用码" value="1"></el-option>
                 </el-select>
             </template>
         </el-table-column>
@@ -55,17 +55,17 @@ export default {
           id: 1,
           No: 13246,
           name:'南京上海',
-          type:"固定�?",
+          type:"固定码",
           len:"100",
         }, {
           id: 2,
           No: 13246,
           name:'',
-          type:"通用�?",
+          type:"通用码",
           len:"100",
           num:10,
           date: '2016-05-02 15:00:00',
-          paystatus: '已支�?'
+          paystatus: '已支付'
         }]
       };
     },

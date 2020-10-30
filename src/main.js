@@ -28,11 +28,14 @@ Array.prototype.getArrayIndex=function(obj){
 
 
 import axios from 'axios'
+// import fetch from './assets/js/fetch'
+//当我们的项目是前后端分离的模式时,vue不会自动帮我们保存后端传来的cookie
+axios.defaults.withCredentials = true; //保存cookie
 // Vue.use(axios);
 Vue.prototype.$axios = axios;
 
 // 引用路由
-import VueRouter from 'vue-router'
+// import VueRouter from 'vue-router'
 // 光引用不成，还得使用
 
 //Vue.use(VueRouter)

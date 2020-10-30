@@ -54,8 +54,13 @@ export default {
       };
   },
   mounted: function() {      
+    let qrcontent = this.$route.params.qrcontent;
+    if(qrcontent == null )
+    {
+      return;
+    }
     this.q1 = new QRCode(this.$refs.codeDiv, {
-        text: "content",
+        text: JSON.stringify(qrcontent),
         width: 120,
         height: 120,
         colorDark: "#333333", //二维码颜色

@@ -1,7 +1,7 @@
 <template>
   <div class="bg">
     <div class="login-container">
-      <h1 class="title">路由�?</h1>
+      <h1 class="title">路由宝</h1>
       <el-form :model="ruleForm2" label-position="left" label-width="4em">
         <el-form-item label="账号:" prop="account">
           <el-input type="text" v-model="ruleForm2.account" @change="onChange" auto-complete="off" placeholder="账号"></el-input>
@@ -90,11 +90,11 @@ export default {
     //     //     if (!_this.isError) {
     //     //       _this.ruleForm2.name = data.info.name;
     //     //     } else {
-    //     //       _this.errorMsg = "未找到匹配的姓名�?";
+    //     //       _this.errorMsg = "未找到匹配的姓名！";
     //     //     }
     //     //   },
     //     //   error: function(info) {
-    //     //     _this.errorMsg = "服务器访问出�?";
+    //     //     _this.errorMsg = "服务器访问出错";
     //     //     _this.isError = true;
     //     //   }
     //     // });
@@ -122,14 +122,14 @@ export default {
           .then(response => {
               if(response.status != 200)
               {
-                _this.errorMsg = "服务器访问出�?";
+                _this.errorMsg = "服务器访问出错";
                 _this.isError = true;
                 return;
               }
               
               if(response.data.code != 200)
               {
-                _this.errorMsg = "账号或密码错�?";
+                _this.errorMsg = "账号或密码错误";
                 _this.isError = true;
                 return;
               }
@@ -142,7 +142,7 @@ export default {
           })
           //失败返回
           .catch(error => {
-              _this.errorMsg = "服务器访问出�?";
+              _this.errorMsg = "服务器访问出错";
               _this.isError = true;
                 
           });
@@ -156,7 +156,7 @@ export default {
   }
 };
 
-//快捷键登�?
+//快捷键登录
 // $(function() {
 //   document.onkeydown = function(e) {
 //     var ev = document.all ? window.event : e;
@@ -191,7 +191,7 @@ export default {
   background-clip: padding-box;
   margin-bottom: 20px;
   background-color: #f9fafc;
-  margin: 180px auto;
+  margin: 8em auto;
   border: 2px solid #8492a6;
   width: 450px;
   padding: 35px 35px 15px 35px;

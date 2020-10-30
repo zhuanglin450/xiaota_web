@@ -2,44 +2,27 @@
   <div class="bg">
     <div class="login-container">
       <h3 class="title">系统登录</h3>
-      <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-position="left"  label-width="60px">
+      <el-form :model="ruleForm2" label-position="left"  label-width="4em">
         <el-form-item label="账号:" prop="account">
-          <el-input
-            type="text"
-            v-model="ruleForm2.account"
-            auto-complete="off"
-            placeholder="账号"
-            @change="onChange"
-          ></el-input>
+          <el-input type="text" v-model="ruleForm2.account" auto-complete="off" placeholder="账号" @change="onChange"></el-input>
         </el-form-item>
-        <el-form-item label="姓名:" prop="name">
+        <!--<el-form-item label="姓名:" prop="name">
           <el-input type="text" disabled v-model="ruleForm2.name" auto-complete="off"></el-input>
-        </el-form-item>
+        </el-form-item>-->
         <el-form-item label="密码:" prop="checkPass">
-          <el-input
-            type="password"
-            v-model="ruleForm2.checkPass"
-            auto-complete="off"
-            placeholder="密码"
-            @focus="onKeyup"
-          ></el-input>
+          <el-input v-model="ruleForm2.checkPass" placeholder="密码" @focus="onKeyup" auto-complete="off" type="password" ></el-input>
         </el-form-item>
-        <div class="alert alert-danger" v-if="isError" style="margin-top: 10px;padding: 5px;">
-            {{errorMsg}}!
-        </div>
+          <!-- <div class="alert alert-danger" v-if="isError" style="margin-top: 10px;padding: 5px;">
+              {{errorMsg}}!
+          </div> -->
+          <el-form-item >
+        <el-alert :title="errorMsg" v-if="isError" type="error" :closable="false"></el-alert>
+          </el-form-item>
         <div style="text-align: center; margin-left: 20px">
-          <el-button
-            type="primary"
-            style="width:35%;"
-            @click.native.prevent="reset"
-            :loading="logining">重置
-          </el-button>
-          <el-button
-            type="primary"
-            style="width:35%;"
-            @click.native.prevent="login"
-            :loading="logining">登录
-          </el-button>
+          <el-button type="primary" style="width:35%;" @click.native.prevent="reset"
+            :loading="logining">重置 </el-button>
+          <el-button type="primary" style="width:35%;"
+            @click.native.prevent="login" :loading="logining">登录</el-button>
         </div>
       </el-form>
     </div>
@@ -55,14 +38,12 @@ export default {
     _this = this;
     return {
       logining: false,
-      submitUrl: "User/ajaxLogin",
-      queryUserUrl: "User/getRecordsCount",
       ruleForm2: {
         account: "",
-        name: "",
+        //name: "",
         checkPass: ""
       },
-      rules2: {
+//      rules2: {
 //				  account: [
 //					  {message: '请输入账号', trigger: 'blur'},
 //					  //{ validator: validaePass }
@@ -76,7 +57,7 @@ export default {
 //					  {required: true, message: '请输入密码', trigger: 'blur'},
 //					  //{ validator: validaePass2 }
 //				  ],
-      },
+//      },
       checked: true,
       isError: false,
       errorMsg: ""
@@ -86,26 +67,28 @@ export default {
     validateForm() {
       this.errorMsg = "";
       var iserror = false;
-      if (isStringEmpty(this.ruleForm2.account)) {
+      if (this.ruleForm2.account == null || this.ruleForm2.account == "" ) {
         iserror = true;
         this.errorMsg = "账号不能为空";
+        return true;
       }
-      if (!iserror && isStringEmpty(this.ruleForm2.checkPass)) {
+      if (this.ruleForm2.checkPass == null || this.ruleForm2.checkPass == "") {
         iserror = true;
         this.errorMsg = "密码不能为空";
+        return true;
       }
       return iserror;
     },
 
     onChange: function() {
-      this.ruleForm2.name = "";
-      this.isError = this.validateForm();
+      //this.ruleForm2.name = "";
+      //this.isError = this.validateForm();
     },
     onKeyup: function() {
-      if (
-        isStringEmpty(this.ruleForm2.name) &&
-        !isStringEmpty(_this.ruleForm2.account)
-      ) {
+      //if (
+      //  isStringEmpty(this.ruleForm2.name) &&
+      //  !isStringEmpty(_this.ruleForm2.account)
+      //) {
         // $.ajax({
         //   url: this.submitUrl,
         //   type: "POST",
@@ -124,49 +107,55 @@ export default {
         //     _this.isError = true;
         //   }
         // });
-      }
-      this.isError = this.validateForm();
+     // }
+      //this.isError = this.validateForm();
     },
     reset: function() {
       this.ruleForm2.account = "";
-      this.ruleForm2.name = "";
+     // this.ruleForm2.name = "";
       this.ruleForm2.checkPass = "";
     },
 
     login: function() {
+      
       this.isError = this.validateForm();
-      if (!_this.isError) {
-//          $.ajax({
-//           url: _this.submitUrl,
-//           type: "POST",
-//           dataType: "json",
-//           data: this.ruleForm2,
-//           success: function(data) {
-//             _this.isError = data.status == 0;
-//             if (!_this.isError) {
-//               sessionStorage.setItem("user", JSON.stringify(data.info));
-// //                            for(let i=0; i < _this.$router.options.routes.length; i++) {
-// //                              if(!_this.$router.options.routes[i].hidden && _this.$router.options.routes[i].children.length > 0) {
-// //                                for(let j=0; j< _this.$router.options.routes[i].children.length; j++) {
-// //                                  if(_this.$router.options.routes[i].children[j].path == "/home/system") {
-// //                                    _this.$router.options.routes[i].children[j].children.splice(0,_this.$router.options.routes[i].children[j].children.length)
-// //                                    _this.$router.options.routes[i].children.splice(j, 1);
-// //                                  }
-// //                                }
-// //                              }
-// //                            }
-//               _this.$router.push({ path: "/home" });
-//             } else {
-//               _this.errorMsg = "请输入正确的用户名和密码！";
-//             }
-        //     }
-        //   },
-        //   error: function(info) {
-        //     _this.errorMsg = "服务器访问出错";
-        //     _this.isError = true;
-        //   }
-        // });
+      if (this.isError) {
+        return ;
       }
+
+      let params = {
+          'account': this.ruleForm2.account, // 'zhuang_admin',
+          'password': this.ruleForm2.checkPass // '123456'
+      };
+      this.$axios.post("/api/login", params)
+          //成功返回
+          .then(response => {
+              if(response.status != 200)
+              {
+                _this.errorMsg = "服务器访问出错";
+                _this.isError = true;
+                return;
+              }
+              
+              if(response.data.code != 200)
+              {
+                _this.errorMsg = "账号或密码错误";
+                _this.isError = true;
+                return;
+              }
+
+              // sessionStorage  
+              // this.$router.push({ path:"/admin/orderlist", 
+              //   query: { userid: response.data.data.id} });
+              this.$router.push({ name:"adminQrOrderList", 
+                params: { userid: response.data.data.id} });
+          })
+          //失败返回
+          .catch(error => {
+              _this.errorMsg = "服务器访问出错";
+              _this.isError = true;
+                
+          });
     }
   },
 
@@ -189,7 +178,7 @@ export default {
 // });
 </script>
 
-<style lang="scss" scoped >
+<style scoped>
 .bg {
   position: absolute;
   top: 0px;
@@ -212,21 +201,35 @@ export default {
   background-clip: padding-box;
   margin-bottom: 20px;
   background-color: #f9fafc;
-  margin: 180px auto;
+  margin: 8em auto;
   border: 2px solid #8492a6;
   width: 450px;
   padding: 35px 35px 15px 35px;
 }
 
 .title {
+  color:cadetblue;
   width: 380px;
-  margin-bottom: 40px;
+  margin-top: 0em;
+  margin-bottom: 1em;
   text-align: center;
-  color: #505458;
+  /*color: #505458;*/
   font-weight: bold;
+  font-size: 2.75em;
+  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+  letter-spacing: 0.375em;  
 }
 
 .el-input {
   width:100%
+}
+
+.el-form-item__content {
+  line-height: 2em;
+}
+
+.el-alert {
+  padding: 0 1em;
+  line-height: 2em;
 }
 </style>

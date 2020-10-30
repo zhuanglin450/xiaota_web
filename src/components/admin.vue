@@ -35,7 +35,7 @@
 	    <el-container>
         <el-aside width="8em">
 		      <ul class="asideMenu">
-			      <li v-for="item in asideMenuData" :key="item.id">{{item.text}}</li>
+			      <li v-for="item in asideMenuData" :key="item.id" style="color:#ffffff" >{{item.text}}</li>
     		  </ul>
 	      </el-aside>
         <el-main>
@@ -112,6 +112,23 @@ export default {
           this.asideMenuData = []
         }
         
+      },
+      personInfo()
+      {
+
+      },
+      goOut()
+      {
+        this.$axios.delete("/api/logout/"+this.$route.params.userid)
+          //成功返回
+          .then(response => {
+              if(response.status != 200) {}
+              this.$router.push({ path:"/admin/login" });
+          })
+          //失败返回
+          .catch(error => {
+                this.$router.push({ path:"/admin/login" });
+          });
       }
       //methods over
     },

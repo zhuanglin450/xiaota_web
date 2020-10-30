@@ -1,42 +1,42 @@
 <template>
   <div>
-    <h3><a>鎵归噺鐢熸垚鏂拌鍗?</a></h3>
+    <h3><a>批量生成新订单</a></h3>
     <div class="content" style="text-align:left">
 
         <el-form ref="form" label-width="auto">
-            <el-form-item label="棰勮鍚?">
-                <el-input placeholder="棰勮鍚?" v-model="pShowname"  style="width:100%"></el-input>
+            <el-form-item label="预设名">
+                <el-input placeholder="预设名" v-model="pShowname"  style="width:100%"></el-input>
             </el-form-item>
-            <el-form-item label="闀垮害">
-                <el-input-number placeholder="闀垮害" :min="1" v-model="pLen"></el-input-number>
+            <el-form-item label="长度">
+                <el-input-number placeholder="长度" :min="1" v-model="pLen"></el-input-number>
             </el-form-item>
-            <el-form-item label="绫诲瀷">
-                <el-select v-model="pType" default-first-option placeholder="璇烽�夋嫨" class="type">
-                    <el-option key="1" label="鍥哄畾鐮?" value="1"></el-option>
-                    <el-option key="2" label="閫氱敤鐮?" value="0"></el-option>
+            <el-form-item label="类型">
+                <el-select v-model="pType" default-first-option placeholder="请选择" class="type">
+                    <el-option key="1" label="固定码" value="1"></el-option>
+                    <el-option key="2" label="通用码" value="0"></el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="鏁伴噺">
-                <el-input-number placeholder="鏁伴噺" :min="1" v-model="pNum"></el-input-number>
+            <el-form-item label="数量">
+                <el-input-number placeholder="数量" :min="1" v-model="pNum"></el-input-number>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="onSubmit" >鍒涘缓</el-button>
-                <!-- <el-button>鍙栨秷</el-button> -->
+                <el-button type="primary" @click="onSubmit" >创建</el-button>
+                <!-- <el-button>取消</el-button> -->
             </el-form-item>
         </el-form>
 
 <!-- 
-        <div><a>棰勮鍚?:</a><el-input placeholder="棰勮鍚?" v-model="pShowname"></el-input></div>
-        <div><a>闀垮害:</a><el-input placeholder="闀垮害" v-model="pLen"></el-input></div>
-        <div><a>绫诲瀷:</a>
-            <el-select v-model="pType" default-first-option placeholder="璇烽�夋嫨">
-                <el-option key="1" label="鍥哄畾鐮?" value="鍥哄畾鐮?"></el-option>
-                <el-option key="2" label="閫氱敤鐮?" value="閫氱敤鐮?"></el-option>
+        <div><a>预设名:</a><el-input placeholder="预设名" v-model="pShowname"></el-input></div>
+        <div><a>长度:</a><el-input placeholder="长度" v-model="pLen"></el-input></div>
+        <div><a>类型:</a>
+            <el-select v-model="pType" default-first-option placeholder="请选择">
+                <el-option key="1" label="固定码" value="固定码"></el-option>
+                <el-option key="2" label="通用码" value="通用码"></el-option>
             </el-select>
         </div>
-        <div><a>鏁伴噺:</a><el-input placeholder="鏁伴噺" v-model="pNum"></el-input></div>
+        <div><a>数量:</a><el-input placeholder="数量" v-model="pNum"></el-input></div>
         
-        <div><el-button style="width:12em; margin-top:0.5em;">纭</el-button></div> -->
+        <div><el-button style="width:12em; margin-top:0.5em;">确认</el-button></div> -->
     </div>
   </div>
 </template>
@@ -53,13 +53,13 @@ export default {
       };
     },
     methods: {
-      //鍙屽嚮璺宠浆
+      //双击跳转
 
       onSubmit(){
 
         if(this.pShowname == null || this.pShowname == "")
         {
-            this.$message("璇疯緭鍏ラ璁惧悕!");
+            this.$message("请输入预设名!");
             return;
         }
 
@@ -72,12 +72,12 @@ export default {
             }]
         };
         this.$axios.post("/api/distance/qr/order", params)
-            //鎴愬姛杩斿洖
+            //成功返回
             .then(response => {
                 if(response.status != 200)
                 {
-                    this.$alert('鎻愪氦澶辫触', '鎻愮ず', {
-                            confirmButtonText: '纭畾',
+                    this.$alert('提交失败', '提示', {
+                            confirmButtonText: '确定',
                             type: 'error',
                     });
                     return;
@@ -85,22 +85,22 @@ export default {
                 
                 if(response.data.code != 200)
                 {     
-                    this.$alert('鎻愪氦澶辫触', '鎻愮ず', {
-                            confirmButtonText: '纭畾',
+                    this.$alert('提交失败', '提示', {
+                            confirmButtonText: '确定',
                             type: 'error',
                     });
                     return;
                 }
 
-                 this.$alert('鎻愪氦鎴愬姛', '鎻愮ず', {
-                        confirmButtonText: '纭畾',
+                 this.$alert('提交成功', '提示', {
+                        confirmButtonText: '确定',
                         type: 'success',
                  });
             })
-            //澶辫触杩斿洖
+            //失败返回
             .catch(error => {
-                this.$alert('鎻愪氦澶辫触', '鎻愮ず', {
-                        confirmButtonText: '纭畾',
+                this.$alert('提交失败', '提示', {
+                        confirmButtonText: '确定',
                         type: 'error',
                 });                     
             });
@@ -112,7 +112,7 @@ export default {
 <style>
 
 .stitle {
-  font-family: "Microsoft YaHei","寰蒋闆呴粦";  
+  font-family: "Microsoft YaHei","微软雅黑";  
   height: 2em;
   line-height: 2em;
   padding: 0 2em;
