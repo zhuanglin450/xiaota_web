@@ -8,7 +8,7 @@ import QrOrderQrcodeList from '@/components/qrorder/qrcodelist'
 import systemManager_User from '@/components/systemManager/user'
 
 import Login from '@/components/login'
-import Register from '@/components/person/register'
+import SelfRegister from '@/components/person/SelfRegister'
 
 import Client from '@/components/client'
 import ClientPersonInfo from '@/components/person/info'
@@ -44,9 +44,9 @@ const router = new Router({
             component: Login
         },
         {
-            path: '/register',
-            name: 'Register',
-            component: Register
+            path: '/SelfRegister',
+            name: 'SelfRegister',
+            component: SelfRegister
         },
         {
             path: '/admin',

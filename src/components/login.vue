@@ -58,7 +58,7 @@ export default {
   methods: {
     register()
     {
-        this.$router.push("/register");
+        this.$router.push("/SelfRegister");
     },
     forgotpassword()
     {
