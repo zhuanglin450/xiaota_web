@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class="dashbaordheader">
-      <a class="headertitle">路由宝</a>
+      <a class="dashbaordtitle">路由宝</a>
       <ul class="float-right headerInfo">
         <li>欢迎你</li>
         <li style="width:4em; text-align:right">张三</li>
         <li>[杭州]</li>
       </ul>
     </div>
-    <el-container class="navbar">
+    <el-container class="dashbaordnavbar">
       <el-header style="height:3em; ">
         <div style="width:84%; height:100%; float:left; padding-bottom:0.25em">
           <el-menu
@@ -94,7 +94,9 @@ export default {
       },
       personInfo(){
           this.activeIndex = '';
-          this.$router.push("/client/personinfos");  
+          this.$router.push({
+            name:"ClientPersonInfo",
+            params: { userid: this.$route.params.userid}});  
       },
       goOut(){
 
@@ -117,16 +119,6 @@ export default {
 
 .admin_a {
   color: #f0f0f0;
-}
-
-
-
-.navbar {
-  position: fixed;
-  top: 4em;
-  left: 0;
-  width: 100%;
-  height: 100%;
 }
 
 .headertitle {

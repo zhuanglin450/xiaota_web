@@ -4,7 +4,7 @@
       <a class="headertitle1">路由宝</a>    
     </div> 
     <div class="content1">
-        <div><a>用户名:</a><el-input placeholder="用户名" v-model="pAccount"></el-input></div>
+        <div><a>账号:</a><el-input placeholder="账号" v-model="pAccount"></el-input></div>
         <div><a>请设置密码:</a><el-input placeholder="请设置密码" v-model="pPassword" show-password style="margin-left:0.5em"></el-input></div>
         <div><a>请确认密码:</a><el-input placeholder="请确认密码" v-model="pPassword2" show-password style="margin-left:0.5em"></el-input></div>
         <div><a>姓名:</a><el-input placeholder="姓名" v-model="pShowname"></el-input></div>
