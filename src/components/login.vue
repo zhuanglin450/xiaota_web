@@ -20,9 +20,13 @@
               登录
           </el-button>
         </div>
-        <div style="text-align:left; margin-top:0.75em">
-            <span style="color:skyblue">还没有账号？ <el-link type="primary" @click="register" >马上注册</el-link></span>
-        </div>
+        <div style="text-align:left; margin-top:0.9em; margin-left:5em  ">
+	    <el-link type="primary" @click="forgotpassword" >忘记密码</el-link>
+	    <span> &ensp; &ensp; &ensp; &ensp; &ensp; </span>
+            <span style="color:skyblue">     还没有账号？<el-link type="primary" @click="register" >马上注册</el-link> 
+	    </span>
+        </div> 
+
       </el-form>
     </div>
   </div>
@@ -55,6 +59,10 @@ export default {
     register()
     {
         this.$router.push("/register");
+    },
+    forgotpassword()
+    {
+    	;
     },
     validateForm() {
       this.errorMsg = "";
@@ -135,10 +143,28 @@ export default {
               }
 
               // sessionStorage  
-              // this.$router.push({ path:"/client/orderlist", 
-              //   query: { userid: response.data.data.id} });
-              this.$router.push({ name:"ClientOrderList", 
-                params: { userid: response.data.data.id} });
+              //route to different home page accroding to role
+              var roles = response.data.data.roles;
+              
+              if(roles.find( x=>x.name.toLowerCase()=='admin'))
+              {
+                this.$router.push({ name:"adminQrOrderList", 
+                          params: { userid: response.data.data.id} });
+              }
+              else if(roles.find( x=>x.name.toLowerCase()=='business_man')){
+                //later it should be no account manage permission
+                this.$router.push({ name:"adminQrOrderList", 
+                          params: { userid: response.data.data.id} });
+              }
+              else
+              {                
+                if( roles.find( x=>x.name.toLowerCase()=='customer_order'))
+                {
+                  //   query: { userid: response.data.data.id} });
+                  this.$router.push({ name:"ClientOrderList", 
+                      params: { userid: response.data.data.id} });
+                }
+              }	 
           })
           //失败返回
           .catch(error => {

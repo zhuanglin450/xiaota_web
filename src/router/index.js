@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import store from "../store/index.js";
-import AdminLogin from '@/components/adminLogin'
 import Admin from '@/components/admin'
 import QrOrderList from '@/components/qrorder/list'
 import QrOrderDetail from '@/components/qrorder/detail'
@@ -20,114 +19,106 @@ import ClientOrderNew from '@/components/clientorder/new'
 
 //push
 const VueRouterPush = Router.prototype.push
-Router.prototype.push = function push (to) {
+Router.prototype.push = function push(to) {
     return VueRouterPush.call(this, to).catch(err => err)
 }
 
 //replace
 const VueRouterReplace = Router.prototype.replace
-Router.prototype.replace = function replace (to) {
-  return VueRouterReplace.call(this, to).catch(err => err)
+Router.prototype.replace = function replace(to) {
+    return VueRouterReplace.call(this, to).catch(err => err)
 }
 
 Vue.use(Router)
 
 const router = new Router({
-  mode: "hash",//hash模式的工作原理是hashchange事件，可以在window监听hash的变化。我们在url后面随便添加一个#xx触发这个事件。
-  routes: [
-    {
-      path: '/',
-      name: "login",
-      component: Login
-    },
-    {
-      path: '/login',
-      name: 'Login',
-      component: Login
-    },
-    {
-      path: '/register',
-      name: 'Register',
-      component: Register
-    },
-    {
-      path: '/adminlogin',
-      name: 'AdminLogin',
-      component: AdminLogin
-    },
-    {
-      path: '/admin',
-      name: 'Admin',
-      // meta: {
-      //       requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
-      // },
-      component: Admin,
-      children: [
-        {
-          path: '/admin/usermanager',
-          name: 'adminSystemManager_User',
-          component: systemManager_User,
+    mode: "hash", //hash模式的工作原理是hashchange事件，可以在window监听hash的变化。我们在url后面随便添加一个#xx触发这个事件。
+    routes: [{
+            path: '/',
+            name: "login",
+            component: Login
         },
         {
-          path: '/admin/orderList',
-          name: 'adminQrOrderList',
-          component: QrOrderList,
+            path: '/login',
+            name: 'Login',
+            component: Login
         },
         {
-          path: '/admin/orderDetail',
-          name: 'adminQrOrderDetail',
-          component: QrOrderDetail,
+            path: '/register',
+            name: 'Register',
+            component: Register
         },
         {
-          path: '/admin/orderQrcodeList',
-          name: 'adminQrOrderQrcodeList',
-          component: QrOrderQrcodeList,
-        }
-      ]
-    },
-    {
-      path: '/client',
-      name: 'Client',
-      // meta: {
-      //       requireAuth: true //添加该字段，表示进入这个路由是需要登录的
-      // },
-      component: Client,
-      children: [
-        {
-          path: '/client/personinfos',
-          name: 'ClientPersonInfo',
-          component: ClientPersonInfo,
+            path: '/admin',
+            name: 'Admin',
+            // meta: {
+            //       requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
+            // },
+            component: Admin,
+            children: [{
+                    path: '/admin/usermanager',
+                    name: 'adminSystemManager_User',
+                    component: systemManager_User,
+                },
+                {
+                    path: '/admin/orderList',
+                    name: 'adminQrOrderList',
+                    component: QrOrderList,
+                },
+                {
+                    path: '/admin/orderDetail',
+                    name: 'adminQrOrderDetail',
+                    component: QrOrderDetail,
+                },
+                {
+                    path: '/admin/orderQrcodeList',
+                    name: 'adminQrOrderQrcodeList',
+                    component: QrOrderQrcodeList,
+                }
+            ]
         },
         {
-          path: '/client/orderlist',
-          name: 'ClientOrderList',
-          component: ClientOrderList,
-        },
-        {
-          path: '/client/orderdetail',
-          name: 'ClientOrderDetail',
-          component: ClientOrderDetail,
-        },
-        {
-          path: '/client/orderNewbatch',
-          name: 'ClientOrderNewBatch',
-          component: ClientOrderNewBatch,
-        },
-        {
-          path: '/client/orderNew',
-          name: 'ClientOrderNew',
-          component: ClientOrderNew,
-        },
-      ]
-      
-    },
-    {
-        path: '*',
-        redirect: '/',
-        hidden: true
-    }
+            path: '/client',
+            name: 'Client',
+            // meta: {
+            //       requireAuth: true //添加该字段，表示进入这个路由是需要登录的
+            // },
+            component: Client,
+            children: [{
+                    path: '/client/personinfos',
+                    name: 'ClientPersonInfo',
+                    component: ClientPersonInfo,
+                },
+                {
+                    path: '/client/orderlist',
+                    name: 'ClientOrderList',
+                    component: ClientOrderList,
+                },
+                {
+                    path: '/client/orderdetail',
+                    name: 'ClientOrderDetail',
+                    component: ClientOrderDetail,
+                },
+                {
+                    path: '/client/orderNewbatch',
+                    name: 'ClientOrderNewBatch',
+                    component: ClientOrderNewBatch,
+                },
+                {
+                    path: '/client/orderNew',
+                    name: 'ClientOrderNew',
+                    component: ClientOrderNew,
+                },
+            ]
 
-  ]
+        },
+        {
+            path: '*',
+            redirect: '/',
+            hidden: true
+        }
+
+    ]
 })
 
 /**
@@ -173,7 +164,7 @@ const router = new Router({
 //   } else {
 //     next();
 //   }
- 
+
 //   /*如果本地 存在 token 则 不允许直接跳转到 登录页面*/
 //   if (to.fullPath == "/") {
 //     // if (store.getters.islogin) {

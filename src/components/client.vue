@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="header">
+    <div class="dashbaordheader">
       <a class="headertitle">路由宝</a>
       <ul class="float-right headerInfo">
         <li>欢迎你</li>
@@ -9,7 +9,7 @@
       </ul>
     </div>
     <el-container class="navbar">
-      <el-header style="height:3em;">
+      <el-header style="height:3em; ">
         <div style="width:84%; height:100%; float:left; padding-bottom:0.25em">
           <el-menu
             style="height:100%;"
@@ -119,18 +119,7 @@ export default {
   color: #f0f0f0;
 }
 
-.header {
-  height: 4em;
-  line-height: 4em;
-  background: #1d8ce0;
-  color: #c0ccda;
-  position: fixed;
-  top: 0;
-  left: 0;
-  padding: 0 2em;
-  width: 100%;
-  text-align: left;
-}
+
 
 .navbar {
   position: fixed;

@@ -1,14 +1,14 @@
 <template>
   <div>
-    <div class="header">
-      <a class="headertitle">管理系统</a>
+    <div class="dashbaordheader">
+      <a class="dashbaordtitle">管理系统</a>
       <ul class="float-right headerInfo">
         <li>欢迎你</li>
         <li style="width:4em; text-align:right">管理员</li>
         <li>[杭州]</li>
       </ul>
     </div>
-    <el-container class="navbar">
+    <el-container class="dashbaordnavbar">
       <el-header style="height:3em;">
         <div style="width:84%; height:100%; float:left; padding-bottom:0.25em">
           <el-menu
@@ -157,19 +157,7 @@ export default {
   text-align: left;
 }
 
-.navbar {
-  position: fixed;
-  top: 4em;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
 
-.headertitle {
-  font-weight: bold;
-  color: #ffffff;
-  font-size: 14px;
-}
 
 .headerInfo li {
   float: left;
