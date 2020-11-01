@@ -3,6 +3,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Admin from '@/components/admin'
+import AdminPersonInfo from '@/components/person/info'
+
 import QrOrderList from '@/components/qrorder/list'
 import QrOrderDetail from '@/components/qrorder/detail'
 import QrOrderQrcodeList from '@/components/qrorder/qrcodelist'
@@ -13,6 +15,7 @@ import SelfRegister from '@/components/person/SelfRegister'
 
 import Client from '@/components/client'
 import ClientPersonInfo from '@/components/person/info'
+
 import ClientOrderList from '@/components/clientorder/list'
 import ClientOrderDetail from '@/components/clientorder/detail'
 import ClientOrderNewBatch from '@/components/clientorder/newBatch'
@@ -57,7 +60,12 @@ const router = new Router({
             //       requireAuth: true // 添加该字段，表示进入这个路由是需要登录的
             // },
             component: Admin,
-            children: [{
+            children: [
+                {
+                    path: '/Admin/personinfos',
+                    name: 'AdminPersonInfo',
+                    component: AdminPersonInfo,
+                },{
                     path: '/admin/usermanager',
                     name: 'adminSystemManager_User',
                     component: systemManager_User,

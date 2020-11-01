@@ -48,6 +48,8 @@
 </template>
 
 <script>
+import fetch from "../assets/js/fetch";
+
 export default {
   name: "admin",
   data() {
@@ -115,7 +117,10 @@ export default {
       },
       personInfo()
       {
-
+          this.activeIndex = '';
+          this.$router.push({
+            name:"AdminPersonInfo",
+            params: { userid: this.$route.params.userid}});  
       },
       goOut()
       {
