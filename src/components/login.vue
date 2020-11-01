@@ -2,12 +2,13 @@
   <div class="bg">
     <div class="login-container">
       <h1 class="title">路由宝</h1>
-      <el-form :model="ruleForm2" label-position="left" label-width="4em">
-        <el-form-item label="账号:" prop="account">
-          <el-input type="text" v-model="ruleForm2.account" @change="onChange" auto-complete="off" placeholder="账号"></el-input>
+      <!-- ref="ruleForm", rules 是必须的  -->
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="left" label-width="4em" >
+        <el-form-item label="账号:" prop="account" >
+          <el-input type="text" v-model="ruleForm.account" @change="onChange" auto-complete="off" placeholder="账号"></el-input>
         </el-form-item>
-        <el-form-item label="密码:" prop="checkPass">
-          <el-input v-model="ruleForm2.checkPass" placeholder="密码" @focus="onKeyup" auto-complete="off" type="password" ></el-input>
+        <el-form-item label="密码:" prop="pass">
+          <el-input v-model="ruleForm.pass" placeholder="密码" @focus="onKeyup" auto-complete="off" type="password" ></el-input>
         </el-form-item>
           <!-- <div class="alert alert-danger" v-if="isError" style="margin-top: 10px;padding: 5px;">
               {{errorMsg}}!
@@ -16,7 +17,7 @@
         <el-alert :title="errorMsg" v-if="isError" type="error" :closable="false"></el-alert>
           </el-form-item>
         <div style="text-align: center; margin-left: 20px">
-          <el-button @click="login" type="primary" style="width:60%;" :loading="logining">
+          <el-button @click="submitForm('ruleForm')" type="primary" style="width:60%;" :loading="logining">
               登录
           </el-button>
         </div>
@@ -37,6 +38,7 @@
 // refs 子父组件
 // $route name params/ path query
 // vue代理
+import { mapActions } from "vuex";
 
 var _this;
 // import "../assets/js/util";
@@ -44,18 +46,179 @@ export default {
   name:"login",
   data() {
     _this = this;
+
+    var validatePass = async (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入密码"));
+      } else {
+        //var crypto = require("crypto");
+        //function cryp(word) {
+        //  var md5 = crypto.createHash("md5");
+        //  return md5.update(word).digest("hex");
+        //}
+        // this.$store.commit({
+        //   type: "login",
+        //   username: cryp(this.ruleForm.name),
+        //   userpass: cryp(this.ruleForm.pass),
+        // });
+        //   this.$store.commit({
+        //   type: "login",
+        //   useraccount: this.ruleForm.account,
+        //   userpass: this.ruleForm.pass,
+        // });
+        // await this.getUserInfo();
+        // let code = JSON.parse(sessionStorage.getItem("code"));
+        // if (code !== 200) {
+        //   callback(new Error("密码错误"));
+        // } else {
+        //   callback();
+        // }
+      }
+    };
+
+    var validateaccount = (rule, value, callback) => {
+      let nameInfo = [];
+      // JSON.parse(sessionStorage.getItem("accounts")).map((item, i) => {
+      //   nameInfo.push(item.name);
+      // });
+       if (value === "") {
+         callback(new Error("请输入用户名"));
+      // } else if (nameInfo.indexOf(value) === -1) {
+      //   callback(new Error("用户不存在"));
+       } else {
+         callback();
+       }
+    };
+    
     return {
       logining: false, 
-      ruleForm2: {
+
+      //account, pass需要rules对应起来，大小写匹配
+      ruleForm: {
         account: "",
-        checkPass: ""
+        pass: ""
       }, 
+      rules: {
+        account: [{ validator: validateaccount, trigger: "change" }],
+        pass: [{ validator: validatePass, trigger: "change" }],
+      },
+
       checked: true,
       isError: false,
       errorMsg: ""
     };
   },
+  
+  mounted() {
+    document.onkeydown = function (e) {
+      var event = e || event;
+      if (event.keyCode === 13) {
+        let login = document.getElementById("login");
+        login.click();
+      }
+    };
+  },
+  created() {
+    this.$store.dispatch("getLogin");
+  },
   methods: {
+    ...mapActions(["doLoginAction"]),
+    async submitForm(formName) {
+ 
+      this.$refs[formName].validate(async (valid) => {
+        if (valid) {
+
+
+          this.$store.commit({
+                      type: "login",
+                      account: this.ruleForm.account,
+                      userpass: this.ruleForm.pass,
+            });
+            
+            await this.doLoginAction();
+ 
+            let code = JSON.parse(sessionStorage.getItem("code"));
+            if (code !== 200) {
+                this.$message({
+                message: "用户名或密码错误",
+                type: "error",
+              }); 
+
+              return;
+            }
+
+
+          let userMessage = JSON.parse(sessionStorage.getItem("userMessage"));
+          
+          sessionStorage.setItem(
+            "oldPassword",
+            JSON.stringify(this.ruleForm.pass)
+          );
+
+          // let permissions = userMessage;
+          // let permissionBits = [];
+          // permissions.map((item, i) => {
+          //   for (let i = 0; i < userRolePermissions.length; i++) {
+          //     if ((item.bit & userRolePermissions[i]) === item.bit) {
+          //       permissionBits.push(item.bit);
+          //     }
+          //   }
+          // });
+ 
+          this.$message({
+            message: "恭喜，登录成功",
+            type: "success",
+          });
+          this.$store.commit({
+            type: "islogin",
+            flag: true,
+          });
+ 
+        // if (sessionStorage.getItem("history_path")) {
+        //     // 跳转审核后，清除历史
+        //     this.$router.push(sessionStorage.getItem("history_path"));
+        //     sessionStorage.removeItem("history_path");
+        //   } else {
+        //     this.$router.push("entry");
+        //   }
+
+          
+            //route to different home page accroding to role
+            var roles = userMessage.data.roles;
+            
+            if(roles.find( x=>x.name.toLowerCase()=='admin'))
+            {
+             this.$router.push({ name:"adminQrOrderList", 
+                       params: {  } });
+            }
+            else if(roles.find( x=>x.name.toLowerCase()=='business_man')){
+              //later it should be no account manage permission
+              this.$router.push({ name:"adminQrOrderList", 
+                       params: {  } });
+            }
+            else
+            {                
+              if( roles.find( x=>x.name.toLowerCase()=='customer_order'))
+              {
+               //   query: { userid: response.data.data.id} });
+                this.$router.push({ name:"ClientOrderList", 
+                   params: {  } });
+              }
+            }
+
+          // }
+        } else {
+          this.$message({
+            message: "抱歉，登录失败",
+            type: "warning",
+          });
+        }
+      });
+    },
+    onKeyup()
+    {
+
+    },
     register()
     {
         this.$router.push("/SelfRegister");
@@ -64,122 +227,36 @@ export default {
     {
     	;
     },
-    validateForm() {
-      this.errorMsg = "";
-      var iserror = false;
-      if (this.ruleForm2.account == null || this.ruleForm2.account == "" ) {
-        iserror = true;
-        this.errorMsg = "账号不能为空";
-        return true;
-      }
-      if (this.ruleForm2.checkPass == null || this.ruleForm2.checkPass == "") {
-        iserror = true;
-        this.errorMsg = "密码不能为空";
-        return true;
-      }
-      return iserror;
-    },
+    // validateForm() {
+    //   this.errorMsg = "";
+    //   var iserror = false;
+    //   if (this.ruleForm2.account == null || this.ruleForm2.account == "" ) {
+    //     iserror = true;
+    //     this.errorMsg = "账号不能为空";
+    //     return true;
+    //   }
+    //   if (this.ruleForm2.checkPass == null || this.ruleForm2.checkPass == "") {
+    //     iserror = true;
+    //     this.errorMsg = "密码不能为空";
+    //     return true;
+    //   }
+    //   return iserror;
+    // },
 
     onChange: function() {
       // this.isError = this.validateForm();
     },
-    onKeyup: function() {
-    //   if (
-    //     isStringEmpty(this.ruleForm2.name) &&
-    //     !isStringEmpty(_this.ruleForm2.account)
-    //   ) {
-    //     // $.ajax({
-    //     //   url: this.submitUrl,
-    //     //   type: "POST",
-    //     //   dataType: "json",
-    //     //   data: { account: _this.ruleForm2.account },
-    //     //   success: function(data) {
-    //     //     _this.isError = data.status == 0;
-    //     //     if (!_this.isError) {
-    //     //       _this.ruleForm2.name = data.info.name;
-    //     //     } else {
-    //     //       _this.errorMsg = "未找到匹配的姓名！";
-    //     //     }
-    //     //   },
-    //     //   error: function(info) {
-    //     //     _this.errorMsg = "服务器访问出错";
-    //     //     _this.isError = true;
-    //     //   }
-    //     // });
-    //   }
-    //  this.isError = this.validateForm();
-    },
+ 
     reset: function() {
       this.ruleForm2.account = "";
       this.ruleForm2.checkPass = "";
     },
-
-    login: function() {
-      
-      this.isError = this.validateForm();
-      if (this.isError) {
-        return ;
-      }
-
-      let params = {
-          'account': this.ruleForm2.account, // 'zhuang_admin',
-          'password': this.ruleForm2.checkPass // '123456'
-      };
-      this.$axios.post("/api/login", params)
-          //成功返回
-          .then(response => {
-              if(response.status != 200)
-              {
-                _this.errorMsg = "服务器访问出错";
-                _this.isError = true;
-                return;
-              }
-              
-              if(response.data.code != 200)
-              {
-                _this.errorMsg = "账号或密码错误";
-                _this.isError = true;
-                return;
-              }
-
-              // sessionStorage  
-              //route to different home page accroding to role
-              var roles = response.data.data.roles;
-              
-              if(roles.find( x=>x.name.toLowerCase()=='admin'))
-              {
-                this.$router.push({ name:"adminQrOrderList", 
-                          params: { userid: response.data.data.id} });
-              }
-              else if(roles.find( x=>x.name.toLowerCase()=='business_man')){
-                //later it should be no account manage permission
-                this.$router.push({ name:"adminQrOrderList", 
-                          params: { userid: response.data.data.id} });
-              }
-              else
-              {                
-                if( roles.find( x=>x.name.toLowerCase()=='customer_order'))
-                {
-                  //   query: { userid: response.data.data.id} });
-                  this.$router.push({ name:"ClientOrderList", 
-                      params: { userid: response.data.data.id} });
-                }
-              }	 
-          })
-          //失败返回
-          .catch(error => {
-              _this.errorMsg = "服务器访问出错";
-              _this.isError = true;
-                
-          });
-    }
+  
+    destroyed: function() {
+      console.log("destroyed vue");
+      document.onkeydown = null;
+    },
   },
-
-  mounted: function() {},
-  destroyed: function() {
-    console.log("destroyed vue");
-    document.onkeydown = null;
-  }
 };
 
 //快捷键登录

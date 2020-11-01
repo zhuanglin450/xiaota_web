@@ -52,7 +52,11 @@ export default {
      },
     created:function()
     {
-      this.$axios.get("/api/accounts/"+this.$route.params.userid)
+      let userMessage = JSON.parse(sessionStorage.getItem("userMessage"));
+
+      let userid = userMessage.data.id;
+
+      this.$axios.get("/api/accounts/"+ userid)
           //成功返回
           .then(response => {
               if(response.status == 200 && response.data.code == 200) {

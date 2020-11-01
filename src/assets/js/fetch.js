@@ -1,7 +1,8 @@
 import Axios from "axios";
-import router from "../../router/index.js";
+
 import store from "../../store/index";
-//Axios.defaults.withCredentials=true
+import router from "../../router/index.js";
+
 //响应拦截
 Axios.interceptors.response.use(
   response => {

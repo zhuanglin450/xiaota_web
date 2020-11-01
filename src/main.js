@@ -2,11 +2,13 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+import store from "./store"
+
 import 'element-ui/lib/theme-chalk/index.css'
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap-vue/dist/bootstrap-vue.css"
 import { BootstrapVue ,BootstrapVueIcons} from "bootstrap-vue"
-import store from "./store"
+
 import "./style/base.css"
 import './style/common.css'
 import {toast} from "../src/assets/js/toast"
@@ -33,7 +35,7 @@ import axios from 'axios'
 axios.defaults.withCredentials = true; //保存cookie
 // Vue.use(axios);
 Vue.prototype.$axios = axios;
-
+ 
 // 引用路由
 // import VueRouter from 'vue-router'
 // 光引用不成，还得使用

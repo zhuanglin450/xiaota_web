@@ -4,7 +4,7 @@ export default {
     //是否登录判断
     islogin: '',
     userInfo:{
-      name:'',
+      account:'',
       password:''
     },
     userMessage:'',
@@ -17,25 +17,22 @@ export default {
   mutations: {
     login(state,stark) {
       //传入登录状态islogin
-      state.userInfo.name = stark.username;
-      state.userInfo.password = stark.userpass;
-      let islogin = JSON.parse(stark.flag);
-      sessionStorage.setItem('islogin', JSON.stringify(islogin));
- 
- 
+      state.userInfo.account = stark.account;
+      state.userInfo.password = stark.userpass; 
     },
     islogin(state,stark){
-      state.userInfo.name = stark.username;
+      state.userInfo.account = stark.username;
       state.userInfo.password = stark.userpass;
       let islogin = JSON.parse(stark.flag);
       sessionStorage.setItem("islogin", JSON.stringify(islogin));
       state.islogin = islogin;
-      state.userInfo.name = stark.username;
+      state.userInfo.account = stark.username;
       state.userInfo.password = stark.userpass;
     },
     setUserMessage(state,data){
+
       state.userMessage=data
-      sessionStorage.setItem("userMessage",JSON.stringify(data.data))
+      sessionStorage.setItem("userMessage",JSON.stringify(data))
       sessionStorage.setItem("code",JSON.stringify(data.code))
     },
     setAccounts(state,data){
@@ -56,7 +53,8 @@ export default {
       //let data2=await fetch.get("/api/permissions")
       //sessionStorage.setItem("permissions",JSON.stringify(data2.data.permissions))
     },
-    async getUserInfo({ commit, state }) {
+    async doLoginAction({ commit, state }) {
+ 
       let data = await fetch.post("/api/login", state.userInfo);
       commit("setUserMessage", data);
     },
