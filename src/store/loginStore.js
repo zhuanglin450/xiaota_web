@@ -46,6 +46,18 @@ export default {
   },
   actions: {
     async getLogin({commit}) {
+ 
+      ;//let data=await fetch.get("/api/accounts")
+      ;//commit("setAccounts",data.data.accounts)
+      //let data1=await fetch.get("/api/roles")
+      //commit("setRoles",data1.data.roles)
+      //let data2=await fetch.get("/api/permissions")
+      //sessionStorage.setItem("permissions",JSON.stringify(data2.data.permissions))
+    },
+    async testAction({commit}) {
+
+      let i =0;
+      i++;
       ;//let data=await fetch.get("/api/accounts")
       ;//commit("setAccounts",data.data.accounts)
       //let data1=await fetch.get("/api/roles")

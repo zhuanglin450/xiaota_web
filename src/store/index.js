@@ -7,7 +7,7 @@ Vue.use(Vuex);
 import fetch from "../assets/js/fetch";
 
 import loginStore from "./loginStore";
-//import markTasks from "./markTasks";
+import info from "./info";
 //import modelManagement from "./modelManagement";
 //import serverInfo from "./serverInfo";
 //import ftpInfo from "./ftpInfo";
@@ -32,7 +32,7 @@ const store =
   new Vuex.Store({
     modules: {
       loginStore, // 登录状态
-      //markTasks, // 标记任务
+      info, // 登录用户个人信息
       //pictureTask, // 图片标签列表
       //modelManagement, // 训练模型结果
       //serverInfo, // 服务器信息
