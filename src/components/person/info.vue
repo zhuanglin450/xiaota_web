@@ -63,7 +63,7 @@ export default {
     },
     methods: {
 
-      //引入vuex模块loginStore间共享的状态更新获取方法
+      //引入vuex模块info间共享的状态更新获取方法
       ...mapActions(["setAccountInfor",'getAccountInfor']),
 
       //双击跳转

@@ -8,7 +8,7 @@ import fetch from "../assets/js/fetch";
 
 import loginStore from "./loginStore";
 import info from "./info";
-//import modelManagement from "./modelManagement";
+import clientOrderList from "./clientOrderList";
 //import serverInfo from "./serverInfo";
 //import ftpInfo from "./ftpInfo";
 import userManagement from "./userManagement";
@@ -33,7 +33,7 @@ const store =
     modules: {
       loginStore, // 登录状态
       info, // 登录用户个人信息
-      //pictureTask, // 图片标签列表
+      clientOrderList, //客户端订单列表
       //modelManagement, // 训练模型结果
       //serverInfo, // 服务器信息
       //ftpInfo, // Ftp服务器信息
@@ -69,20 +69,7 @@ const store =
       }
     },
     actions: {
-      //获取机型列表
-      async getModelList({ commit }) {
-        // await fetch.get("/api/models/sync_mira_data")
-        let data = await fetch.get("/api/models");
-        commit("setModelData", data.data.models);
-      },
-      //获取指定机型下的工序
-      async getProcedureList({ commit }, stark) {
-        // await fetch.get("/api/models/sync_mira_data")
-        let data = await fetch.get(
-          "/api/models/" + stark.model_id + "/procedures"
-        );
-        commit("setProcedureData", data.data.procedures);
-      }
+          
     }
   });  
   export default store

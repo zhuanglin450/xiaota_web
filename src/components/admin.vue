@@ -119,16 +119,21 @@ export default {
       },
       goOut()
       {
-        this.$axios.delete("/api/logout/"+this.$route.params.userid)
-          //成功返回
-          .then(response => {
-              if(response.status != 200) {}
-              this.$router.push({ path:"/admin/login" });
-          })
-          //失败返回
-          .catch(error => {
-                this.$router.push({ path:"/admin/login" });
-          });
+          let userMessage = JSON.parse(sessionStorage.getItem("userMessage"));
+
+          let userid = userMessage.data.id;
+
+          fetch.delete("/api/logout/"+userid)
+            //成功返回
+            .then(response => {
+                if(response.status != 200 && response.data.errorCode ==0) {
+                  this.$router.push({ path:"/login" });
+                }
+            })
+            //失败返回
+            .catch(error => {
+                   this.$message.error("注销失败");
+            });
       }
       //methods over
     },
