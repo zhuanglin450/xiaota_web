@@ -8,13 +8,12 @@
         row-key="id"
         border
         default-expand-all
-        @row-dblclick="tableClick"
-        :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+        @row-dblclick="tableClick">
         <el-table-column colspan='1' header-align="center" prop="qr_id" label="二维码编号" ></el-table-column>
         <el-table-column colspan='10' header-align="center" prop="qr_name" label="二维码名称" ></el-table-column>
         <el-table-column colspan='10' header-align="center" prop="preset_name" label="下单预设名" ></el-table-column>
         <el-table-column colspan='1'  align="center" label="类型" >
-              <template scope="scope">
+              <template slot-scope="scope">
                   <div>
                       {{scope.row.type| filterTypeName}}
                   </div>
@@ -62,35 +61,17 @@ export default {
           return result;
       },
     },
-     created:function()
+    created:function()
     {
-          this.quereyData();
+        this.quereyData();
     },
     methods: {
-      load(tree, treeNode, resolve) {
-        setTimeout(() => {
-          resolve([
-            {
-              id: 31,
-              date: '2016-05-01',
-              name: '王小虎',
-              info: '上海市普陀区金沙江路 1519 弄'
-            }])
-        }, 1000)
-      },
       quereyData()
       {
-          
           this.No = sessionStorage.getItem("order_list_viewId");//this.$store.getters["clientOrderList/viewId"];//or this.$store.state.clientOrderList.view_id;
 
           let viewid =  this.No;//this.$store.state.clientOrderList.view_id;
             let params = {
-            // 'order_status':0,
-            // 'try_scope':1,
-            // 'account': 'admin1',
-            // 'pay_status': 0,
-            // 'start_time': '2020-10-1',
-            // 'end_time': '2020-10-31',
             'offset':0,
             'limit':0
             };

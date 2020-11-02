@@ -46,10 +46,8 @@
 
 <script>
  
- import fetch from "../../assets/js/fetch";
-
+import fetch from "../../assets/js/fetch";
 import { mapState, mapActions } from "vuex";
-
 
 export default {
   name: "orderList",

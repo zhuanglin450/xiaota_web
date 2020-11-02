@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div class="stitle">
+    <!-- <div class="stitle">
       <a class="float-left" style="color:#303133;">个人信息</a>
-    </div>
+    </div> -->
     <div class="content">
         <div><a>账号:</a><el-input placeholder="账号" :readonly="true" :disabled="true" v-model="accountInfo.account"></el-input></div>
  
-         <div><el-checkbox v-model="bUpdatePassword"  @change='enableUpdatePassword' >设置密码</el-checkbox> </div>
+        <div style="height:2em" ><el-checkbox v-model="bUpdatePassword"  @change='enableUpdatePassword' >设置密码</el-checkbox></div>
 
         <div><a>请设置密码:</a><el-input placeholder="输入密码" :disabled="!bUpdatePassword" v-model="pPassword" show-password style="margin-left:0.5em"></el-input></div>
         <div><a>请确认密码:</a><el-input placeholder="请确认密码" :disabled="!bUpdatePassword" v-model="pPassword2" show-password style="margin-left:0.5em"></el-input></div>
@@ -18,7 +18,7 @@
         <div><a>职位:</a><el-input placeholder="职位" v-model="accountInfo.title"></el-input></div>
         <div><a>地址:</a><el-input placeholder="地址" v-model="accountInfo.address"></el-input></div>
         <!--div><a>验证码:</a><el-input placeholder="验证码" ></el-input></!--div-->
-        <div><el-button style="width:12em; margin-top:0.5em;" @click="postUpdaeInfo">确认</el-button></div>
+        <div><el-button style="width:12em; margin-top:0.25em;" @click="postUpdaeInfo">确认</el-button></div>
     </div>
   </div>
 </template>
@@ -107,10 +107,10 @@ export default {
 }
 
 .content {
-    margin-top:2em;
+    margin-top:1em;
 }
 .content div{
-    height:3.25em;
+    height:3em;
 }
 .content a{
     width: 6em;

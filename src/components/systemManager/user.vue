@@ -4,12 +4,12 @@
       <a class="float-left" style="color: royalblue">系统管理 / 用户管理</a>
       <!-- <a class="float-right" style="text-decoration:underline;">返回</a> -->
     </div>
-    <div class="flex-center" style="height: 3.5em; margin: 0.75em 0 0.5em 0">
-      <a>账号：</a><el-input  class="float-left" v-model="inputAccout" placeholder="账号"></el-input>
-      <a>姓名：</a><el-input class="float-left" v-model="inputName" placeholder="姓名"></el-input>
+    <div class="flex-center" style="height: 3.5em; margin: 0.75em 2.5% 0.5em 2.5%; width:95%">
+      <a>账号：</a><el-input v-model="inputAccout" placeholder="账号" style="width:27.5%" ></el-input>
+      <a>姓名：</a><el-input v-model="inputName" placeholder="姓名" style="width:27.5%"></el-input>
 
-      <el-button style="margin-left: 1em" type="primary" icon="el-icon-search">搜索</el-button>
-      <el-button style="margin-left: 1em" type="primary" icon="el-icon-plus">用户</el-button>
+      <el-button style="margin-left: 2em" size="small" type="primary" icon="el-icon-search">搜索</el-button>
+      <el-button style="margin-left: 1em" size="small" type="primary" icon="el-icon-plus">用户</el-button>
     </div>
     <div class="list">
       <el-table

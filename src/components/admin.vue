@@ -196,4 +196,36 @@ export default {
 .el-header ul.el-menu{
     border-bottom: 0px;
 }
+
+.el-main {
+  padding: 0;
+}
+
+
+.dashbaordheader {
+    height: 4em;
+    line-height: 4em;
+    background: #1d8ce0;
+    color: #c0ccda;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 0 2em;
+    width: 100%;
+    text-align: left;
+}
+
+.dashbaordtitle {
+    font-weight: bold;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.dashbaordnavbar {
+    position: fixed;
+    top: 4em;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
 </style>
