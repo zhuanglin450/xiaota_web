@@ -9,14 +9,7 @@
         style="width: 100%;margin-bottom: 20px;"
         row-key="id" border default-expand-all
         @row-dblclick="tableClick">
-<<<<<<< HEAD
-        <el-table-column align="center" prop="number" label="订单号" width="180"></el-table-column>  <!--sortable -->
-        <el-table-column align="center" prop="orderTime" label="日期" width="180"></el-table-column>
-        <el-table-column align="center" prop="account" label="提交人" width="180"></el-table-column>
-        <el-table-column header-align="center" prop="presetName" label="定制信息"></el-table-column>
-        <el-table-column align="center" prop="status" label="支付状态" width="90"></el-table-column>
-        <el-table-column align="center" prop="bcancel" label="已撤单" width="90"></el-table-column>
-=======
+
         <el-table-column header-align="center" prop="number" label="订单号" width="180"></el-table-column>  <!--sortable -->
         <el-table-column header-align="center" prop="date" label="日期" width="180"></el-table-column>
         <el-table-column header-align="center" prop="name" label="提交人" width="180"></el-table-column>
@@ -29,7 +22,7 @@
                 <el-button size="mini" type="primary" v-show="scope.row.btnCancleable"  @click="cancelOrder(scope.$index, scope.row)">撤单</el-button>
             </template>
         </el-table-column>
->>>>>>> 761ef6f... 修改管理员订单界面bug
+
       </el-table>
       <div class="paginationClass">
           <el-pagination
@@ -47,112 +40,25 @@
 </template>
 
 <script>
-<<<<<<< HEAD
 
 import fetch from "../../assets/js/fetch";
 import qs from "querystring";
 
-=======
-import fetch from "../../assets/js/fetch";
-import qs from "querystring";
->>>>>>> 761ef6f... 修改管理员订单界面bug
 export default {
   name: "orderList",
   data() {
       return {
-        sdata:[],
-<<<<<<< HEAD
+        sdata:[], 
         tableData:[],
         //每页显示多少条
         data_per_page: 20,
         //当前页码
         data_current_page: 1,
         data_total:0,
-      };
-    },
-    mounted: function() {
-        // console.log(this.data_per_page) ;
-        this.handle_get_list();
-    },
-    methods: { 
-      
-      // 获取订单列表
-      handle_get_list() {
-        let params = {
-          'order_status': 0,
-          'try_scope': 1,
-          'pay_status': 0,
-          'start_time': null,
-          'end_time': null,
-          'offset': (this.data_current_page - 1) * this.data_per_page,
-          'limit': this.data_per_page
-        };
-
-        let url = "/api/distance/qr/order?";
-        url += qs.stringify(params);
-        fetch.get(url)
-              //成功返回
-              .then(response => {          
-                  if(response.code != 200)
-                  {     
-                      this.$message.error( response.data.message);
-                      return;
-                  }
- 
-                  this.sdata = response.data.orders;
-                  let tableData = [];
-                  this.sdata.forEach(ele  => {
-                      tableData.push({
-                        id: ele.id,
-                        number: ele.id,
-                        orderTime: ele.orderTime,
-                        account: ele.account,
-                        presetName: ele.presetName,
-                        status: ele.orderStatus==0?'未支付':'已支付',
-                        bcancel: ele.orderStatus==2?'已撤销':'', 
-                      })
-                  });
-
-                  this.tableData = tableData;
-                  this.data_total = response.data.total_count; 
-              })
-              //失败返回
-              .catch(error => {
-                  this.$message.error("请求数据失败!");
-              });
-      },
-      handleSizeChange: function (size) {
-        this.data_per_page = size;
-        if(this.data_total == this.tableData.length && this.data_total <= this.data_per_page)
-            return;
-        this.handle_get_list() ;
-        // console.log(this.data_per_page)  //每页下拉显示数据
-      },
-      handleCurrentChange: function(currentPage){
-        this.data_current_page = currentPage;
-        if(this.data_total == this.tableData.length && this.data_total <= this.data_per_page)
-            return;
-        this.handle_get_list() ;
-        // console.log(this.data_current_page)  //点击第几页
-      },
-      //双击跳转
-      tableClick(row, col, event){
-          this.$router.push({"path":'/admin/orderDetail', query:{"orderid":row.id}});
-=======
-        // tableData: [{
-        //   id: 1,
-        //   number:1,
-        //   date: '2016-05-02',
-        //   name: '王小虎',
-        //   info: '上海市',
-        //   status: '已支付',
-        //   bcancel: '已撤销', 
-        // }]
-        tableData:[],
         deleteOrderId:0,
         payOrderId:0,
       };
-    },
+    }, 
     mounted: function() {
         
       this.handle_get_list();
@@ -166,6 +72,7 @@ export default {
       {
         this.$router.push({"name":'adminQrOrderDetail', params:{"orderid":row.id}});
       },
+      // 获取订单列表
       async handle_get_list()
       {
           let params = {
@@ -173,8 +80,8 @@ export default {
             'try_scope': 3,//all companies' orders
             'start_time': '',
             'end_time': '',
-            'offset': 0,
-            'limit': 0
+            'offset': (this.data_current_page - 1) * this.data_per_page,
+            'limit': this.data_per_page
           };
 
           let paramurl = "?"+ qs.stringify(params);
@@ -235,6 +142,7 @@ export default {
                     });
 
                     this.tableData = tableData;
+                    this.data_total = response.data.total_count; 
 
                 })
                 //失败返回
@@ -242,6 +150,22 @@ export default {
                     this.$message.error("请求数据失败!");
                 });
       },
+            
+      handleSizeChange: function (size) {
+        this.data_per_page = size;
+        if(this.data_total == this.tableData.length && this.data_total <= this.data_per_page)
+            return;
+        this.handle_get_list() ;
+        // console.log(this.data_per_page)  //每页下拉显示数据
+      },
+      handleCurrentChange: function(currentPage){
+        this.data_current_page = currentPage;
+        if(this.data_total == this.tableData.length && this.data_total <= this.data_per_page)
+            return;
+        this.handle_get_list() ;
+        // console.log(this.data_current_page)  //点击第几页
+      },
+
       handlePay(index, row)
       {
 
@@ -311,7 +235,7 @@ export default {
             .then(response => {
                 if(response.code == 200 && response.data.errorCode ==0) {
                    this.handle_get_list();
-                    this.$message("订单撤销成功");  
+                    this.$message.success("订单撤销成功");  
                 }
                 else
                 {
@@ -322,8 +246,6 @@ export default {
             .catch(error => {
                    this.$message.error("订单撤销失败");            
             });
-
->>>>>>> 761ef6f... 修改管理员订单界面bug
       },
     }
 };
