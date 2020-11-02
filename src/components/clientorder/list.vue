@@ -194,7 +194,7 @@ export default {
             .then(response => {
                 if(response.code == 200 && response.data.errorCode ==0) {
                    this.handle_get_list();
-                    this.$message.error("订单撤销成功");  
+                    this.$message("订单撤销成功");  
                 }
                 else
                 {
