@@ -6,19 +6,18 @@
         style="width: 100%;margin-bottom: 20px;"
         row-key="id"
         border
-        default-expand-all
-        @row-dblclick="tableClick">
+        default-expand-all>
         <el-table-column header-align="center" prop="id" label="订单号" width="120"></el-table-column>  <!--sortable -->
         <el-table-column header-align="center" prop="presetName" label="预设名" ></el-table-column>
         <!--el-table-column align="center" prop="type" label="类型" width="150"></el-table-column-->
         <!--el-table-column align="center" prop="len" label="长度" width="100"></el-table-column-->
         <!--el-table-column align="center" prop="num" label="数量" width="80"></el-table-column-->
         <el-table-column align="center" prop="orderTime" label="下单日期" width="180"></el-table-column>
-        <el-table-column align="center" prop="payTime" label="支付状态" width="90"></el-table-column>
+        <el-table-column align="center" prop="payTime" label="支付状态" width="160"></el-table-column>
         <el-table-column align="center" prop="operate" label="操作" width="140">
             <template slot-scope="scope">
                 <el-button size="mini" type="primary" @click="handleViewDetail(scope.$index, scope.row)">查看</el-button>
-                <el-button size="mini" type="primary" @click="handleCancel(scope.$index, scope.row)">撤单</el-button>
+                <el-button size="mini" type="primary" v-show="(scope.row.orderStatus != 3) && (scope.row.orderStatus != 2)"  @click="cancelOrder(scope.$index, scope.row)">撤单</el-button>
             </template>
         </el-table-column>
       </el-table>
@@ -32,20 +31,32 @@
             layout="total, sizes, prev, pager, next, jumper"
             :total="data_total">
           </el-pagination>
-      </div>
- 
+      </div> 
     </div>
-  </div>
+
+   <!--el-dialog  v-model="deleteVisible" :append-to-body="true">
+      <h4 style="font-weight: bold; ">确认要撤销订单[ {{deleteIndex+1}} ]吗？</h4>
+      <span slot="footer" class="dialog-footer" >
+                <el-button @click="deleteVisible = false">返回</el-button >
+                <el-button @click="confirmDelete" type="primary">确定</el-button >
+            </span >
+    </el-dialog -->
+  </div>  
 </template>
 
 <script>
  
+ import fetch from "../../assets/js/fetch";
+
 import { mapState, mapActions } from "vuex";
+
 
 export default {
   name: "orderList",
   data() {
       return {
+        deleteOrderId:0,
+        deleteVisible:false,
         order_status:null,
         try_scope:null,
         start_time:null,
@@ -115,9 +126,17 @@ export default {
                   {
                     response.data.orders.forEach((obj) => {
               
-                        if(obj.payTime == null || obj.payTime == undefined)
+                        if( obj.orderStatus ==3)
+                        {//已经撤销的先显示
+                            obj.payTime = "已撤销";
+                        }
+                        else if(obj.orderStatus ==1)
                         {
-                          obj.payTime = "未支付";
+                            obj.payTime = "未支付";           
+                        }
+                        else
+                        {//2已支付,显示支付日期
+
                         }
                     });
                     _this.tableData = response.data.orders;
@@ -147,36 +166,48 @@ export default {
                 this.data_current_page = currentPage;
                 console.log(this.data_current_page)  //点击第几页
         },
-
-      //双击跳转
-      tableClick(row, column, event){
-
-        let params = {
-          // 'order_status':0,
-          // 'try_scope':1,
-          // 'account': 'admin1',
-          // 'pay_status': 0,
-          // 'start_time': '2020-10-1',
-          // 'end_time': '2020-10-31',
-           'offset':0,
-           'limit':0
-        };
-        this.$axios.get("/server/distance/qr/order/"+row.id, params)
-                //成功返回
-                .then(response => {
-                    console.log(response);
-                })
-                //失败返回
-                .catch(error => {
-                    console.log(error);
-                });
-          //this.$router.push("/client/orderdetail");
-      },
-      handleCancel(index, row)
+ 
+      cancelOrder(index, row)
       {
+       
+          this.deleteOrderId = row.id;
+          //this.deleteVisible = true; 
+        //一定是用反单引号啊！不要写成单引号了！！
+        this.$confirm(`确定要撤销订单[ ${this.deleteOrderId}]吗？`, '警告', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              // 正常跳转
+               this.confirmDelete();
+            }).catch(() => {
+              // 如果取消跳转地址栏会变化，这时保持地址栏不变
+               var k = 0;
+            });
+      },
+      async confirmDelete()
+      {
+        //this.deleteVisible = false;
+
+        fetch.delete("/api/distance/qr/order/"+this.deleteOrderId)
+            //成功返回
+            .then(response => {
+                if(response.code == 200 && response.data.errorCode ==0) {
+                   this.handle_get_list();
+                    this.$message.error("订单撤销成功");  
+                }
+                else
+                {
+                  this.$message.error("订单撤销失败");      
+                }
+            })
+            //失败返回
+            .catch(error => {
+                   this.$message.error("订单撤销失败");            
+            });
+
 
       },
-
       handleViewDetail(index, row)
       {
 

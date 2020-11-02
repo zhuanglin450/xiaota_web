@@ -109,9 +109,7 @@ export default {
           fetch.delete("/api/logout/"+userid)
             //成功返回
             .then(response => {
-                if(response.status != 200 && response.data.errorCode ==0) {
-                  this.$router.push({ path:"/login" });
-                }
+                this.$router.push({ path:"/login" });
             })
             //失败返回
             .catch(error => {
