@@ -115,7 +115,8 @@ export default {
             })
             //失败返回
             .catch(error => {
-                   this.$message.error("注销失败");
+                   //this.$message.error("注销失败");
+                   this.$router.push({ path:"/login" });
             });
       }
       //methods over
