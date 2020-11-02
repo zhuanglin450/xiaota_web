@@ -4,8 +4,8 @@
       <a class="dashbaordtitle">路由宝</a>
       <ul class="float-right headerInfo">
         <li>欢迎你</li>
-        <li style="width:4em; text-align:right">张三</li>
-        <li>[杭州]</li>
+        <li style="width:4em; text-align:right; margin-right:20px">{{userName}}</li>
+        <!--li>[杭州]</!--li-->
       </ul>
     </div>
     <el-container class="dashbaordnavbar">
@@ -52,6 +52,7 @@ export default {
   name: "client",
   data() {
       return {
+        userName:'',
         activeIndex: '',
         asideMenuData:[{
           index:1,
@@ -73,6 +74,8 @@ export default {
        {
          this.activeIndex = '';
        }
+       let userMessage = JSON.parse(sessionStorage.getItem("userMessage"));
+       this.userName = userMessage.data.account;
     },
     methods: {
       handleSelect(key, keyPath) {
