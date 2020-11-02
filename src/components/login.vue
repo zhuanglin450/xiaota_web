@@ -184,7 +184,7 @@ export default {
             }
             else
             {                
-              if( roles.find( x=>x.name.toLowerCase()=='customer_worker'))
+              if( roles.find( x=>x.name.toLowerCase()=='customer_order'))
               {
                //   query: { userid: response.data.data.id} });
                 this.$router.push({ name:"ClientOrderList"});
