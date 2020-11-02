@@ -5,10 +5,10 @@
       <!-- ref="ruleForm", rules 是必须的  -->
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="left" label-width="4em" >
         <el-form-item label="账号:" prop="account" >
-          <el-input type="text" v-model="ruleForm.account" @change="onChange" auto-complete="off" placeholder="账号"></el-input>
+          <el-input type="text" v-model="ruleForm.account" auto-complete="off" placeholder="账号"></el-input>
         </el-form-item>
         <el-form-item label="密码:" prop="pass">
-          <el-input v-model="ruleForm.pass" placeholder="密码" @focus="onKeyup" auto-complete="off" type="password" ></el-input>
+          <el-input v-model="ruleForm.pass" placeholder="密码" auto-complete="off" type="password"></el-input>
         </el-form-item>
           <!-- <div class="alert alert-danger" v-if="isError" style="margin-top: 10px;padding: 5px;">
               {{errorMsg}}!
@@ -17,7 +17,7 @@
         <el-alert :title="errorMsg" v-if="isError" type="error" :closable="false"></el-alert>
           </el-form-item>
         <div style="text-align: center; margin-left: 20px">
-          <el-button @click="submitForm('ruleForm')" type="primary" style="width:60%;" :loading="logining">
+          <el-button id="btnlogin" @click="submitForm('ruleForm')" type="primary" style="width:60%;" :loading="logining" >
               登录
           </el-button>
         </div>
@@ -47,6 +47,7 @@ export default {
   data() {
     _this = this;
 
+    //ele-ui form 校验写法
     var validatePass = async (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入密码"));
@@ -91,8 +92,7 @@ export default {
     };
     
     return {
-      logining: false, 
-
+      logining: false,
       //account, pass需要rules对应起来，大小写匹配
       ruleForm: {
         account: "",
@@ -102,7 +102,6 @@ export default {
         account: [{ validator: validateaccount, trigger: "change" }],
         pass: [{ validator: validatePass, trigger: "change" }],
       },
-
       checked: true,
       isError: false,
       errorMsg: ""
@@ -113,13 +112,13 @@ export default {
     document.onkeydown = function (e) {
       var event = e || event;
       if (event.keyCode === 13) {
-        let login = document.getElementById("login");
-        login.click();
+        let btnlogin = document.getElementById("btnlogin");
+        // btnlogin.click();
+        submitForm('ruleForm');
       }
     };
   },
   created() {
-    this.$store.dispatch("getLogin");
   },
   methods: {
     ...mapActions(["doLoginAction"]),
@@ -128,7 +127,6 @@ export default {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
 
-
           this.$store.commit({
                       type: "login",
                       account: this.ruleForm.account,
@@ -136,20 +134,17 @@ export default {
             });
             
             await this.doLoginAction();
- 
+
             let code = JSON.parse(sessionStorage.getItem("code"));
             if (code !== 200) {
                 this.$message({
                 message: "用户名或密码错误",
                 type: "error",
-              }); 
-
+              });
               return;
             }
 
-
-          let userMessage = JSON.parse(sessionStorage.getItem("userMessage"));
-          
+          let userMessage = JSON.parse(sessionStorage.getItem("userMessage"));          
           sessionStorage.setItem(
             "oldPassword",
             JSON.stringify(this.ruleForm.pass)
@@ -165,15 +160,8 @@ export default {
           //   }
           // });
  
-          this.$message({
-            message: "恭喜，登录成功",
-            type: "success",
-          });
-          this.$store.commit({
-            type: "islogin",
-            flag: true,
-          });
- 
+          this.$message({ message: "恭喜，登录成功", type: "success"});
+          this.$store.commit({ type: "islogin", flag: true});
         // if (sessionStorage.getItem("history_path")) {
         //     // 跳转审核后，清除历史
         //     this.$router.push(sessionStorage.getItem("history_path"));
@@ -188,21 +176,18 @@ export default {
             
             if(roles.find( x=>x.name.toLowerCase()=='admin'))
             {
-             this.$router.push({ name:"adminQrOrderList", 
-                       params: {  } });
+             this.$router.push({ name:"adminQrOrderList"});
             }
             else if(roles.find( x=>x.name.toLowerCase()=='business_man')){
               //later it should be no account manage permission
-              this.$router.push({ name:"adminQrOrderList", 
-                       params: {  } });
+              this.$router.push({ name:"adminQrOrderList"});
             }
             else
             {                
-              if( roles.find( x=>x.name.toLowerCase()=='customer_order'))
+              if( roles.find( x=>x.name.toLowerCase()=='customer_worker'))
               {
                //   query: { userid: response.data.data.id} });
-                this.$router.push({ name:"ClientOrderList", 
-                   params: {  } });
+                this.$router.push({ name:"ClientOrderList"});
               }
             }
 
@@ -215,47 +200,17 @@ export default {
         }
       });
     },
-    onKeyup()
-    {
-
-    },
     register()
     {
-        this.$router.push("/SelfRegister");
+        this.$router.push("/selfRegister");
     },
     forgotpassword()
     {
-    	;
-    },
-    // validateForm() {
-    //   this.errorMsg = "";
-    //   var iserror = false;
-    //   if (this.ruleForm2.account == null || this.ruleForm2.account == "" ) {
-    //     iserror = true;
-    //     this.errorMsg = "账号不能为空";
-    //     return true;
-    //   }
-    //   if (this.ruleForm2.checkPass == null || this.ruleForm2.checkPass == "") {
-    //     iserror = true;
-    //     this.errorMsg = "密码不能为空";
-    //     return true;
-    //   }
-    //   return iserror;
-    // },
-
-    onChange: function() {
-      // this.isError = this.validateForm();
-    },
- 
-    reset: function() {
-      this.ruleForm2.account = "";
-      this.ruleForm2.checkPass = "";
-    },
-  
-    destroyed: function() {
-      console.log("destroyed vue");
-      document.onkeydown = null;
-    },
+    },  
+  },
+  destroyed: function() {
+    console.log("destroyed vue");
+    document.onkeydown = null;
   },
 };
 

@@ -9,20 +9,9 @@ import fetch from "../assets/js/fetch";
 import loginStore from "./loginStore";
 import info from "./info";
 import clientOrderList from "./clientOrderList";
-//import serverInfo from "./serverInfo";
-//import ftpInfo from "./ftpInfo";
 import userManagement from "./userManagement";
 
-//import pictureTask from "./pictureTask";
-//import logs from "./logs";
-//import training_tasks from "./training_tasks";
-//import training_models from "./training_models";
-//import training_details from "./training_details";
-//import mqtt from "./mqtt";
 import common from "./common";
-//import modelManagementAudit from "./modelManagementAudit";
-//import markTasksAudit from "./markTasksAudit";
-//import templateTask from "./templateTask";
 
 
 

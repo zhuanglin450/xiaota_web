@@ -49,7 +49,7 @@ const router = new Router({
             component: Login
         },
         {
-            path: '/SelfRegister',
+            path: '/selfRegister',
             name: 'SelfRegister',
             component: SelfRegister
         },
@@ -62,7 +62,7 @@ const router = new Router({
             component: Admin,
             children: [
                 {
-                    path: '/Admin/personinfos',
+                    path: '/admin/personinfos',
                     name: 'AdminPersonInfo',
                     component: AdminPersonInfo,
                 },{
