@@ -1,42 +1,42 @@
 <template>
   <div>
-    <h3><a>ÅúÁ¿Éú³ÉĞÂ¶©µ¥</a></h3>
+    <h3><a>æ‰¹é‡ç”Ÿæˆæ–°è®¢å•</a></h3>
     <div class="content" style="text-align:left">
 
         <el-form ref="form" label-width="auto">
-            <el-form-item label="Ô¤ÉèÃû">
-                <el-input placeholder="Ô¤ÉèÃû" v-model="pShowname"  style="width:100%"></el-input>
+            <el-form-item label="é¢„è®¾å">
+                <el-input placeholder="é¢„è®¾å" v-model="pShowname"  style="width:100%"></el-input>
             </el-form-item>
-            <el-form-item label="³¤¶È">
-                <el-input-number placeholder="³¤¶È" :min="1" v-model="pLen"></el-input-number>
+            <el-form-item label="é•¿åº¦">
+                <el-input-number placeholder="é•¿åº¦" :min="1" v-model="pLen"></el-input-number>
             </el-form-item>
-            <el-form-item label="ÀàĞÍ">
-                <el-select v-model="pType" default-first-option placeholder="ÇëÑ¡Ôñ" class="type">
-                    <el-option key="1" label="¹Ì¶¨Âë" value="1"></el-option>
-                    <el-option key="2" label="Í¨ÓÃÂë" value="0"></el-option>
+            <el-form-item label="ç±»å‹">
+                <el-select v-model="pType" default-first-option placeholder="è¯·é€‰æ‹©" class="type">
+                    <el-option key="1" label="å›ºå®šç " value="1"></el-option>
+                    <el-option key="2" label="é€šç”¨ç " value="0"></el-option>
                 </el-select>
             </el-form-item>
-            <el-form-item label="ÊıÁ¿">
-                <el-input-number placeholder="ÊıÁ¿" :min="1" v-model="pNum"></el-input-number>
+            <el-form-item label="æ•°é‡">
+                <el-input-number placeholder="æ•°é‡" :min="1" v-model="pNum"></el-input-number>
             </el-form-item>
             <el-form-item>
-                <el-button type="primary" @click="onSubmit" >´´½¨</el-button>
-                <!-- <el-button>È¡Ïû</el-button> -->
+                <el-button type="primary" @click="onSubmit" >åˆ›å»º</el-button>
+                <!-- <el-button>å–æ¶ˆ</el-button> -->
             </el-form-item>
         </el-form>
 
 <!-- 
-        <div><a>Ô¤ÉèÃû:</a><el-input placeholder="Ô¤ÉèÃû" v-model="pShowname"></el-input></div>
-        <div><a>³¤¶È:</a><el-input placeholder="³¤¶È" v-model="pLen"></el-input></div>
-        <div><a>ÀàĞÍ:</a>
-            <el-select v-model="pType" default-first-option placeholder="ÇëÑ¡Ôñ">
-                <el-option key="1" label="¹Ì¶¨Âë" value="¹Ì¶¨Âë"></el-option>
-                <el-option key="2" label="Í¨ÓÃÂë" value="Í¨ÓÃÂë"></el-option>
+        <div><a>é¢„è®¾å:</a><el-input placeholder="é¢„è®¾å" v-model="pShowname"></el-input></div>
+        <div><a>é•¿åº¦:</a><el-input placeholder="é•¿åº¦" v-model="pLen"></el-input></div>
+        <div><a>ç±»å‹:</a>
+            <el-select v-model="pType" default-first-option placeholder="è¯·é€‰æ‹©">
+                <el-option key="1" label="å›ºå®šç " value="å›ºå®šç "></el-option>
+                <el-option key="2" label="é€šç”¨ç " value="é€šç”¨ç "></el-option>
             </el-select>
         </div>
-        <div><a>ÊıÁ¿:</a><el-input placeholder="ÊıÁ¿" v-model="pNum"></el-input></div>
+        <div><a>æ•°é‡:</a><el-input placeholder="æ•°é‡" v-model="pNum"></el-input></div>
         
-        <div><el-button style="width:12em; margin-top:0.5em;">È·ÈÏ</el-button></div> -->
+        <div><el-button style="width:12em; margin-top:0.5em;">ç¡®è®¤</el-button></div> -->
     </div>
   </div>
 </template>
@@ -53,13 +53,13 @@ export default {
       };
     },
     methods: {
-      //Ë«»÷Ìø×ª
+      //åŒå‡»è·³è½¬
 
       onSubmit(){
 
         if(this.pShowname == null || this.pShowname == "")
         {
-            this.$message("ÇëÊäÈëÔ¤ÉèÃû!");
+            this.$message("è¯·è¾“å…¥é¢„è®¾å!");
             return;
         }
 
@@ -72,12 +72,12 @@ export default {
             }]
         };
         this.$axios.post("/api/distance/qr/order", params)
-            //³É¹¦·µ»Ø
+            //æˆåŠŸè¿”å›
             .then(response => {
                 if(response.status != 200)
                 {
-                    this.$alert('Ìá½»Ê§°Ü', 'ÌáÊ¾', {
-                            confirmButtonText: 'È·¶¨',
+                    this.$alert('æäº¤å¤±è´¥', 'æç¤º', {
+                            confirmButtonText: 'ç¡®å®š',
                             type: 'error',
                     });
                     return;
@@ -85,22 +85,22 @@ export default {
                 
                 if(response.data.code != 200)
                 {     
-                    this.$alert('Ìá½»Ê§°Ü', 'ÌáÊ¾', {
-                            confirmButtonText: 'È·¶¨',
+                    this.$alert('æäº¤å¤±è´¥', 'æç¤º', {
+                            confirmButtonText: 'ç¡®å®š',
                             type: 'error',
                     });
                     return;
                 }
 
-                 this.$alert('Ìá½»³É¹¦', 'ÌáÊ¾', {
-                        confirmButtonText: 'È·¶¨',
+                 this.$alert('æäº¤æˆåŠŸ', 'æç¤º', {
+                        confirmButtonText: 'ç¡®å®š',
                         type: 'success',
                  });
             })
-            //Ê§°Ü·µ»Ø
+            //å¤±è´¥è¿”å›
             .catch(error => {
-                this.$alert('Ìá½»Ê§°Ü', 'ÌáÊ¾', {
-                        confirmButtonText: 'È·¶¨',
+                this.$alert('æäº¤å¤±è´¥', 'æç¤º', {
+                        confirmButtonText: 'ç¡®å®š',
                         type: 'error',
                 });                     
             });
@@ -112,7 +112,7 @@ export default {
 <style>
 
 .stitle {
-  font-family: "Microsoft YaHei","Î¢ÈíÑÅºÚ";  
+  font-family: "Microsoft YaHei","å¾®è½¯é›…é»‘";  
   height: 2em;
   line-height: 2em;
   padding: 0 2em;
