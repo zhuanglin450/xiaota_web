@@ -5,15 +5,15 @@ import qs from "querystring";
 export default {
     namespaced: true, //加了这句就找不到方法了，？为啥
     state: {
-        view_id: '',
+    //    view_id: '',
     },
     getters: {
-        viewId: state => state.view_id
+      //  viewId: state => state.view_id
     },
     mutations: {
         setViewId(state, data) {
-            state.view_id = data;
-            sessionStorage.setItem("order_list_viewId", data);
+            //state.view_id = data;
+            //sessionStorage.setItem("order_list_viewId", data);
         },
     },
 

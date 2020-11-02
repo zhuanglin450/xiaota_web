@@ -2,20 +2,16 @@
   <div>
     <h3><a>订单号：{{No}}</a></h3>
     <div class="tableStyle">
-      <el-table
-        :data="tableData"
+      <el-table :data="tableData"
         style="width: 100%;margin-bottom: 20px;"
-        row-key="id"
-        border
-        default-expand-all
-        @row-dblclick="tableClick">
+        row-key="id" border default-expand-all >
         <el-table-column colspan='1' header-align="center" prop="qr_id" label="二维码编号" ></el-table-column>
         <el-table-column colspan='10' header-align="center" prop="qr_name" label="二维码名称" ></el-table-column>
         <el-table-column colspan='10' header-align="center" prop="preset_name" label="下单预设名" ></el-table-column>
         <el-table-column colspan='1'  align="center" label="类型" >
               <template slot-scope="scope">
                   <div>
-                      {{scope.row.type| filterTypeName}}
+                      {{scope.row.type | filterTypeName}}
                   </div>
               </template>
         </el-table-column>
@@ -35,15 +31,16 @@ export default {
   name: "orderList",
   data() {
       return {
-        No:123456,
-        tableData: [ 
-         ]
+        No:1,
+        tableData: []
       };
     },
-    computed: {
-         ...mapState({
-          viewOrderId: (state) => state.clientOrderList.view_id, //引入clientOrderList状态中定义的view_id状态变量 
-        }),
+    mounted: function(){
+      //   ...mapState({
+      //   viewOrderId: (state) => state.clientOrderList.view_id, //引入clientOrderList状态中定义的view_id状态变量 
+      // }),
+        this.quereyData();
+
     },
     filters:
     {     
@@ -55,7 +52,7 @@ export default {
           }
           else if(id == 1)
           {
-            result = '通用码';
+              result = '通用码';
           }
  
           return result;
@@ -63,14 +60,16 @@ export default {
     },
     created:function()
     {
-        this.quereyData();
     },
     methods: {
       quereyData()
       {
-          this.No = sessionStorage.getItem("order_list_viewId");//this.$store.getters["clientOrderList/viewId"];//or this.$store.state.clientOrderList.view_id;
+          let viewid = this.$route.query.viewid;
+          if(viewid == null || viewid <=0 )
+              return;
 
-          let viewid =  this.No;//this.$store.state.clientOrderList.view_id;
+          this.No = viewid;
+          //let viewid =  this.No;//this.$store.state.clientOrderList.view_id;
             let params = {
             'offset':0,
             'limit':0
@@ -95,15 +94,6 @@ export default {
                        this.$message.error("获取订单详情失败");
                   });
       },
-      //双击跳转
-      tableClick(row, column, event){
-
-          //this.$router.push("/admin/orderDetail");
-      },
-      handleCancel(index, row)
-      {
-
-      }
     }
 };
 </script>

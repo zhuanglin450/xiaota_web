@@ -76,9 +76,9 @@ export default {
     },
     methods: { 
         ...mapActions(
-          {
+        {
             get_client_order_list:"clientOrderList/get_client_order_list"
-            }),
+        }),
           
         // 获取订单列表
         handle_get_list() {
@@ -208,10 +208,8 @@ export default {
       },
       handleViewDetail(index, row)
       {
-
-        this.$store.commit("clientOrderList/setViewId",row.id); 
-
-        this.$router.push("/client/orderdetail");
+        //this.$store.commit("clientOrderList/setViewId",row.id); 
+        this.$router.push({'path':"/client/orderdetail", query:{'viewid': row.id} });
       }
     }
 };
