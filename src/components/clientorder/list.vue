@@ -17,6 +17,7 @@
         <el-table-column align="center" prop="payTime" label="支付状态" width="90"></el-table-column>
         <el-table-column align="center" prop="operate" label="操作" width="140">
             <template slot-scope="scope">
+                <el-button size="mini" type="primary" @click="handleViewDetail(scope.$index, scope.row)">查看</el-button>
                 <el-button size="mini" type="primary" @click="handleCancel(scope.$index, scope.row)">撤单</el-button>
             </template>
         </el-table-column>
@@ -160,7 +161,7 @@ export default {
            'offset':0,
            'limit':0
         };
-        this.$axios.get("/server/distance/qr/order/1", params)
+        this.$axios.get("/server/distance/qr/order/"+row.id, params)
                 //成功返回
                 .then(response => {
                     console.log(response);
@@ -174,6 +175,14 @@ export default {
       handleCancel(index, row)
       {
 
+      },
+
+      handleViewDetail(index, row)
+      {
+
+        this.$store.commit("clientOrderList/setViewId",row.id); 
+
+        this.$router.push("/client/orderdetail");
       }
     }
 };
