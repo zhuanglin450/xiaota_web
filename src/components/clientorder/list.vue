@@ -155,14 +155,18 @@ export default {
 
       // 初始页currentPage、初始每页数据数pagesize和数据data
         handleSizeChange: function (size) {
-                this.data_per_page = size;
-                this.handle_get_list() ;
-                //console.log(this.data_per_page)  //每页下拉显示数据
+            this.data_per_page = size;
+            if(this.data_total == this.tableData.length && this.data_total <= this.data_per_page)
+                return;
+            this.handle_get_list() ;
+            // console.log(this.data_per_page)  //每页下拉显示数据
         },
         handleCurrentChange: function(currentPage){
-                this.data_current_page = currentPage;
-                this.handle_get_list() ;
-                //console.log(this.data_current_page)  //点击第几页
+            this.data_current_page = currentPage;
+            if(this.data_total == this.tableData.length && this.data_total <= this.data_per_page)
+              return;
+            this.handle_get_list() ;
+            // console.log(this.data_current_page)  //点击第几页
         },
  
       cancelOrder(index, row)

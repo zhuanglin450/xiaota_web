@@ -5,11 +5,9 @@
       <!--div style="text-align:left">
           <a>预设名:</a><el-input style="width:16em; margin-left:1em" placeholder="预设名" v-model="pShowname"></el-input>
       </!--div-->
-      <el-table
-        :data="dynamicValidateForm.orders"
+      <el-table :data="dynamicValidateForm.orders"
         style="width: 100%;margin-top: 1em;"
-        row-key="id"
-        border default-expand-all>
+        row-key="id" border default-expand-all>
         <el-table-column header-align="center" label="二维码名" >
             <template slot-scope="scope">
                 <el-input v-model="scope.row.preset_name" maxlength="50"> </el-input>    
@@ -25,9 +23,7 @@
         </el-table-column>
         <el-table-column align="center" label="长度" width="190">
             <template slot-scope="scope">
-              <div style="margin-top:8px ">
-                 <el-input-number type="number" v-model="scope.row.distance" :min="0" ></el-input-number >
-              </div> 
+                <el-input-number type="number" v-model="scope.row.distance" :min="0" ></el-input-number >
             </template>         
 
         </el-table-column>
@@ -174,15 +170,15 @@ export default {
 
 .el-input-number__decrease
 {
-    left:0.9em;
-    line-height: 2.25em;
-    overflow: hidden;
+    left:0.9em !important;
+    line-height: 2.25em !important;
+    overflow: hidden !important;
 }
 .el-input-number__increase
 {
-    right:1.9em;
-    line-height: 2.25em;
-    overflow: hidden;
+    right:0.9em !important;
+    line-height: 2.25em !important;
+    overflow: hidden !important;
 }
 
 .stitle {

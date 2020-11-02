@@ -10,71 +10,93 @@
         style="width: 100%;margin-bottom: 20px;"
         row-key="id"
         border default-expand-all>
-        <el-table-column align="center" prop="space" label="间距" width="100"></el-table-column>  <!--sortable -->
+        <el-table-column align="center" prop="distance" label="间距" width="100"></el-table-column>  <!--sortable -->
         <el-table-column align="center" prop="num" label="数量" width="100"></el-table-column>
         <el-table-column header-align="center" prop="info" label="额外信息"></el-table-column>
-        <!-- <el-table-column align="center" prop="operate" label="操作"  width="180"></el-table-column> -->
-        <el-table-column align="center"  label="操作"  width="180">
-            <!-- <template slot="header" slot-scope="scope">
-                <el-input v-model="search" size="mini" placeholder="输入关键字搜索"/>
-            </template> -->
+        <el-table-column align="center" label="操作" width="180">
             <template slot-scope="scope">
                 <el-button size="mini" type="primary" @click="handleCreate(scope.$index, scope.row)">产生二维码</el-button>
             </template>
         </el-table-column>
       </el-table>
+       <div class="paginationClass">
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange" 
+            :current-page="data_current_page"
+            :page-sizes="[10, 20, 50, 100]"
+            :page-size="data_per_page" 
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="data_total">
+          </el-pagination>
+      </div> 
     </div>
   </div>
 </template>
 
 <script>
+
+import fetch from "../../assets/js/fetch";
+import qs from "querystring";
+
 export default {
   name: "orderDetail",
   data() {
       return {
         sdata :[],
-        // tableData: [{
-        //   sdataIndex:0,  
-        //   id:1,
-        //   space: 10,
-        //   num: '100000',
-        //   info: '王小虎'
-        // } ]
-        tableData:[]
+        tableData:[],
+        //每页显示多少条
+        data_per_page: 20,
+        //当前页码
+        data_current_page: 1,
+        data_total:0,
       };
     },
     mounted: function() {  
-        let orderid = this.$route.params.orderid;
+      this.handle_get_list() ; 
+    },
+    methods: {
+      goBack()
+      {
+          window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
+      },  
+      //产生二维码
+      handleCreate(index, row)
+      {
+          this.$router.push({"name":'adminQrOrderQrcodeList', 
+            params:{"qrcontent":this.sdata[row.sdataIndex]}});
+      },
+      // 获取订单列表
+      handle_get_list() {
+        let orderid = this.$route.query.orderid;
         if(orderid == null || orderid == "" || orderid <=0)
         {
           this.tableData = [];
           return;
         }
         let params = { 
-          'offset': 0,
-          'limit': 0
+          'offset': (this.data_current_page - 1) * this.data_per_page,
+          'limit': this.data_per_page
         };
-        this.$axios.get("/api/distance/qr/order/"+orderid, params)
+        
+        let url = "/api/distance/qr/order/"+orderid+"?";
+        url += qs.stringify(params);
+        fetch.get(url)
           //成功返回
-          .then(response => {
-              if(response.status != 200)
-            {
-                  this.$message.error("请求数据失败!");
+          .then(response => { 
+              if(response.code != 200)
+              {     
+                  this.$message.error( response.message);
                   return;
               }
-              if(response.data.code != 200)
-              {     
-                  this.$message.error( response.data.message);
-                  return;
-            }
-              this.sdata = response.data.data.order_details;
+              this.sdata = response.data.order_details;
               let tableData = [];
               let i =0;
               this.sdata.forEach(ele  => {
                   tableData.push({
                     sdataIndex : i,
                     id: ele.qr_id,
-                    space: ele.distance,
+                    distance: ele.distance,
                     num: '1',
                     info: ele.preset_name
                   });
@@ -87,17 +109,20 @@ export default {
               this.$message.error("请求数据失败!");
           });
       },
-    methods: {
-      goBack()
-      {
-          window.history.length > 1 ? this.$router.go(-1) : this.$router.push('/')
-      },  
-      //产生二维码
-      handleCreate(index, row)
-      {
-          this.$router.push({"name":'adminQrOrderQrcodeList', 
-            params:{"qrcontent":this.sdata[row.sdataIndex]}});
-      }
+      handleSizeChange: function (size) {
+        this.data_per_page = size;
+        if(this.data_total == this.tableData.length && this.data_total <= this.data_per_page)
+            return;
+        this.handle_get_list() ;
+        // console.log(this.data_per_page)  //每页下拉显示数据
+      },
+      handleCurrentChange: function(currentPage){
+        this.data_current_page = currentPage;
+        if(this.data_total == this.tableData.length && this.data_total <= this.data_per_page)
+            return;
+        this.handle_get_list() ;
+        // console.log(this.data_current_page)  //点击第几页
+      },
     }
 };
 </script>
@@ -125,6 +150,6 @@ a {
 }
 
 .tableStyle {
-  padding: 0.5em 1.5em;
+  padding: 0.5em 1.5em 8em 1.5em;
 }
 </style>

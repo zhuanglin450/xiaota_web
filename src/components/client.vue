@@ -31,9 +31,9 @@
         </div>
         <div style="width:15%; height:100%; float:right; line-height:1.5; font-size:12px; padding:0.8em 0">
           <div style="height:100%; float:right;">
-            <el-link type="info" @click="personInfo"  style="color:#eeeeee">个人信息</el-link>
+            <el-link type="info" @click="personInfo"  style="color:#eeeeee; text-decoration:none">个人信息</el-link>
             <span style="margin-left:1em;" class="glyphicon glyphicon-log-out"></span>
-            <el-link type="info" style="margin-right:0.25em; color:#eeeeee" @click="goOut">退出</el-link>
+            <el-link type="info" style="margin-right:0.25em; color:#eeeeee; text-decoration:none" @click="goOut">退出</el-link>
           </div>
         </div>
       </el-header>

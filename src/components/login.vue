@@ -209,7 +209,7 @@ export default {
     },  
   },
   destroyed: function() {
-    console.log("destroyed vue");
+    // console.log("destroyed vue");
     document.onkeydown = null;
   },
 };
