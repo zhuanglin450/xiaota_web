@@ -111,6 +111,19 @@ export default {
 
 <style>
 
+.el-input-number__decrease
+{
+    left:0.9em;
+    line-height: 2.25em;
+    overflow: hidden;
+}
+.el-input-number__increase
+{
+    right:1.9em;
+    line-height: 2.25em;
+    overflow: hidden;
+}
+
 .stitle {
   font-family: "Microsoft YaHei","微软雅黑";  
   height: 2em;
@@ -149,16 +162,4 @@ export default {
     width:9em;
 }
 
-.el-input-number__decrease
-{
-    left:0.9em;
-    line-height: 2.25em;
-    overflow: hidden;
-}
-.el-input-number__increase
-{
-    right:1.9em;
-    line-height: 2.25em;
-    overflow: hidden;
-}
 </style>

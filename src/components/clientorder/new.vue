@@ -12,7 +12,7 @@
         border default-expand-all>
         <el-table-column header-align="center" label="二维码名" >
             <template slot-scope="scope">
-                <el-input v-model="scope.row.preset_name"> </el-input>    
+                <el-input v-model="scope.row.preset_name" maxlength="50"> </el-input>    
             </template>
         </el-table-column>
         <el-table-column align="center" label="类型" width="190">
@@ -67,31 +67,26 @@ export default {
   data() {
       return {
         pShowname:"",
-
         dynamicValidateForm:{
-                orders: [{
-                    preset_name:"",
-                    type:1,  
-                    distance:0, 
-                    count:1, 
-                    serial_number:""
-                } ]
+            orders: [{
+                preset_name:"",
+                type:1,  
+                distance:0, 
+                count:1, 
+                serial_number:""
+            } ]
         }
       };
     },
     computed:{
       sum(){
-
         var sum = this.dynamicValidateForm.orders.length;
- 
         return sum;
       }
     },
     methods: {
- 
       validateForm(formObj)
       {
-
           let errorMsg = "";
           var errorIndex = -1;
 
@@ -161,7 +156,7 @@ export default {
         this.dynamicValidateForm.orders.push({
           id:this.dynamicValidateForm.orders.length+1,
           preset_name: '',
-          type: 1,
+          type: "1",
           distance:'',
           count:1,
           serial_number:''
@@ -176,6 +171,20 @@ export default {
 </script>
 
 <style scoped>
+
+.el-input-number__decrease
+{
+    left:0.9em;
+    line-height: 2.25em;
+    overflow: hidden;
+}
+.el-input-number__increase
+{
+    right:1.9em;
+    line-height: 2.25em;
+    overflow: hidden;
+}
+
 .stitle {
   font-family: "Microsoft YaHei","微软雅黑";  
   height: 2em;
@@ -188,6 +197,7 @@ export default {
   padding: 0.5em 0;
   width: 70em;
   margin: 0 auto;
+  padding-bottom: 8em;
 }
 
 .tableStyle .el-input

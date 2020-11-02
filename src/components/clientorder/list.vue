@@ -4,17 +4,15 @@
       <el-table
         :data="tableData"
         style="width: 100%;margin-bottom: 20px;"
-        row-key="id"
-        border
-        default-expand-all>
+        row-key="id" border default-expand-all>
         <el-table-column header-align="center" prop="id" label="订单号" width="120"></el-table-column>  <!--sortable -->
         <el-table-column header-align="center" prop="presetName" label="预设名" ></el-table-column>
         <!--el-table-column align="center" prop="type" label="类型" width="150"></el-table-column-->
         <!--el-table-column align="center" prop="len" label="长度" width="100"></el-table-column-->
         <!--el-table-column align="center" prop="num" label="数量" width="80"></el-table-column-->
         <el-table-column align="center" prop="orderTime" label="下单日期" width="180"></el-table-column>
-        <el-table-column align="center" prop="payTime" label="支付状态" width="160"></el-table-column>
-        <el-table-column align="center" prop="operate" label="操作" width="140">
+        <el-table-column align="center" prop="payTime" label="支付状态" width="120"></el-table-column>
+        <el-table-column align="center" prop="operate" label="操作" width="180">
             <template slot-scope="scope">
                 <el-button size="mini" type="primary" @click="handleViewDetail(scope.$index, scope.row)">查看</el-button>
                 <el-button size="mini" type="primary" v-show="(scope.row.orderStatus != 3) && (scope.row.orderStatus != 2)"  @click="cancelOrder(scope.$index, scope.row)">撤单</el-button>
@@ -70,11 +68,11 @@ export default {
       };
     },
     mounted: function() {
-      console.log(this.$route.params);
+      // console.log(this.$route.params);
+      this.handle_get_list( ); 
     },
     created:function()
     {
-      this.handle_get_list( ); 
     },
     methods: { 
         ...mapActions(
@@ -138,7 +136,7 @@ export default {
                         }
                     });
                     _this.tableData = response.data.orders;
-                    _this.data_per_page = response.data.request_count; 
+                    //_this.data_per_page = response.data.request_count; 
                     _this.data_total = response.data.total_count; 
                   }
                   else
@@ -158,11 +156,13 @@ export default {
       // 初始页currentPage、初始每页数据数pagesize和数据data
         handleSizeChange: function (size) {
                 this.data_per_page = size;
-                console.log(this.pagesize)  //每页下拉显示数据
+                this.handle_get_list() ;
+                //console.log(this.data_per_page)  //每页下拉显示数据
         },
         handleCurrentChange: function(currentPage){
                 this.data_current_page = currentPage;
-                console.log(this.data_current_page)  //点击第几页
+                this.handle_get_list() ;
+                //console.log(this.data_current_page)  //点击第几页
         },
  
       cancelOrder(index, row)
@@ -231,6 +231,6 @@ a {
 }
 
 .tableStyle {
-  padding: 0.5em 1.5em;
+  padding: 0.5em 1.5em 8em 1.5em;  
 }
 </style>
