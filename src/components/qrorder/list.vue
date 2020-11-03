@@ -65,10 +65,13 @@ export default {
     methods: { 
       //双击跳转
       tableClick(row, col, event){
+          sessionStorage.setItem("adminQrOrderDetail_id",row.id);
           this.$router.push({"name":'adminQrOrderDetail', params:{"orderid":row.id}});
       },
       handleViewDetail(index, row)
       {
+        sessionStorage.setItem("adminQrOrderDetail_id",row.id);
+
         this.$router.push({"name":'adminQrOrderDetail', params:{"orderid":row.id}});
       },
       // 获取订单列表

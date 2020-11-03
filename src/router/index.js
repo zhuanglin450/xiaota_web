@@ -6,7 +6,7 @@ import Admin from '@/components/admin'
 import AdminPersonInfo from '@/components/person/info'
 
 import QrOrderList from '@/components/qrorder/list'
-import QrOrderDetail from '@/components/qrorder/detail'
+import adminQrOrderDetail from '@/components/qrorder/detail'
 import QrOrderQrcodeList from '@/components/qrorder/qrcodelist'
 import systemManage_User from '@/components/systemManage/user'
 
@@ -78,7 +78,7 @@ const router = new Router({
                 {
                     path: '/admin/orderDetail',
                     name: 'adminQrOrderDetail',
-                    component: QrOrderDetail,
+                    component: adminQrOrderDetail,
                 },
                 {
                     path: '/admin/orderQrcodeList',

@@ -40,7 +40,7 @@ import fetch from "../../assets/js/fetch";
 import qs from "querystring";
 
 export default {
-  name: "orderDetail",
+  name: "adminQrOrderDetail",
   data() {
       return {
         sdata :[],
@@ -68,7 +68,9 @@ export default {
       },
       // 获取订单列表
       handle_get_list() {
-        let orderid = this.$route.query.orderid;
+
+        let orderid =  sessionStorage.getItem("adminQrOrderDetail_id");
+ 
         if(orderid == null || orderid == "" || orderid <=0)
         {
           this.tableData = [];
