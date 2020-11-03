@@ -52,8 +52,8 @@ div {
 }
 
 .el-input__icon {
-    height: 2.25em;
-    line-height: 2.25em;
+    height: 2.25em !important;
+    line-height: 2.25em !important;
 }
 
 .el-input__inner {

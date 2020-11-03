@@ -103,6 +103,7 @@ export default {
                   i++;
               });
               this.tableData = tableData;
+              this.data_total = response.data.total_count; 
           })
           //失败返回
           .catch(error => {

@@ -5,27 +5,27 @@
       <!-- ref="ruleForm", rules 是必须的  -->
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="left" label-width="4em" >
         <el-form-item label="账号:" prop="account" >
-          <el-input type="text" v-model="ruleForm.account" auto-complete="off" placeholder="账号"></el-input>
+          <el-input type="text" v-model="ruleForm.account" auto-complete="off" placeholder="账号" maxlength="20"></el-input>
         </el-form-item>
         <el-form-item label="密码:" prop="pass">
-          <el-input v-model="ruleForm.pass" placeholder="密码" auto-complete="off" type="password"></el-input>
+          <el-input v-model="ruleForm.pass" placeholder="密码" auto-complete="off" type="password" maxlength="20"></el-input>
         </el-form-item>
           <!-- <div class="alert alert-danger" v-if="isError" style="margin-top: 10px;padding: 5px;">
               {{errorMsg}}!
           </div> -->
-          <el-form-item >
-        <el-alert :title="errorMsg" v-if="isError" type="error" :closable="false"></el-alert>
-          </el-form-item>
+        <el-form-item>
+          <el-alert :title="errorMsg" v-if="isError" type="error" :closable="false"></el-alert>
+        </el-form-item>
         <div style="text-align: center; margin-left: 20px">
           <el-button id="btnlogin" @click="submitForm('ruleForm')" type="primary" style="width:60%;" :loading="logining" >
               登录
           </el-button>
         </div>
         <div style="text-align:left; margin-top:0.9em; margin-left:5em  ">
-	    <el-link type="primary" @click="forgotpassword" >忘记密码</el-link>
-	    <span> &ensp; &ensp; &ensp; &ensp; &ensp; </span>
-            <span style="color:skyblue">     还没有账号？<el-link type="primary" @click="register" >马上注册</el-link> 
-	    </span>
+          <el-link type="primary" @click="forgotpassword" >忘记密码</el-link>
+          <span> &ensp; &ensp; &ensp; &ensp; &ensp; </span>
+            <span style="color:skyblue">还没有账号？<el-link type="primary" @click="register" >马上注册</el-link> 
+          </span>
         </div> 
 
       </el-form>

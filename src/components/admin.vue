@@ -184,17 +184,17 @@ export default {
 }
 
 .asideMenu {
-	height: 2em;
-	line-height: 2em;
-	margin-top: 0.75em;
+  height: 2em;
+  line-height: 2em;
+  margin-top: 0.75em;
 }
 
 .el-header, .el-aside {
-	background-color:rgb(50,64,87); 
+  background-color:rgb(50,64,87); 
 }
 
 .el-header ul.el-menu{
-    border-bottom: 0px;
+  border-bottom: 0px;
 }
 
 .el-main {
