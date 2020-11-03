@@ -108,7 +108,7 @@ export default {
               //成功返回
               .then(response => {
                   if(response.status == 200 && response.data.code == 200) {
-                      this.$router.push({ path:"/client/login" });
+                      this.$router.push({ path:"/login" });
                   }
                   else
                   {
