@@ -1,10 +1,10 @@
 <template>
   <div>
     <div class="dashbaordheader">
-      <a class="dashbaordtitle">管理系统</a>
+      <a class="dashbaordtitle">路由宝管理系统</a>
       <ul class="float-right headerInfo">
         <li>欢迎你</li>
-        <li style="width:4em; text-align:right; margin-right:20px">{{userName}}</li>
+        <li style="width:4em; font-size:1.8em; text-align:right; margin-right:20px">{{userName}}</li>
         <!--li>[杭州]</！li-->
       </ul>
     </div>
@@ -218,7 +218,8 @@ export default {
 .dashbaordtitle {
     font-weight: bold;
     color: #ffffff;
-    font-size: 14px;
+    font-size: 2em;
+    
 }
 
 .dashbaordnavbar {
