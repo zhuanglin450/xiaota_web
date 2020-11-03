@@ -3,18 +3,15 @@
     <div class="dashbaordheader">
       <a class="dashbaordtitle">路由宝客户系统</a>
       <ul class="float-right headerInfo">
-        <li>欢迎你</li>
-        <li style="width:6em; text-align:right; font-size:1.8em margin-right:20px">{{userName}}</li>
-        <!--li>[杭州]</!--li-->
+        <li>欢迎你，</li>
+        <li style="font-size:1.8em; margin-left:0.125em;">{{userName}}</li>
       </ul>
     </div>
     <el-container class="dashbaordnavbar">
       <el-header style="height:3em; ">
         <div style="width:84%; height:100%; float:left; padding-bottom:0.25em">
-          <el-menu
-            style="height:100%;"
+          <el-menu class="el-menu-demo" style="height:100%;"
             :default-active="activeIndex"
-            class="el-menu-demo"
             mode="horizontal"
             @select="handleSelect"
             background-color="rgb(50,64,87)"
@@ -207,7 +204,7 @@ export default {
     font-weight: bold;
     color: #ffffff;
     font-size: 2em;
-    letter-spacing: 0.375em;
+    letter-spacing: 0.125em;
 }
 
 .dashbaordnavbar {
@@ -216,5 +213,6 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
+    overflow: auto;
 }
 </style>

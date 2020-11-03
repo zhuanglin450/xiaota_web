@@ -10,11 +10,11 @@
         row-key="id" border default-expand-all
         @row-dblclick="tableClick">
 
-        <el-table-column header-align="center" prop="number" label="订单号" width="180"></el-table-column>  <!--sortable -->
-        <el-table-column header-align="center" prop="date" label="日期" width="180"></el-table-column>
-        <el-table-column header-align="center" prop="name" label="提交人" width="180"></el-table-column>
+        <el-table-column align="center" prop="number" label="订单号" width="180"></el-table-column>  <!--sortable -->
+        <el-table-column align="center" prop="date" label="日期" width="180"></el-table-column>
+        <el-table-column align="center" prop="name" label="提交人" width="180"></el-table-column>
         <el-table-column header-align="center" prop="info" label="定制信息"></el-table-column>
-        <el-table-column header-align="center" prop="status" label="支付状态" width="160"></el-table-column>
+        <el-table-column align="center" prop="status" label="支付状态" width="160"></el-table-column>
         <el-table-column align="center" prop="operate" label="操作" width="250">
             <template slot-scope="scope">
                 <el-button size="mini" type="primary" @click="handleViewDetail(scope.$index, scope.row)">查看</el-button>
@@ -22,7 +22,6 @@
                 <el-button size="mini" type="primary" v-show="scope.row.btnCancleable"  @click="cancelOrder(scope.$index, scope.row)">撤单</el-button>
             </template>
         </el-table-column>
-
       </el-table>
       <div class="paginationClass">
           <el-pagination
@@ -48,7 +47,7 @@ export default {
   name: "orderList",
   data() {
       return {
-        sdata:[], 
+        sdata:[],
         tableData:[],
         //每页显示多少条
         data_per_page: 20,
@@ -85,22 +84,16 @@ export default {
           };
 
           let paramurl = "?"+ qs.stringify(params);
-
-          this.$axios.get("/api/distance/qr/order" + paramurl)
+          fetch.get("/api/distance/qr/order" + paramurl)
                 //成功返回
-                .then(response => {
-                    if(response.status != 200)
-                    {
-                        this.$message.error("请求数据失败!");
-                        return;
-                    }                  
-                    if(response.data.code != 200)
+                .then(response => {              
+                    if(response.code != 200)
                     {     
-                        this.$message.error( response.data.message);
+                        this.$message.error( response.message);
                         return;
                     }
 
-                    this.sdata = response.data.data.orders;
+                    this.sdata = response.data.orders;
                     let tableData = [];
                     this.sdata.forEach(ele  => {
 
@@ -261,6 +254,6 @@ export default {
 }
 
 .tableStyle {
-  padding: 0.5em 1.5em 8em 1.5em;
+  padding: 0.5em 1.5em 5.5em 1.5em;
 }
 </style>

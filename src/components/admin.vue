@@ -3,18 +3,15 @@
     <div class="dashbaordheader">
       <a class="dashbaordtitle">路由宝管理系统</a>
       <ul class="float-right headerInfo">
-        <li>欢迎你</li>
-        <li style="width:4em; font-size:1.8em; text-align:right; margin-right:20px">{{userName}}</li>
-        <!--li>[杭州]</！li-->
+        <li>欢迎你，</li>
+        <li style="font-size:1.5em; margin-left:0.125em;">{{userName}}</li>
       </ul>
     </div>
     <el-container class="dashbaordnavbar">
       <el-header style="height:3em;">
         <div style="width:84%; height:100%; float:left; padding-bottom:0.25em">
-          <el-menu
-            style="height:100%;"
+          <el-menu class="el-menu-demo" style="height:100%;"
             :default-active="activeIndex"
-            class="el-menu-demo"
             mode="horizontal"
             @select="handleSelect"
             background-color="rgb(50,64,87)"
@@ -64,7 +61,7 @@ export default {
     },
     mounted: function() {      
        let url = this.$route.path;
-       if(url.indexOf("usermanager") != -1)
+       if(url.indexOf("manageuser") != -1)
        {
          this.changeMenu(2);
        }
@@ -90,7 +87,7 @@ export default {
         }
         if(key==2)
         { 
-          this.$router.push("/admin/usermanager");
+          this.$router.push("/admin/manageuser");
           this.changeMenu(2);
         }
 
@@ -121,7 +118,7 @@ export default {
       },
       personInfo()
       {
-          this.activeIndex = '';
+          this.changeMenu(0);
           this.$router.push({
             name:"AdminPersonInfo",
             params: { userid: this.$route.params.userid}});  
@@ -131,7 +128,6 @@ export default {
           let userMessage = JSON.parse(sessionStorage.getItem("userMessage"));
 
           let userid = userMessage.data.id;
-
           fetch.delete("/api/logout/"+userid)
             //成功返回
             .then(response => {
@@ -170,8 +166,6 @@ export default {
   text-align: left;
 }
 
-
-
 .headerInfo li {
   float: left;
   margin-left: 0.5em;
@@ -201,7 +195,6 @@ export default {
   padding: 0;
 }
 
-
 .dashbaordheader {
     height: 4em;
     line-height: 4em;
@@ -219,7 +212,7 @@ export default {
     font-weight: bold;
     color: #ffffff;
     font-size: 2em;
-    
+    letter-spacing: 0.125em;
 }
 
 .dashbaordnavbar {
@@ -228,5 +221,6 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
+    overflow: auto;
 }
 </style>

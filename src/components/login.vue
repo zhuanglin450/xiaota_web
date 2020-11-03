@@ -3,7 +3,7 @@
     <div class="login-container">
       <h1 class="title">路由宝</h1>
       <!-- ref="ruleForm", rules 是必须的  -->
-      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="left" label-width="4em" >
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="right" label-width="4em" >
         <el-form-item label="账号:" prop="account" >
           <el-input type="text" v-model="ruleForm.account" auto-complete="off" placeholder="账号" maxlength="20"></el-input>
         </el-form-item>
