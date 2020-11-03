@@ -206,6 +206,43 @@ export default {
     },
     forgotpassword()
     {
+      let account = this.ruleForm.account;
+
+      if(account != null && account.trim() != '')
+      {
+          //一定是用反单引号啊！不要写成单引号了！！
+          this.$confirm(`确定要重置[ ${this.ruleForm.account}]密码吗？`, '警告', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+              }).then(() => {
+                // 正常跳转
+                 
+                   this.$axios.put("/api/accounts/"+ this.ruleForm.account + "/password/reset",{})
+                  //成功返回
+                  .then(response => {
+                      if(response.status == 200 && response.data.code == 200) {
+                          this.$message.success('重置账户【' + this.ruleForm.account + '】密码成功!，请稍后到注册邮箱查看新密码');
+                      }
+                      else
+                      {
+                        this.$message.error('重置账户【' + this.ruleForm.account + '】密码失败!');
+                      }
+                  })
+                  //失败返回
+                  .catch(error => {
+                        this.$message.error("重置密码调用失败!");
+                  });
+
+              }).catch(() => {
+                // 如果取消跳转地址栏会变化，这时保持地址栏不变
+                var k = 0;
+              });
+
+
+
+      }
+
     },  
   },
   destroyed: function() {
