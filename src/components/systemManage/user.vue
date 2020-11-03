@@ -18,12 +18,12 @@
         max-height="360"
         row-key="id" border default-expand-all>
         <el-table-column align="center" prop="id" label="序号" width="50"></el-table-column>         <!--sortable --> 
-        <el-table-column align="center" prop="accout" label="账号" width="120"></el-table-column>
+        <el-table-column align="center" prop="account" label="账号" width="120"></el-table-column>
         <el-table-column align="center" prop="name" label="姓名" width="120"></el-table-column>
         <el-table-column header-align="center" prop="company" label="单位"></el-table-column>
         <el-table-column align="center" prop="email" label="邮箱" width="180"></el-table-column>
         <el-table-column align="center" prop="phone" label="手机" width="110"></el-table-column>
-        <el-table-column align="center" prop="role" label="角色" width="80"></el-table-column>
+        <el-table-column align="center" prop="roles" label="角色" width="80"></el-table-column>
       </el-table>
       <div class="paginationClass">
           <el-pagination
