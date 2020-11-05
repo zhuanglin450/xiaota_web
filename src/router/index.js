@@ -8,7 +8,8 @@ import AdminPersonInfo from '@/components/person/info'
 import QrOrderList from '@/components/qrorder/list'
 import adminQrOrderDetail from '@/components/qrorder/detail'
 import QrOrderQrcodeList from '@/components/qrorder/qrcodelist'
-import systemManage_User from '@/components/systemManage/user'
+import adminUserlist from '@/components/systemManage/userlist'
+import adminAdduser from '@/components/systemManage/adduser'
 
 import Login from '@/components/login'
 import SelfRegister from '@/components/person/SelfRegister'
@@ -66,9 +67,13 @@ const router = new Router({
                     name: 'AdminPersonInfo',
                     component: AdminPersonInfo,
                 },{
-                    path: '/admin/manageuser',
-                    name: 'adminSystemManage_User',
-                    component: systemManage_User,
+                    path: '/admin/manageusers',
+                    name: 'adminUserlist',
+                    component: adminUserlist,
+                },{
+                    path: '/admin/adduser',
+                    name: 'adminAdduser',
+                    component: adminAdduser,
                 },
                 {
                     path: '/admin/orderList',

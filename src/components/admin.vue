@@ -61,7 +61,7 @@ export default {
     },
     mounted: function() {      
        let url = this.$route.path;
-       if(url.indexOf("manageuser") != -1)
+       if(url.indexOf("user") != -1)
        {
          this.changeMenu(2);
        }
@@ -87,7 +87,7 @@ export default {
         }
         if(key==2)
         { 
-          this.$router.push("/admin/manageuser");
+          this.$router.push("/admin/manageusers");
           this.changeMenu(2);
         }
 

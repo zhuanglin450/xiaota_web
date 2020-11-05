@@ -233,6 +233,6 @@ a {
 }
 
 .tableStyle {
-  padding: 0.5em 1.5em 8em 1.5em;  
+  padding: 0.5em 1.5em 5.5em 1.5em;  
 }
 </style>

@@ -34,7 +34,8 @@ export default {
       return {  
           pPassword:"",
           pPassword2:"",
-          bUpdatePassword:false
+          bUpdatePassword:false,
+          accountInfo: null
       };
     },
     mounted:function(){
@@ -56,9 +57,7 @@ export default {
     created:function()
     {
       let userMessage = JSON.parse(sessionStorage.getItem("userMessage"));
-
       let userid = userMessage.data.id;
-
       this.getAccountInfor(userid); 
     },
     methods: {
