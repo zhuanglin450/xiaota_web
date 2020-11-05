@@ -18,7 +18,7 @@
             text-color="#fefefe"
             active-text-color="rgb(37,143,239)">
             <el-menu-item style="height:100%; line-height:3em" index="1">二维码订单</el-menu-item>
-            <el-menu-item style="height:100%; line-height:3em" index="2">系统管理</el-menu-item>
+            <el-menu-item v-if="bMenuUser" style="height:100%; line-height:3em" index="2">系统管理</el-menu-item>
           </el-menu>
         </div>
         <div style="width:15%; height:100%; float:right; line-height:1.5; font-size:12px; padding:0.8em 0">
@@ -51,6 +51,7 @@ export default {
   name: "admin",
   data() {
       return {
+        bMenuUser : false,
         userName:'',
         activeIndex: '',
         asideMenuData:[{
@@ -60,6 +61,18 @@ export default {
       };
     },
     mounted: function() {      
+
+       let rol = sessionStorage.getItem("roles") ;
+       if(rol != null)
+       {
+          let roles = JSON.parse(rol);
+          if(roles.find( x=>x.name.toLowerCase()=='admin') )
+          {
+            this.bMenuUser = true;
+          }
+       }
+       
+
        let url = this.$route.path;
        if(url.indexOf("user") != -1)
        {

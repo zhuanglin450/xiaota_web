@@ -174,6 +174,8 @@ export default {
             //route to different home page accroding to role
             var roles = userMessage.data.roles;
             
+            sessionStorage.setItem("roles",JSON.stringify(roles))
+
             if(roles.find( x=>x.name.toLowerCase()=='admin'))
             {
              this.$router.push({ name:"adminQrOrderList"});
