@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="clientVue"  style="margin-top:0">
     <div class="dashbaordheader">
       <a class="dashbaordtitle">路由宝客户系统</a>
       <ul class="float-right headerInfo">
@@ -60,9 +60,13 @@ export default {
     mounted: function() {      
        let url = this.$route.path;
        
-       if(url.indexOf("orderNew") != -1 )
+       if(url.indexOf("orderNewbatch") != -1 )
        {
-         this.activeIndex = '2';
+         this.activeIndex = '2-2';
+       }
+       else if(url.indexOf("orderNew") != -1 )
+       {
+         this.activeIndex = '2-1';
        }
        else if(url.indexOf("order") != -1){
          this.activeIndex = '1';
@@ -71,8 +75,8 @@ export default {
        {
          this.activeIndex = '';
        }
-       let userMessage = JSON.parse(sessionStorage.getItem("userMessage"));
-       this.userName = userMessage.data.account;
+       let userMessage2 = JSON.parse(sessionStorage.getItem("loginMsg"));
+       this.userName = userMessage2.data.account;
     },
     methods: {
       handleSelect(key, keyPath) {
@@ -85,12 +89,12 @@ export default {
         if(key=="2-1")
         { 
           this.$router.push("/client/orderNew");
-          this.activeIndex = '2';
+          this.activeIndex = '2-1';
         }
         if(key=="2-2")
         { 
           this.$router.push("/client/orderNewbatch");
-          this.activeIndex = '2';
+          this.activeIndex = '2-2';
         }
 
       },
@@ -102,9 +106,9 @@ export default {
       },
       goOut(){
 
-          let userMessage = JSON.parse(sessionStorage.getItem("userMessage"));
+          let userMessage2 = JSON.parse(sessionStorage.getItem("loginMsg"));
 
-          let userid = userMessage.data.id;
+          let userid = userMessage2.data.id;
 
           fetch.delete("/api/logout/"+userid)
             //成功返回
@@ -202,15 +206,11 @@ export default {
 
 <style>
 
-.el-menu--horizontal>.el-submenu .el-submenu__title 
+.clientVue .el-menu--horizontal>.el-submenu .el-submenu__title 
 {
-    height:100%;
-    line-height: 3;
-    border-bottom: 0px;
-}
-
-.el-menu.el-menu--horizontal {
-  border-bottom: 0px; 
-}
+    height:100% !important;
+    line-height: 3 !important;
+    border-bottom: 0px !important;
+} 
 
 </style>
