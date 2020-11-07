@@ -18,7 +18,7 @@
         <div><a>职位:</a><el-input placeholder="职位" v-model="accountInfo.title"></el-input></div>
         <div><a>地址:</a><el-input placeholder="地址" v-model="accountInfo.address"></el-input></div>
         <!--div><a>验证码:</a><el-input placeholder="验证码" ></el-input></!--div-->
-        <div><el-button style="width:12em; margin-top:0.25em;" @click="postUpdaeInfo">确认</el-button></div>
+        <div><el-button style="width:12em; margin-top:0.25em;" type="primary" @click="postUpdaeInfo">确认</el-button></div>
     </div>
   </div>
 </template>
@@ -35,7 +35,17 @@ export default {
           pPassword:"",
           pPassword2:"",
           bUpdatePassword:false,
-          accountInfo: null
+          // accountInfo: {
+          //   "account":"",
+          //   "name":"",
+          //   "phone":"",
+          //   "email":"",
+          //   "company":"",
+          //   "department":"",
+          //   "title":"",
+          //   "address":"",
+          //   "password":"",
+          // }
       };
     },
     mounted:function(){
@@ -71,7 +81,7 @@ export default {
         //必须使用this 调用！！， 在数据绑定时也可以因为直接的名称空间已经是this了。  
           if(this.bUpdatePassword)
           {
-            this.accountInfo.password = this.password;
+            this.accountInfo.password = this.pPassword;
           } 
           else
           {
@@ -106,11 +116,19 @@ export default {
 }
 
 .content {
-    margin-top:1em;
+    margin:1em auto;
+    width:32em;
 }
+
 .content div{
     height:3em;
 }
+
+.content > div {
+    width:100%;
+}
+
+
 .content a{
     width: 6em;
     text-align: right;

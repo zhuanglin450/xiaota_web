@@ -1,14 +1,13 @@
 <template>
-  <div>
+  <div style="margin-top:1em" class="clientorderNewVueBatch">
     <h3><a>批量生成新订单</a></h3>
     <div class="content" style="text-align:left">
-
-        <el-form ref="form" label-width="auto">
+        <el-form label-width="auto">
             <el-form-item label="预设名">
                 <el-input placeholder="预设名" v-model="pShowname"  style="width:100%"></el-input>
             </el-form-item>
             <el-form-item label="长度">
-                <el-input-number placeholder="长度" :min="1" v-model="pLen"></el-input-number>
+                <el-input-number placeholder="长度" :min="0" v-model="pLen"></el-input-number>
             </el-form-item>
             <el-form-item label="类型">
                 <el-select v-model="pType" default-first-option placeholder="请选择" class="type">
@@ -24,19 +23,6 @@
                 <!-- <el-button>取消</el-button> -->
             </el-form-item>
         </el-form>
-
-<!-- 
-        <div><a>预设名:</a><el-input placeholder="预设名" v-model="pShowname"></el-input></div>
-        <div><a>长度:</a><el-input placeholder="长度" v-model="pLen"></el-input></div>
-        <div><a>类型:</a>
-            <el-select v-model="pType" default-first-option placeholder="请选择">
-                <el-option key="1" label="固定码" value="固定码"></el-option>
-                <el-option key="2" label="通用码" value="通用码"></el-option>
-            </el-select>
-        </div>
-        <div><a>数量:</a><el-input placeholder="数量" v-model="pNum"></el-input></div>
-        
-        <div><el-button style="width:12em; margin-top:0.5em;">确认</el-button></div> -->
     </div>
   </div>
 </template>
@@ -53,8 +39,6 @@ export default {
       };
     },
     methods: {
-      //双击跳转
-
       onSubmit(){
 
         if(this.pShowname == null || this.pShowname == "")
@@ -76,53 +60,28 @@ export default {
             .then(response => {
                 if(response.status != 200)
                 {
-                    this.$alert('提交失败', '提示', {
-                            confirmButtonText: '确定',
-                            type: 'error',
-                    });
+                    -this.$alert('提交失败', '提示', { type: 'error', confirmButtonText: '确定'});
                     return;
                 }
                 
                 if(response.data.code != 200)
                 {     
-                    this.$alert('提交失败', '提示', {
-                            confirmButtonText: '确定',
-                            type: 'error',
-                    });
+                    this.$alert('提交失败', '提示', { type: 'error', confirmButtonText: '确定'});
                     return;
                 }
 
-                 this.$alert('提交成功', '提示', {
-                        confirmButtonText: '确定',
-                        type: 'success',
-                 });
+                this.$alert('提交成功', '提示', { type: 'success', confirmButtonText: '确定' });
             })
             //失败返回
             .catch(error => {
-                this.$alert('提交失败', '提示', {
-                        confirmButtonText: '确定',
-                        type: 'error',
-                });                     
+                this.$alert('提交失败', '提示', { type: 'error', confirmButtonText: '确定'});                   
             });
         }
     }
 };
 </script>
 
-<style>
-
-.el-input-number__decrease
-{
-    left:0.9em;
-    line-height: 2.25em;
-    overflow: hidden;
-}
-.el-input-number__increase
-{
-    right:1.9em;
-    line-height: 2.25em;
-    overflow: hidden;
-}
+<style scoped>
 
 .stitle {
   font-family: "Microsoft YaHei","微软雅黑";  
@@ -160,6 +119,23 @@ export default {
 .type .el-input
 {
     width:9em;
+}
+
+</style>
+
+<style>
+
+.clientorderNewVueBatch .el-input-number__decrease
+{
+    left:0.9em;
+    line-height: 2.25em;
+    overflow: hidden;
+}
+.clientorderNewVueBatch .el-input-number__increase
+{
+    right:1.8em;
+    line-height: 2.25em;
+    overflow: hidden;
 }
 
 </style>

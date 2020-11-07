@@ -122,7 +122,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 
 .el-link.el-link--info
 {
@@ -131,10 +131,6 @@ export default {
 
 .el-link.el-link--info:hover {
     color: #ffffff;
-}
-
-.admin_a {
-  color: #f0f0f0;
 }
 
 .headertitle {
@@ -165,27 +161,10 @@ export default {
 .el-header, .el-aside {
 	background-color:rgb(50,64,87); 
 }
-
-.el-submenu__title{
-    height:100%;
-    line-height: 3;
-}
-
-.el-menu--horizontal>.el-submenu .el-submenu__title 
-{
-    height:100%;
-    line-height: 3;
-    border-bottom: 0px;
-}
-
-.el-menu.el-menu--horizontal {
-  border-bottom: 0px !important; 
-}
-
+ 
 .el-header ul.el-menu{
     border-bottom: 0px;
 }
-
 
 .dashbaordheader {
     height: 4em;
@@ -207,6 +186,10 @@ export default {
     letter-spacing: 0.125em;
 }
 
+.dashbaordtitle:hover {
+    text-decoration: none;
+} 
+
 .dashbaordnavbar {
     position: fixed;
     top: 4em;
@@ -214,5 +197,20 @@ export default {
     width: 100%;
     height: 100%;
     overflow: auto;
+} 
+</style>
+
+<style>
+
+.el-menu--horizontal>.el-submenu .el-submenu__title 
+{
+    height:100%;
+    line-height: 3;
+    border-bottom: 0px;
 }
+
+.el-menu.el-menu--horizontal {
+  border-bottom: 0px; 
+}
+
 </style>

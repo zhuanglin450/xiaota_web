@@ -311,10 +311,6 @@ export default {
   width:100%
 }
 
-.el-form-item__content {
-  line-height: 2em;
-}
-
 .el-alert {
   padding: 0 1em;
   line-height: 2em;

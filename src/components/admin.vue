@@ -228,6 +228,10 @@ export default {
     letter-spacing: 0.125em;
 }
 
+.dashbaordtitle:hover {
+    text-decoration: none;
+}
+
 .dashbaordnavbar {
     position: fixed;
     top: 4em;

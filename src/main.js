@@ -11,10 +11,8 @@ import { BootstrapVue ,BootstrapVueIcons} from "bootstrap-vue"
 Vue.use(BootstrapVueIcons)
 Vue.use(BootstrapVue);
 
-//css 
-import "./style/base.css"
-import './style/common.css'
 
+//toast 延迟弹框
 import {toast} from "../src/assets/js/toast"
 Vue.config.productionTip = false
 Vue.prototype.toast=toast
@@ -33,6 +31,11 @@ Array.prototype.getArrayIndex=function(obj){
   }
   return -1
 }
+
+//css 
+import "./style/base.css"
+import './style/common.css'
+
 
 import axios from 'axios'
 // import fetch from './assets/js/fetch'

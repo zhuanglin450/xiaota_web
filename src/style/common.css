@@ -40,6 +40,10 @@ div {
     float: right;
 }
 
+a.el-link:hover {
+    text-decoration: none;
+}
+
 .el-input {
     width: 12em;
     height: 2.25em;
@@ -75,6 +79,26 @@ div {
 
 .el-table th {
     padding: 0.6em 0;
+}
+
+.el-form-item {
+    margin-bottom: 0.75em ;
+}
+
+.el-form-item.is-error{
+    margin-bottom: 1.75em;
+}
+
+.el-form-item__content {
+    line-height: 2em;
+}
+ 
+.el-form-item__label {
+    line-height: 2em;
+    margin-bottom: 0em;
+}
+.el-form-item__error {
+    left:2em;
 }
 
 .flex-center {

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="margin-top:1em" class="clientorderNewVue" >
     <h3><a>逐个生成新订单</a></h3>
     <div class="tableStyle">
       <!--div style="text-align:left">
@@ -14,7 +14,7 @@
             </template>
         </el-table-column>
         <el-table-column align="center" label="类型" width="190">
-            <template  slot-scope="scope">
+            <template slot-scope="scope">
                 <el-select v-model="scope.row.type" default-first-option placeholder="请选择" class="type">
                     <el-option key="1" label="固定码" value="0"></el-option>
                     <el-option key="2" label="通用码" value="1"></el-option>
@@ -66,7 +66,7 @@ export default {
         dynamicValidateForm:{
             orders: [{
                 preset_name:"",
-                type:1,  
+                type:"1",  
                 distance:0, 
                 count:1, 
                 serial_number:""
@@ -124,14 +124,10 @@ export default {
             .then(response => {
                 if(response.code != 200 || response.data.errorCode !=0)
                 {
-                    this.$alert('提交失败', '提示', {
-                            confirmButtonText: '确定',
-                            type: 'error',
-                    });
+                    this.$alert('提交失败', '提示', { type: 'error', confirmButtonText: '确定'});
                     return;
                 }
-                else{
-
+                else{ 
                     this.$alert('提交成功', '提示', {
                             confirmButtonText: '确定',
                             type: 'success',
@@ -140,10 +136,7 @@ export default {
             })
             //失败返回
             .catch(error => {
-                this.$alert('提交失败', '提示', {
-                        confirmButtonText: '确定',
-                        type: 'error',
-                });                     
+                  this.$alert('提交失败', '提示', { type: 'error', confirmButtonText: '确定'});                   
             });
         }, 
 
@@ -168,18 +161,7 @@ export default {
 
 <style scoped>
 
-.el-input-number__decrease
-{
-    left:0.9em !important;
-    line-height: 2.25em !important;
-    overflow: hidden !important;
-}
-.el-input-number__increase
-{
-    right:0.9em !important;
-    line-height: 2.25em !important;
-    overflow: hidden !important;
-}
+
 
 .stitle {
   font-family: "Microsoft YaHei","微软雅黑";  
@@ -204,6 +186,23 @@ export default {
 
 .tableStyle .el-table .cell {
     padding: 0 0.25em;
+}
+
+</style>
+
+<style>
+
+.clientorderNewVue .el-input-number__decrease
+{
+    left:0.9em ;
+    line-height: 2.25em ;
+    overflow: hidden ;
+}
+.clientorderNewVue .el-input-number__increase
+{
+    right:1.8em ;
+    line-height: 2.25em ;
+    overflow: hidden ;
 }
 
 </style>

@@ -37,7 +37,8 @@
         </el-form-item>
         <!--div><a>验证码:</a><el-input placeholder="验证码" ></el-input></!--div -->
         <el-form-item>
-          <el-button type="primary" style="width:12em; margin-top:0.5em;" @click="postRegist">立即注册</el-button>
+          <el-button type="primary" style="width:10em; margin-top:0.5em;" @click="postRegist">立即注册</el-button>
+          <el-button style="width:6em; margin-left:1em;" @click="goback">返回</el-button>
         </el-form-item>
 
       </el-form>    
@@ -55,7 +56,10 @@ export default {
         if (value === "") {
           callback(new Error("请输入密码"));
         }
-        else if(value != this.ruleForm.pPassword){
+        else if (value.length < 6) {
+          callback(new Error("密码长度不能小于6位"));
+        }
+        else if (rule.field == "pPassword2" && value != this.ruleForm.pPassword){
           callback(new Error("二次输入密码不一样"));
         }
       }
@@ -75,10 +79,11 @@ export default {
         },
         rules: {
           pAccount:[{required: true, message: '请填写账号', trigger: 'change'}],
-          pPassword:[{required: true, message: '请填写密码', trigger: 'change'}],
           pShowname:[{required: true, message: '请填写姓名', trigger: 'change'}],
-          pPassword2:[{required: true, message: '请填写姓名', trigger: 'change'},
-                        { validator: validatePass, trigger: "change" }],
+          pPassword:[{required: true, message: '请填写密码', trigger: 'change'},
+                    { validator: validatePass, trigger: "change" }],
+          pPassword2:[{required: true, message: '请填写密码', trigger: 'change'},
+                    { validator: validatePass, trigger: "change" }],
           pTel:[{required: true, min:11, max:11, message: '输入位数有误', trigger: 'blur'}]
         }
       };
@@ -125,42 +130,15 @@ export default {
             return false;
           }
         });
-
       },
+      goback(){
+          this.$router.push({ path:"/login" });
+      }
     },
 };
 </script>
 
-<style>
-
-.el-link.el-link--info
-{
-  color: #fbfbfb;
-}
-
-.el-link.el-link--info:hover {
-    color: #ffffff;
-}
-
-.el-form-item {
-  margin-bottom:0.375em;
-}
-
-.el-form-item.is-error{
-  margin-bottom:0.875em;
-}
-
-
-.content1 .el-form-item__label {
-  line-height: 2em !important;
-  margin-top: 0.5em !important;
-  margin-bottom: 0em !important;
-}
-
-.content1 .el-form-item__error {
-  padding-top: 0;
-  left:1em;
-}
+<style scoped>
 
 .header1 {
   height: 4em;
@@ -179,25 +157,7 @@ export default {
   font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
   letter-spacing: 0.375em;
 }
-
-.el-menu-item {
-  height: 40px;
-  line-height: 40px;
-}
-
-.el-menu.el-menu--horizontal {
-  border-bottom: 0px;
-}
-
-.el-header, .el-aside {
-	background-color:rgb(50,64,87); 
-}
-
-.el-submenu__title{
-    height:100% !important;
-    line-height: 3em !important;
-}
-
+ 
 .content1 {
     margin-top:1.5em;
 }
@@ -205,6 +165,7 @@ export default {
     margin: 0 auto;
     width:26em;
 }
+
 .content1 a{
     width: 6em;
     text-align: right;
@@ -212,7 +173,12 @@ export default {
     color:#606266;
 }
 
-.el-input {
+.content1 .el-input {
   width:20em;
 }
+
+.content1 .el-input + .el-form-item__error {
+  left:1em;
+}
+
 </style>

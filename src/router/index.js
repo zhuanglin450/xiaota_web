@@ -3,7 +3,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Admin from '@/components/admin'
-import AdminPersonInfo from '@/components/person/info'
+import personInfo from '@/components/person/info'
 
 import QrOrderList from '@/components/qrorder/list'
 import adminQrOrderDetail from '@/components/qrorder/detail'
@@ -15,26 +15,35 @@ import Login from '@/components/login'
 import SelfRegister from '@/components/person/SelfRegister'
 
 import Client from '@/components/client'
-import ClientPersonInfo from '@/components/person/info'
+// import personInfo from '@/components/person/info'
 
 import ClientOrderList from '@/components/clientorder/list'
 import ClientOrderDetail from '@/components/clientorder/detail'
 import ClientOrderNewBatch from '@/components/clientorder/newBatch'
 import ClientOrderNew from '@/components/clientorder/new'
 
-// //push
-// const VueRouterPush = Router.prototype.push
-// Router.prototype.push = function push(to) {
-//     return VueRouterPush.call(this, to).catch(err => err)
+
+//cv以下代码解决路由地址重复的报错问题(一劳永逸)
+// const originalPush = VueRouter.prototype.push
+// VueRouter.prototype.push = function push(location) {
+//    return originalPush.call(this, location).catch(err => err)
 // }
 
-// //replace
-// const VueRouterReplace = Router.prototype.replace
-// Router.prototype.replace = function replace(to) {
-//     return VueRouterReplace.call(this, to).catch(err => err)
-// }
 
 Vue.use(Router)
+
+//push
+const VueRouterPush = Router.prototype.push
+Router.prototype.push = function push(to) {
+    return VueRouterPush.call(this, to).catch(err => err)
+}
+
+//replace
+const VueRouterReplace = Router.prototype.replace
+Router.prototype.replace = function replace(to) {
+    return VueRouterReplace.call(this, to).catch(err => err)
+}
+
 
 const router = new Router({
     mode: "hash", //hash模式的工作原理是hashchange事件，可以在window监听hash的变化。我们在url后面随便添加一个#xx触发这个事件。
@@ -65,7 +74,7 @@ const router = new Router({
                 {
                     path: '/admin/personinfos',
                     name: 'AdminPersonInfo',
-                    component: AdminPersonInfo,
+                    component: personInfo,
                 },{
                     path: '/admin/manageusers',
                     name: 'adminUserlist',
@@ -102,7 +111,7 @@ const router = new Router({
             children: [{
                     path: '/client/personinfos',
                     name: 'ClientPersonInfo',
-                    component: ClientPersonInfo,
+                    component: personInfo,
                 },
                 {
                     path: '/client/orderlist',
