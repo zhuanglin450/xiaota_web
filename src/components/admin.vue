@@ -87,8 +87,8 @@ export default {
          this.changeMenu(0);
        }
 
-       let userMessage = JSON.parse(sessionStorage.getItem("userMessage"));
-       this.userName = userMessage.data.account;
+       let userMessage2 = JSON.parse(sessionStorage.getItem("loginMsg"));
+       this.userName = userMessage2.data.account;
     },
     methods: {
       handleSelect(key, keyPath) {
@@ -138,9 +138,8 @@ export default {
       },
       goOut()
       {
-          let userMessage = JSON.parse(sessionStorage.getItem("userMessage"));
-
-          let userid = userMessage.data.id;
+          let userMessage2 = JSON.parse(sessionStorage.getItem("loginMsg"));
+          let userid = userMessage2.data.id;
           fetch.delete("/api/logout/"+userid)
             //成功返回
             .then(response => {

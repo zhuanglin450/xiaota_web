@@ -4,31 +4,31 @@ export default{
         accounts:[]
     },
     mutations:{
-        setAccounts(state,data){
-            state.accounts=data
-        }
+        // setAccounts(state,data){
+        //     state.accounts=data
+        // }
     },
     actions:{
         //获取用户列表
-        async getAccounts({commit}){
-            let data=await fetch.get("/api/accounts?roles=&offset=&limit=99999")
-            commit("setAccounts",data.data.accounts)
-        },
+        // async getAccounts({commit}){
+        //     let data=await fetch.get("/api/accounts?roles=&offset=&limit=99999")
+        //     commit("setAccounts",data.data.accounts)
+        // },
         //添加用户
-        async postUser({commit},stark){
-            await fetch.post("/api/accounts",stark)
-        },
+        // async postUser({commit},stark){
+        //     await fetch.post("/api/accounts",stark)
+        // },
         //编辑用户信息
-        async edit_user({commit},stark){
-            await fetch.put("/api/accounts/"+stark.accountId,stark.user_form)
-        },
+        // async edit_user({commit},stark){
+        //     await fetch.put("/api/accounts/"+stark.accountId,stark.user_form)
+        // },
         //重置密码
-        resetWord({commit},stark){
-            fetch.delete("/api/accounts/"+stark.accountId+"/password")
-        },
+        // resetWord({commit},stark){
+        //     fetch.delete("/api/accounts/"+stark.accountId+"/password")
+        // },
         //删除用户信息
-        async deleteUser({commit},stark){
-            await fetch.delete("/api/accounts/"+stark.accountId)
-        }
+        // async deleteUser({commit},stark){
+        //     await fetch.delete("/api/accounts/"+stark.accountId)
+        // }
     }
 }

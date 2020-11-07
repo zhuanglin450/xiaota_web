@@ -17,14 +17,11 @@ Axios.interceptors.response.use(
       let appVue = document.getElementById("app").__vue__;
       switch (error.response.status) {
         case 401:
-          let userMessage = JSON.parse(sessionStorage.getItem("userMessage"));
-          store.commit({
-            type: "islogin",
-            flag: false
-          });
-          await store.dispatch("deletLogin", { accountId: userMessage.id });
+          let userMessage2 = JSON.parse(sessionStorage.getItem("loginMsg"));
+          store.commit({ type: "islogin", flag: false });
+          await store.dispatch("deletLogin", { accountId: userMessage2.id });
           router.push("/");
-          if (sessionStorage.getItem("code") != 401) {
+          if (sessionStorage.getItem("preErrStatus") != 401) {
             appVue.toast(error.response.data.message, "danger", "操作提示");
           }
           break;
@@ -35,8 +32,8 @@ Axios.interceptors.response.use(
           appVue.toast(error.response.data.message, "danger", "操作提示");
           break;
       }
-      // 记录上次请求，防止多次错误提示
-      sessionStorage.setItem("code", error.response.status);
+      // 记录上次请求，防止多次401错误提示
+      sessionStorage.setItem("preErrStatus", error.response.status);
     }
     return Promise.reject(error);
   }

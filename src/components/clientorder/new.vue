@@ -15,7 +15,7 @@
         </el-table-column>
         <el-table-column align="center" label="类型" width="190">
             <template slot-scope="scope">
-                <el-select v-model="scope.row.type" default-first-option placeholder="请选择" class="type">
+                <el-select v-model="scope.row.type" default-first-option placeholder="请选择">
                     <el-option key="1" label="固定码" value="0"></el-option>
                     <el-option key="2" label="通用码" value="1"></el-option>
                 </el-select>
@@ -24,8 +24,7 @@
         <el-table-column align="center" label="长度" width="190">
             <template slot-scope="scope">
                 <el-input-number type="number" v-model="scope.row.distance" :min="0" ></el-input-number >
-            </template>         
-
+            </template>
         </el-table-column>
         <el-table-column align="center" prop="operate" label="操作" width="140">
             <template slot-scope="scope">
@@ -160,8 +159,6 @@ export default {
 </script>
 
 <style scoped>
-
-
 
 .stitle {
   font-family: "Microsoft YaHei","微软雅黑";  

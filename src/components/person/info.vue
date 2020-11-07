@@ -66,8 +66,8 @@ export default {
     },
     created:function()
     {
-      let userMessage = JSON.parse(sessionStorage.getItem("userMessage"));
-      let userid = userMessage.data.id;
+      let userMessage2 = JSON.parse(sessionStorage.getItem("loginMsg"));
+      let userid = userMessage2.data.id;
       this.getAccountInfor(userid); 
     },
     methods: {
@@ -88,9 +88,8 @@ export default {
             this.accountInfo.password = null;
           }
               
-         let userMessage = JSON.parse(sessionStorage.getItem("userMessage"));
-
-         let userid = userMessage.data.id;
+         let userMessage2 = JSON.parse(sessionStorage.getItem("userMessage2"));
+         let userid = userMessage2.data.id;
          this.setAccountInfor({
               userid: userid,
               account_info: this.accountInfo  

@@ -28,6 +28,9 @@
 </template>
 
 <script>
+import fetch from "../../assets/js/fetch";
+import qs from "querystring";
+
 export default {
   name: "newBatch",
   data() {
@@ -55,16 +58,10 @@ export default {
                 'count': this.pNum
             }]
         };
-        this.$axios.post("/api/distance/qr/order", params)
+        fetch.post("/api/distance/qr/order", params)
             //成功返回
-            .then(response => {
-                if(response.status != 200)
-                {
-                    -this.$alert('提交失败', '提示', { type: 'error', confirmButtonText: '确定'});
-                    return;
-                }
-                
-                if(response.data.code != 200)
+            .then(response => {   
+                if(response.code != 200)
                 {     
                     this.$alert('提交失败', '提示', { type: 'error', confirmButtonText: '确定'});
                     return;

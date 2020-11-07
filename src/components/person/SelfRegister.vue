@@ -158,6 +158,10 @@ export default {
   letter-spacing: 0.375em;
 }
  
+.headertitle1:hover {
+    text-decoration: none;
+} 
+
 .content1 {
     margin-top:1.5em;
 }

@@ -168,10 +168,10 @@ router.beforeEach((to, from, next) => {
 /**
  * 刷新islogin的值,否则在login时娶不到isLogin的值,会报错
  */
-  if (window.sessionStorage.getItem("islogin")) { 
+  if (window.sessionStorage.getItem("islogin2")) { 
     store.commit({
       type: "islogin",
-      flag: window.sessionStorage.getItem("islogin")
+      flag: window.sessionStorage.getItem("islogin2")
     });
   }
 

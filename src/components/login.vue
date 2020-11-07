@@ -127,55 +127,45 @@ export default {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
 
-          this.$store.commit({
-                      type: "login",
+
+            let params = { 
                       account: this.ruleForm.account,
-                      userpass: this.ruleForm.pass,
-            });
-            
-            await this.doLoginAction();
+                      password: this.ruleForm.pass,
+            };
+            await this.doLoginAction(params);
 
-            let code = JSON.parse(sessionStorage.getItem("code"));
-            if (code !== 200) {
-                this.$message({
-                message: "用户名或密码错误",
-                type: "error",
-              });
-              return;
+            let userMessage2 = JSON.parse(sessionStorage.getItem("loginMsg"));
+            if(userMessage2.code != 200)
+            {
+                this.$message({ message: "用户名或密码错误", type: "error"});
+                return;
             }
+            // sessionStorage.setItem("oldPassword",
+            //   JSON.stringify(this.ruleForm.pass)
+            // );
 
-          let userMessage = JSON.parse(sessionStorage.getItem("userMessage"));          
-          sessionStorage.setItem(
-            "oldPassword",
-            JSON.stringify(this.ruleForm.pass)
-          );
-
-          // let permissions = userMessage;
-          // let permissionBits = [];
-          // permissions.map((item, i) => {
-          //   for (let i = 0; i < userRolePermissions.length; i++) {
-          //     if ((item.bit & userRolePermissions[i]) === item.bit) {
-          //       permissionBits.push(item.bit);
-          //     }
+            // let permissions = userMessage2;
+            // let permissionBits = [];
+            // permissions.map((item, i) => {
+            //   for (let i = 0; i < userRolePermissions.length; i++) {
+            //     if ((item.bit & userRolePermissions[i]) === item.bit) {
+            //       permissionBits.push(item.bit);
+            //     }
+            //   }
+            // });
+  
+            this.$message({ message: "恭喜，登录成功", type: "success"});
+          // if (sessionStorage.getItem("history_path")) {
+          //     // 跳转审核后，清除历史
+          //     this.$router.push(sessionStorage.getItem("history_path"));
+          //     sessionStorage.removeItem("history_path");
+          //   } else {
+          //     this.$router.push("entry");
           //   }
-          // });
- 
-          this.$message({ message: "恭喜，登录成功", type: "success"});
-          this.$store.commit({ type: "islogin", flag: true});
-        // if (sessionStorage.getItem("history_path")) {
-        //     // 跳转审核后，清除历史
-        //     this.$router.push(sessionStorage.getItem("history_path"));
-        //     sessionStorage.removeItem("history_path");
-        //   } else {
-        //     this.$router.push("entry");
-        //   }
 
           
             //route to different home page accroding to role
-            var roles = userMessage.data.roles;
-            
-            sessionStorage.setItem("roles",JSON.stringify(roles))
-
+            var roles = userMessage2.data.roles;
             if(roles.find( x=>x.name.toLowerCase()=='admin'))
             {
              this.$router.push({ name:"adminQrOrderList"});

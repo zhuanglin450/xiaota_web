@@ -2,7 +2,8 @@
   <div>
     <div class="stitlebar">
       <a class="float-left" style="color: royalblue; text-decoration:none;">系统管理 / 用户管理 / 添加用户 </a>
-      <a class="float-right" style="text-decoration:underline;" @click="goback">返回</a>
+      <el-link class="float-right" type="info"  @click="goback">返回</el-link>
+      <!-- <a class="float-right" style="text-decoration:underline;" @click="goback">返回</a> -->
     </div>
     <div class="content">
         <div><a>账号:</a><el-input placeholder="账号" v-model="accountInfo.account" maxlength="20"></el-input></div>
@@ -15,10 +16,21 @@
         <div><a>部门:</a><el-input placeholder="部门" v-model="accountInfo.department" maxlength="32"></el-input></div>
         <div><a>职位:</a><el-input placeholder="职位" v-model="accountInfo.title" maxlength="32" ></el-input></div>
         <div><a>地址:</a><el-input placeholder="地址" v-model="accountInfo.address" maxlength="100"></el-input></div>
+        <div class="rolesSelDiv"><a>角色:</a><div class="rolesSel">
+          <el-checkbox-group v-model="selroles">
+            <el-checkbox v-for="role1 in allroles" :label="role1.label" :key="role1.id"></el-checkbox>
+          </el-checkbox-group></div>
+          <!-- <el-select v-model="accountInfo.roles" default-first-option placeholder="请选择" class="rolesSel">
+              <el-option key="1" label="1" value="1"></el-option>
+              <el-option key="2" label="2" value="2"></el-option>
+              <el-option key="3" label="3" value="3"></el-option>
+              <el-option key="4" label="4" value="4"></el-option>
+          </el-select> -->
+        </div>
         <div v-if="isError" style="width:18em; height:2em; margin:0 auto" >
-          <el-alert  style="height:2em;"  :title="errorMsg"  type="error" :closable="false"></el-alert></div>
+          <el-alert style="height:2em;" :title="errorMsg"  type="error" :closable="false"></el-alert></div>
         <!--div><a>验证码:</a><el-input placeholder="验证码" ></el-input></!--div-->
-        <div><el-button style="width:12em; margin-top:0.25em;" @click="postUpdaeInfo">确认</el-button></div>
+        <div><el-button style="width:8em; margin-top:0.125em" type="primary" @click="postUpdaeInfo">确认</el-button></div>
     </div>
   </div>
 </template>
@@ -45,8 +57,13 @@ export default {
             'company':"",
             'department':"",
             'address':"",
-            'roles':"2"
+            'roles':""
           },
+          allroles:[{id:"6", label:"1"},
+                    {id:"7", label:"2"},
+                    {id:"8", label:"3"},
+                    {id:"9", label:"4"}],
+          selroles:[],                    
           isError:false,
           errorMsg:""
 
@@ -57,14 +74,18 @@ export default {
      },
     created:function()
     {
-      // let userMessage = JSON.parse(sessionStorage.getItem("userMessage"));
-      // let userid = userMessage.data.id;
+      // let userMessage2 = JSON.parse(sessionStorage.getItem("loginMsg"));
+      // let userid = userMessage2.data.id;
       // this.getAccountInfor(userid);
     },
     methods: {
       //双击跳转
       postUpdaeInfo(){
         //必须使用this 调用！！， 在数据绑定时也可以因为直接的名称空间已经是this了。            
+        
+        let str = "";
+        this.selroles.forEach(ele=> str += ele + ",");
+        this.accountInfo.roles = str.substr(0, str.length-1);
 
         if(this.accountInfo.account == "")
         {
@@ -132,19 +153,28 @@ export default {
 
 <style scoped>
 
+.el-link.el-link--info
+{
+  color: #fbfbfb;
+}
+
+.el-link.el-link--info:hover {
+    color: #ffffff;
+}
+
 .stitlebar {
   font-family: "Microsoft YaHei","微软雅黑";  
   height: 2em;
-  line-height: 2em;
-  padding: 0 2em;
+  line-height: 1.25;
+  padding: 0.4em 2em;
   background-color: lightblue;
 }
 
 .content {
     margin-top:1em;
 }
-.content div{
-    height:3em;
+.content > div{
+    height:2.9em;
 }
 .content a{
     width: 6em;
@@ -152,7 +182,18 @@ export default {
     display: inline-block;
 }
 
-.el-input{
+.el-input {
     width:21em;
 }
+
+.rolesSelDiv  {
+  height: 1.8em !important;
+  margin-bottom: 0.2em;
+}
+
+.rolesSel  {
+  width:21em;
+  display: inline-block;
+}
+ 
 </style>

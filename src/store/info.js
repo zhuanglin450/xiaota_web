@@ -8,7 +8,7 @@ export default{
         setaccountInfo(state,data){
             state.account_info=data;
         },
-       setaccountInfoServer(state,data){
+        setaccountInfoServer(state,data){
             state.account_info_server = data;
         }
     },
@@ -25,7 +25,6 @@ export default{
               else
                {
                 var appVue = document.getElementById("app").__vue__;
-
                 appVue.$message.error("获取个人信息失败");
               }
         }, 
@@ -42,7 +41,6 @@ export default{
               else
                {
                    var appVue = document.getElementById("app").__vue__;
-
                     appVue.$message.error("更新个人信息失败");
               }            
         }, 
