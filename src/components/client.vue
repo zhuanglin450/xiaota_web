@@ -18,7 +18,6 @@
             text-color="#fefefe"
             active-text-color="rgb(37,143,239)">
             <el-menu-item style="height:100%; line-height:3" index="1">订单列表</el-menu-item>
-            <!-- <el-menu-item style="height:100%; line-height:3em" index="2">新订单</el-menu-item> -->
             <el-submenu style="height:100%; line-height:3" index="2">
                 <template slot="title">新订单</template>
                 <el-menu-item index="2-1">逐个添加</el-menu-item>
@@ -43,6 +42,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import fetch from "../assets/js/fetch";
 
 export default {
@@ -79,6 +79,7 @@ export default {
        this.userName = userMessage2.data.account;
     },
     methods: {
+      ...mapActions(["doLogoutAction"]),
       handleSelect(key, keyPath) {
          //console.log(key, keyPath);
         if(key==1)
@@ -104,22 +105,24 @@ export default {
             name:"ClientPersonInfo",
             params: { userid: this.$route.params.userid}});  
       },
-      goOut(){
+      async goOut(){
 
           let userMessage2 = JSON.parse(sessionStorage.getItem("loginMsg"));
-
           let userid = userMessage2.data.id;
 
-          fetch.delete("/api/logout/"+userid)
-            //成功返回
-            .then(response => {
-                this.$router.push({ path:"/login" });
-            })
-            //失败返回
-            .catch(error => {
-                   //this.$message.error("注销失败");
-                   this.$router.push({ path:"/login" });
-            });
+          await this.doLogoutAction({'accountId':userid});
+          this.$router.push({ path:"/login" });
+
+          // fetch.delete("/api/logout/"+userid)
+          //   //成功返回
+          //   .then(response => {
+          //       this.$router.push({ path:"/login" });
+          //   })
+          //   //失败返回
+          //   .catch(error => {
+          //          //this.$message.error("注销失败");
+          //          this.$router.push({ path:"/login" });
+          //   });
       }
       //methods over
     },

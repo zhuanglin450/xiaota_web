@@ -48,7 +48,12 @@ export default {
         // appVue.$message({ message: "用户名或密码错误", type: "error"});
 
         commit({ type: "islogin", flag: true}); 
-        sessionStorage.setItem("roles",JSON.stringify(data.data.roles));
+
+        let dataR = await fetch.get("/api/roles");
+        if (dataR.code == 200) {
+            sessionStorage.setItem("roles",JSON.stringify(dataR.data.roles));
+            console.log("dataR.data.roles",dataR.data.roles);
+        }
       }
     },
     // async putPassword({ commit }, stark) {
@@ -57,7 +62,7 @@ export default {
     //     stark.password
     //   );
     // },
-    async deletLogin({ commit }, stark) {
+    async doLogoutAction({ commit }, stark) {
       await fetch.delete("/api/logout/" + stark.accountId);
 
       console.log("deletLogin");

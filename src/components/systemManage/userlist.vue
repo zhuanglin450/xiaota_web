@@ -64,7 +64,6 @@ export default {
     };
   },
   mounted() {
-    console.log(11);
     this.requestData();
   },
   methods: {
@@ -72,7 +71,9 @@ export default {
       let params = {
           'roles': null,
           'offset': (this.data_current_page - 1) * this.data_per_page,
-          'limit': this.data_per_page
+          'limit': this.data_per_page,
+          'account':this.inputAccout,
+          'name':this.inputName,
         };
 
         let url = "/api/accounts?";

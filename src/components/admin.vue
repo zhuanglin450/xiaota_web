@@ -45,6 +45,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import fetch from "../assets/js/fetch";
 
 export default {
@@ -60,12 +61,13 @@ export default {
         }]
       };
     },
-    mounted: function() {      
+    mounted: function() {
 
-       let rol = sessionStorage.getItem("roles") ;
-       if(rol != null)
+      //  let rol = sessionStorage.getItem("roles") ;
+       let userMessage2 = JSON.parse(sessionStorage.getItem("loginMsg"));
+       if(userMessage2 != null && userMessage2.data !=null && userMessage2.data.roles !=null)
        {
-          let roles = JSON.parse(rol);
+          let roles = userMessage2.data.roles;
           if(roles.find( x=>x.name.toLowerCase()=='admin') )
           {
             this.bMenuUser = true;
@@ -87,10 +89,10 @@ export default {
          this.changeMenu(0);
        }
 
-       let userMessage2 = JSON.parse(sessionStorage.getItem("loginMsg"));
        this.userName = userMessage2.data.account;
     },
     methods: {
+      ...mapActions(["doLogoutAction"]),
       handleSelect(key, keyPath) {
         // console.log(key, keyPath);
         if(key==1)
@@ -136,21 +138,25 @@ export default {
             name:"AdminPersonInfo",
             params: { userid: this.$route.params.userid}});  
       },
-      goOut()
+      async goOut()
       {
           let userMessage2 = JSON.parse(sessionStorage.getItem("loginMsg"));
           let userid = userMessage2.data.id;
-          fetch.delete("/api/logout/"+userid)
-            //成功返回
-            .then(response => {
-               this.$router.push({ path:"/login" });
-            })
-            //失败返回
-            .catch(error => {
-                   //this.$message.error("注销失败");
-                   this.$router.push({ path:"/login" });
-            });
-      }
+
+          await this.doLogoutAction({'accountId':userid});
+          this.$router.push({ path:"/login" });
+
+      //      fetch.delete("/api/logout/"+userid)
+      //       //成功返回
+      //       .then(response => {
+      //          this.$router.push({ path:"/login" });
+      //       })
+      //       //失败返回
+      //       .catch(error => {
+      //              //this.$message.error("注销失败");
+      //              this.$router.push({ path:"/login" });
+      //       });
+       }
       //methods over
     },
 };

@@ -70,7 +70,21 @@ export default {
       };
     },
     mounted:function(){
-       let url = this.$route.path.toLowerCase();
+        let roles = JSON.parse(sessionStorage.getItem("roles"));
+        if(roles != null)
+        {
+            let arr = [];
+            roles.forEach(ele => {
+                arr.push({
+                    id: ele.id,
+                    label: ele.role_display_name
+                });
+            });
+            this.allroles = arr;
+        }
+
+       
+      //  let url = this.$route.path.toLowerCase();
      },
     created:function()
     {
@@ -83,9 +97,13 @@ export default {
       postUpdaeInfo(){
         //必须使用this 调用！！， 在数据绑定时也可以因为直接的名称空间已经是this了。            
         
-        let str = "";
-        this.selroles.forEach(ele=> str += ele + ",");
-        this.accountInfo.roles = str.substr(0, str.length-1);
+        let roles = JSON.parse(sessionStorage.getItem("roles"));
+        if(roles == null)
+        {
+          this.isError = true;
+          this.errorMsg = "角色不能为空"
+          return ;
+        }
 
         if(this.accountInfo.account == "")
         {
@@ -117,8 +135,27 @@ export default {
           this.errorMsg = "邮箱不能为空"
           return ;
         }
+        if(this.selroles.length == 0 )
+        {
+          this.isError = true;
+          this.errorMsg = "请选择角色"
+          return ;
+        }
+        
+
         this.isError = false;
 
+        //查角色id
+        let str = "";
+        this.selroles.forEach(ele=> {
+            roles.forEach(ele2 => {
+                if(ele2.role_display_name == ele)
+                {
+                    str += ele2.id + ",";
+                }
+            });
+        });
+        this.accountInfo.roles = str.substr(0, str.length-1);
 
         let params = this.accountInfo;
         fetch.post("/api/accounts", params)
