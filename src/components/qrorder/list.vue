@@ -123,8 +123,6 @@ export default {
                               btnPayable    = false;
                           };
 
-
-
                         tableData.push({
                           id: ele.id,
                           number: ele.id,

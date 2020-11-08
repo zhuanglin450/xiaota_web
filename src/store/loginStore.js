@@ -26,6 +26,15 @@ export default {
       state.islogin = lislogin;
       // state.userInfo.account = stark.username;
       // state.userInfo.password = stark.userpass;
+
+      if(stark.flag == false)
+      {
+        //删除缓存
+        sessionStorage.setItem("loginMsg", "");
+        sessionStorage.setItem("roles", "");  
+      }
+
+
     },
     // setAccounts(state,data){
     //   state.accounts=data
@@ -52,7 +61,6 @@ export default {
         let dataR = await fetch.get("/api/roles");
         if (dataR.code == 200) {
             sessionStorage.setItem("roles",JSON.stringify(dataR.data.roles));
-            console.log("dataR.data.roles",dataR.data.roles);
         }
       }
     },
@@ -65,11 +73,7 @@ export default {
     async doLogoutAction({ commit }, stark) {
       await fetch.delete("/api/logout/" + stark.accountId);
 
-      console.log("deletLogin");
-
-      //删除缓存
-      sessionStorage.setItem("loginMsg", "");
-      sessionStorage.setItem("roles", "");  
+      commit({ type: "islogin", flag: false}); 
       // 关闭mqtt
       // this.dispatch("stop_connect");
     }

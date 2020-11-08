@@ -77,7 +77,7 @@ export default {
             roles.forEach(ele => {
                 arr.push({
                     id: ele.id,
-                    label: ele.role_display_name
+                    label: ele.roleDisplayName
                 });
             });
             this.allroles = arr;
@@ -149,7 +149,7 @@ export default {
         let str = "";
         this.selroles.forEach(ele=> {
             roles.forEach(ele2 => {
-                if(ele2.role_display_name == ele)
+                if(ele2.roleDisplayName == ele)
                 {
                     str += ele2.id + ",";
                 }

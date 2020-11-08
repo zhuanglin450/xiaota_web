@@ -6,34 +6,41 @@ import router from "../../router/index.js";
 //响应拦截
 Axios.interceptors.response.use(
   response => {
+    
+    if (response.status !=200 || response.data.code == undefined ) {
+      return Promise.reject(response);
+    }
+    
+    let rdate = response.data;
+    // console.error(error.response);
+    let appVue = document.getElementById("app").__vue__;
+    switch (rdate.code) {
+      case 200:
+        return response;
+      case 401:
+        // let userMessage2 = JSON.parse(sessionStorage.getItem("loginMsg"));
+        store.commit({ type: "islogin", flag: false });
+        // await store.dispatch("doLogoutAction", { accountId: userMessage2.id });
+        router.push("/");
+        if (sessionStorage.getItem("preErrStatus") != 401) {
+          appVue.toast("请求超时", "danger", "操作提示");
+        }
+        sessionStorage.setItem("preErrStatus", error.response.status);
+        return response;
+      case 400:
+        appVue.toast(rdate.data.message, "warning", "操作提示");
+        break;
+      default:
+        appVue.toast(rdate.data.message, "danger", "操作提示");
+        break;
+    }
+    // 记录上次请求，防止多次401错误提示
+    sessionStorage.setItem("preErrStatus", error.response.status);
     return response;
   },
-  async error => {
+  error => {
     if (error == undefined || error.response == undefined) {
       return Promise.reject(error);
-    }
-    if (error.response) {
-      // console.error(error.response);
-      let appVue = document.getElementById("app").__vue__;
-      switch (error.response.status) {
-        case 401:
-          let userMessage2 = JSON.parse(sessionStorage.getItem("loginMsg"));
-          store.commit({ type: "islogin", flag: false });
-          await store.dispatch("deletLogin", { accountId: userMessage2.id });
-          router.push("/");
-          if (sessionStorage.getItem("preErrStatus") != 401) {
-            appVue.toast(error.response.data.message, "danger", "操作提示");
-          }
-          break;
-        case 400:
-          appVue.toast(error.response.data.message, "warning", "操作提示");
-          break;
-        default:
-          appVue.toast(error.response.data.message, "danger", "操作提示");
-          break;
-      }
-      // 记录上次请求，防止多次401错误提示
-      sessionStorage.setItem("preErrStatus", error.response.status);
     }
     return Promise.reject(error);
   }

@@ -107,7 +107,7 @@ export default {
     },
     search()
     {
-
+      this.requestData();
     },
     add(){
         this.$router.push("/admin/adduser");
