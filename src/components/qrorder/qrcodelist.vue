@@ -4,9 +4,9 @@
       <a class="float-left" style="color: royalblue">二维码图案</a>
       <el-link class="float-right" type="info" @click="goBack">返回</el-link>
     </div>
-    <div style="padding: 1em 0; text-align:left">
+    <div style="padding: 1em 0 0.25em 0; text-align:left">
       <span class="bar1" style="margin-left: 2em;">
-          <a>间距:10m</a>
+          <a>二维码编号:{{qrId}}</a><a style="margin-left:1.5em;">间距:{{qrDistance}}</a>
       </span>
       <el-select class="float-right" style="margin-right: 2em;" placeholder="请选择"
         v-model="selectVal" 
@@ -22,6 +22,11 @@
       <a class="bar1 float-right">大小：</a>
       <el-button type="info" plain class="float-right" size="small" style="margin-right: 2em;">输出到图像
       </el-button>
+    </div>
+    <div style="padding: 0 0 1em 0; text-align:left">
+      <span class="bar1" style="margin-left: 2em;">
+          <a>二维码名称: {{qrName}}</a>
+      </span>
     </div>
     <div class="flex-around" style="margin-top:2em">
         <div><div ref="codeDiv"></div><br><a></a></div>
@@ -59,6 +64,23 @@ export default {
         qrcontent:null,
       };
   },
+  computed:{
+    qrId:function(){
+        if(this.qrcontent != null )
+          return this.qrcontent.qr_id;
+        return "";
+    },
+    qrDistance:function(){
+        if(this.qrcontent != null )
+          return this.qrcontent.distance + "m";
+        return "";
+    },
+    qrName:function(){
+        if(this.qrcontent != null )
+          return this.qrcontent.qr_name;
+        return "";
+    },
+  },
   mounted: function() {
         let qrcontent = this.$route.params.qrcontent;
         if(qrcontent != null )
@@ -66,6 +88,7 @@ export default {
           this.qrcontent = qrcontent;
         }
 
+        //获取二维码展示大小
         let mode = sessionStorage.getItem("qrsizemode");
         if(mode==1)
         {
@@ -129,7 +152,6 @@ export default {
       });   
     },
     selectChanged(val){ 
-      console.log(11);
         if(val<=0 || val > this.sizeoptions.length)
           return;
         let oo = this.sizeoptions[val-1];
@@ -156,7 +178,7 @@ a {
 }
 
 .el-link.el-link--info {
-  color: #fbfbfb;
+  color: #fefefe;
 }
 
 .el-link.el-link--info:hover {

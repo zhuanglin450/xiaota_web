@@ -25,23 +25,26 @@ Axios.interceptors.response.use(
         if (sessionStorage.getItem("preErrStatus") != 401) {
           appVue.toast("请求超时", "danger", "操作提示");
         }
-        sessionStorage.setItem("preErrStatus", error.response.status);
+        sessionStorage.setItem("preErrStatus", rdate.code);
         return response;
       case 400:
-        appVue.toast(rdate.data.message, "warning", "操作提示");
+        // appVue.toast(rdate.message, "warning", "操作提示");
         break;
-      default:
-        appVue.toast(rdate.data.message, "danger", "操作提示");
+      default: 
+        // appVue.toast(rdate.message, "danger", "操作提示");
         break;
     }
     // 记录上次请求，防止多次401错误提示
-    sessionStorage.setItem("preErrStatus", error.response.status);
+    sessionStorage.setItem("preErrStatus", rdate.code);
     return response;
   },
   error => {
-    if (error == undefined || error.response == undefined) {
-      return Promise.reject(error);
-    }
+    let appVue = document.getElementById("app").__vue__;
+    // if (error == undefined || error.response == undefined) {
+    //   return Promise.reject(error);
+    // }
+
+    appVue.toast("请求失败", "warning", "操作提示");
     return Promise.reject(error);
   }
 );

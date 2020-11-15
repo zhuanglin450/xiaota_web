@@ -192,7 +192,7 @@ export default {
 
 .el-link.el-link--info
 {
-  color: #fbfbfb;
+  color: #fefefe;
 }
 
 .el-link.el-link--info:hover {

@@ -10,6 +10,7 @@
         style="width: 100%;margin-bottom: 20px;"
         row-key="id"
         border default-expand-all>
+        <el-table-column align="center" prop="id" label="二维码编号" width="100"></el-table-column>  <!--sortable -->
         <el-table-column align="center" prop="distance" label="间距" width="100"></el-table-column>  <!--sortable -->
         <el-table-column align="center" prop="num" label="数量" width="100"></el-table-column>
         <el-table-column header-align="center" prop="info" label="额外信息"></el-table-column>
@@ -137,7 +138,7 @@ a {
 
 .el-link.el-link--info
 {
-  color: #fbfbfb;
+  color: #fefefe;
 }
 
 .el-link.el-link--info:hover {

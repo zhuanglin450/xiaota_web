@@ -1,5 +1,23 @@
 <template>
   <div>
+    <div style="text-align:right; margin-top:0.25em; margin-right:1em "> 
+      <el-button type="primary" @click="downTemplateFile" size="small">模板下载</el-button>
+      <el-upload
+        style="display:inline-block"
+        class="upload-demo"
+        action="/api/file/import/distanceQrOrder"
+        :on-preview="handlePreview"
+        :on-remove="handleRemove"
+        :before-remove="beforeRemove"
+        :limit="1"
+        :show-file-list="false"
+        :on-success="handleUploadSuccess"
+        :on-error="handleUploadError"
+        :file-list="fileList">
+        <el-button size="small" type="primary">点击上传</el-button>
+        <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
+      </el-upload>
+    </div>
     <div class="tableStyle">
       <el-table
         :data="tableData"
@@ -64,7 +82,8 @@ export default {
         //当前页码
         data_current_page: 1,
         data_total:0,
-        tableData: []
+        tableData: [],
+        fileList:[],
       };
     },
     mounted: function() {
@@ -207,14 +226,40 @@ export default {
             .catch(error => {
                    this.$message.error("订单撤销失败");            
             });
-
-
       },
       handleViewDetail(index, row)
       {
         //this.$store.commit("clientOrderList/setViewId",row.id); 
         this.$router.push({'path':"/client/orderdetail", query:{'viewid': row.id} });
-      }
+      },
+      downTemplateFile()
+      {
+          // 文件地址
+          const link = document.createElement('a');
+          link.href = "/api/file/getTemplate/distanceQrOrder";
+          link.click()
+      },
+      handleRemove(file, fileList) {
+        console.log(file, fileList);
+      },
+      handlePreview(file) {
+        console.log(file);
+      },
+      handleExceed(files, fileList) {
+        // this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+      },
+      beforeRemove(file, fileList) {
+        return this.$confirm(`确定移除 ${ file.name }？`);
+      },
+      handleUploadError(){
+         this.$message.success("上传失败") ;
+      },
+      handleUploadSuccess(response){
+        if(response.code == 200 && response.data.errorCode ==0) 
+            this.$message.success("上传成功") ;
+        else
+            this.$message.success("上传失败") ;
+      },
     }
 };
 </script>
