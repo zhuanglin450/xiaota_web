@@ -11,8 +11,8 @@
             </el-form-item>
             <el-form-item label="类型">
                 <el-select v-model="pType" default-first-option placeholder="请选择" class="type">
-                    <el-option key="1" label="固定码" value="1"></el-option>
-                    <el-option key="2" label="通用码" value="0"></el-option>
+                    <el-option key="1" label="固定码" value="0"></el-option>
+                    <el-option key="2" label="通用码" value="1"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item label="数量">

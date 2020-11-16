@@ -16,7 +16,7 @@
         <div><a>部门:</a><el-input placeholder="部门" v-model="accountInfo.department" maxlength="32"></el-input></div>
         <div><a>职位:</a><el-input placeholder="职位" v-model="accountInfo.title" maxlength="32" ></el-input></div>
         <div><a>地址:</a><el-input placeholder="地址" v-model="accountInfo.address" maxlength="100"></el-input></div>
-        <div class="rolesSelDiv"><a>角色:</a><div class="rolesSel">
+        <div class="rolesSelDiv"><a style="vertical-align:top">角色:</a><div class="rolesSel">
           <el-checkbox-group v-model="selroles">
             <el-checkbox v-for="role1 in allroles" :label="role1.label" :key="role1.id"></el-checkbox>
           </el-checkbox-group></div>
@@ -59,10 +59,7 @@ export default {
             'address':"",
             'roles':""
           },
-          allroles:[{id:"6", label:"1"},
-                    {id:"7", label:"2"},
-                    {id:"8", label:"3"},
-                    {id:"9", label:"4"}],
+          allroles:[],
           selroles:[],                    
           isError:false,
           errorMsg:""
@@ -83,7 +80,6 @@ export default {
             this.allroles = arr;
         }
 
-       
       //  let url = this.$route.path.toLowerCase();
      },
     created:function()
@@ -139,6 +135,13 @@ export default {
         {
           this.isError = true;
           this.errorMsg = "请选择角色"
+          return ;
+        }
+        var regEmail = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
+        if (this.accountInfo.email != '' && !regEmail.test(this.accountInfo.email)) 
+        {
+          this.isError = true;
+          this.errorMsg = "邮箱格式不正确"
           return ;
         }
         
@@ -208,6 +211,7 @@ export default {
 }
 
 .content {
+    padding-bottom: 5.5em;
     margin-top:1em;
 }
 .content > div{
@@ -224,13 +228,16 @@ export default {
 }
 
 .rolesSelDiv  {
-  height: 1.8em !important;
+  min-height: 1.8em;
+  height: auto !important;
   margin-bottom: 0.2em;
 }
 
 .rolesSel  {
   width:21em;
   display: inline-block;
+  text-align: left;
+  padding-left: 1em;
 }
  
 </style>

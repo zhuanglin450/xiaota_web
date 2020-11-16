@@ -64,6 +64,13 @@ export default {
         }
       }
 
+      var valemail = async (rule, value, callback) => {
+          var regEmail = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
+          if (value != '' && !regEmail.test(value)) {
+              callback(new Error("邮箱格式不正确"));
+          }
+      }
+
       return { 
         ruleForm:{
           pAccount:"",
@@ -84,7 +91,9 @@ export default {
                     { validator: validatePass, trigger: "change" }],
           pPassword2:[{required: true, message: '请填写密码', trigger: 'change'},
                     { validator: validatePass, trigger: "change" }],
-          pTel:[{required: true, min:11, max:11, message: '输入位数有误', trigger: 'blur'}]
+          pTel:[{required: true, min:11, max:11, message: '输入位数有误', trigger: 'blur'}],
+          pEmail:[{required: true, message: '请填写邮箱地址', trigger: 'change'},
+                  {validator: valemail, trigger: "blur"}]
         }
       };
     },
@@ -133,6 +142,16 @@ export default {
       },
       goback(){
           this.$router.push({ path:"/login" });
+      },
+      sendEmail: function() {
+          var regEmail = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
+          if (this.ruleForm.pEmail != '' && !regEmail.test(this.ruleForm.pEmail)) {
+              this.$message({
+                  message: '邮箱格式不正确',
+                  type: 'error'
+              })
+              this.ruleForm.pEmail = ''
+          }
       }
     },
 };
