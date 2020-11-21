@@ -1,0 +1,10 @@
+
+1. element-ui
+
+2. axios
+
+3. npm install vue-print-nb --save
+   import Print from 'vue-print-nb'
+   Vue.use(Print);	
+
+4 e2e nightwatch Òª  uint ²»Òª

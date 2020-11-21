@@ -125,6 +125,31 @@ a.el-link:hover {
     /*交叉轴上（多根）的对齐方式 中间*/
 }
 
+
+.flex-around-wrap {
+    display: flex;
+    flex-flow: row wrap;
+    /*主轴 换行*/
+    justify-content: space-around;
+    /*主轴上的对齐方式 两端*/
+    align-items: center;
+    /*交叉轴上的对齐方式 中间*/
+    align-content: center;
+    /*交叉轴上（多根）的对齐方式 中间*/
+}
+
+.flex-row-left-wrap {
+    display: flex;
+    flex-flow: row wrap;
+    /*主轴 换行*/
+    justify-content: left;
+    /*主轴上的对齐方式 两端*/
+    align-items: center;
+    /*交叉轴上的对齐方式 中间*/
+    align-content: center;
+    /*交叉轴上（多根）的对齐方式 中间*/
+}
+
 .flex-between-item {
     display: flex;
     flex-grow: 0;

@@ -7,9 +7,12 @@
     <div class="tableStyle">
       <el-table
         :data="tableData"
+        ref="multipleTable"
+        @selection-change="handleSelChange"
         style="width: 100%;margin-bottom: 20px;"
         row-key="id"
         border default-expand-all>
+        <el-table-column type="selection" width="40"></el-table-column>
         <el-table-column align="center" prop="id" label="二维码编号" width="100"></el-table-column>  <!--sortable -->
         <el-table-column align="center" prop="distance" label="间距" width="100"></el-table-column>  <!--sortable -->
         <el-table-column align="center" prop="num" label="数量" width="100"></el-table-column>
@@ -22,8 +25,8 @@
       </el-table>
        <div class="paginationClass">
           <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange" 
+            @size-change="handlePageSizeChange"
+            @current-change="handleCurrentPageChange" 
             :current-page="data_current_page"
             :page-sizes="[10, 20, 50, 100]"
             :page-size="data_per_page" 
@@ -51,6 +54,7 @@ export default {
         //当前页码
         data_current_page: 1,
         data_total:0,
+        selsections:[],
       };
     },
     mounted: function() {  
@@ -64,8 +68,26 @@ export default {
       //产生二维码
       handleCreate(index, row)
       {
-          this.$router.push({"name":'adminQrOrderQrcodeList', 
-            params:{"qrcontent":this.sdata[row.sdataIndex]}});
+        //是否包含选中的
+        let bSel = false;
+        for(let i=0; i<this.selsections.length;i++)
+          if(this.selsections[i].sdataIndex === row.sdataIndex)
+          {
+            bSel = true;
+            break;
+          }
+          
+        let tt = [];
+        if(bSel)
+          this.selsections.forEach(ele => {
+             tt.push(this.sdata[ele.sdataIndex]) ;
+          });
+        else  
+           tt.push(this.sdata[row.sdataIndex]);
+
+        this.$router.push({"name":'adminQrOrderQrcodeList', 
+            params:{"qrcontent":tt}});
+
       },
       // 获取订单列表
       handle_get_list() {
@@ -113,20 +135,24 @@ export default {
               this.$message.error("请求数据失败!");
           });
       },
-      handleSizeChange: function (size) {
+      handlePageSizeChange: function (size) {
         this.data_per_page = size;
         if(this.data_total == this.tableData.length && this.data_total <= this.data_per_page)
             return;
         this.handle_get_list() ;
         // console.log(this.data_per_page)  //每页下拉显示数据
       },
-      handleCurrentChange: function(currentPage){
+      handleCurrentPageChange: function(currentPage){
         this.data_current_page = currentPage;
         if(this.data_total == this.tableData.length && this.data_total <= this.data_per_page)
             return;
         this.handle_get_list() ;
         // console.log(this.data_current_page)  //点击第几页
       },
+      handleSelChange(sels)
+      {
+        this.selsections = sels;
+      }
     }
 };
 </script>

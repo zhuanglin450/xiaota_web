@@ -5,11 +5,11 @@ import App from './App'
 import store from "./store"
 
 //bootstrap
-import "bootstrap/dist/css/bootstrap.min.css"
-import "bootstrap-vue/dist/bootstrap-vue.css"
-import { BootstrapVue ,BootstrapVueIcons} from "bootstrap-vue"
-Vue.use(BootstrapVueIcons)
-Vue.use(BootstrapVue);
+//import "bootstrap/dist/css/bootstrap.min.css"
+//import "bootstrap-vue/dist/bootstrap-vue.css"
+//import { BootstrapVue ,BootstrapVueIcons} from "bootstrap-vue"
+//Vue.use(BootstrapVueIcons)
+//Vue.use(BootstrapVue);
 
 
 //toast 延迟弹框
@@ -22,20 +22,23 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 
-import 'font-awesome/css/font-awesome.min.css'
-Array.prototype.getArrayIndex=function(obj){
-  for(var i=0;i<this.length;i++){
-    if(this[i]===obj){
-      return i
-    }
-  }
-  return -1
-}
+//import 'font-awesome/css/font-awesome.min.css'
+// Array.prototype.getArrayIndex=function(obj){
+//   for(var i=0;i<this.length;i++){
+//     if(this[i]===obj){
+//       return i
+//     }
+//   }
+//   return -1
+// }
 
 //css 
 import "./style/base.css"
 import './style/common.css'
 
+//调用浏览器打印
+import Print from 'vue-print-nb'
+Vue.use(Print);
 
 import axios from 'axios'
 // import fetch from './assets/js/fetch'
