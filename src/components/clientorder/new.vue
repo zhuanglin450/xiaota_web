@@ -127,10 +127,7 @@ export default {
                     return;
                 }
                 else{ 
-                    this.$alert('提交成功', '提示', {
-                            confirmButtonText: '确定',
-                            type: 'success',
-                    });
+                    this.$alert('提交成功', '提示', { confirmButtonText: '确定', type: 'success'});
                 } 
             })
             //失败返回

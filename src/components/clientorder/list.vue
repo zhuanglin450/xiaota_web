@@ -252,13 +252,13 @@ export default {
         return this.$confirm(`确定移除 ${ file.name }？`);
       },
       handleUploadError(){
-         this.$message.success("上传失败") ;
+         this.$message.error("上传失败") ;
       },
       handleUploadSuccess(response){
         if(response.code == 200 && response.data.errorCode ==0) 
             this.$message.success("上传成功") ;
         else
-            this.$message.success("上传失败") ;
+            this.$message.error("上传失败") ;
       },
     }
 };
