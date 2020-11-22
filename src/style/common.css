@@ -113,6 +113,19 @@ a.el-link:hover {
     /*交叉轴上（多根）的对齐方式 中间*/
 }
 
+
+.flex-center-wrap {
+    display: flex;
+    flex-flow: row wrap;
+    /*主轴 不换行*/
+    justify-content: center;
+    /*主轴上的对齐方式 两端*/
+    align-items: center;
+    /*交叉轴上的对齐方式 中间*/
+    align-content: center;
+    /*交叉轴上（多根）的对齐方式 中间*/
+}
+
 .flex-around {
     display: flex;
     flex-flow: row nowrap;

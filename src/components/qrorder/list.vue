@@ -1,15 +1,31 @@
 <template>
-  <div>
+  <div class="qrorderListVue">
     <div class="stitle">
       <a class="float-left" style="color:royalblue; text-decoration:none;">订单信息</a>
       <!-- <a class="float-right" style="text-decoration:underline;">返回</a> -->
+    </div>
+    <div class="flex-center-wrap" style="height: 3.5em; margin: 0.75em 2% 0.5em 2%; width:96%">
+      <a>提交人：</a><el-input v-model="selAccount" placeholder="提交人"></el-input>
+      <a>支付状态：</a>
+      <el-select v-model="selStatus" default-first-option placeholder="请选择">
+        <el-option key="1" label="所有" value="0"></el-option>
+        <el-option key="2" label="未支付" value="1"></el-option>
+        <el-option key="3" label="已支付" value="2"></el-option>
+        <el-option key="4" label="已撤销" value="3"></el-option>
+      </el-select>
+      <a style="margin-left: 0.5em">开始时间：</a>
+      <el-date-picker v-model="selStartDate" type="date" format="yyyy年MM月dd日" value-format="yyyy-MM-dd" placeholder="选择日期" :editable="false"></el-date-picker>
+      <a style="margin-left: 0.5em">结束时间：</a>
+      <el-date-picker v-model="selEndDate" type="date" format="yyyy年MM月dd日" value-format="yyyy-MM-dd" placeholder="选择日期"  :editable="false"></el-date-picker>
+      <el-button style="margin-left: 1.5em" size="small" type="primary" icon="el-icon-search"
+          @click="search">搜索
+      </el-button>
     </div>
     <div class="tableStyle">
       <el-table :data="tableData"
         style="width: 100%;margin-bottom: 20px;"
         row-key="id" border default-expand-all
         @row-dblclick="tableClick">
-
         <el-table-column align="center" prop="number" label="订单号" width="180"></el-table-column>  <!--sortable -->
         <el-table-column align="center" prop="date" label="日期" width="180"></el-table-column>
         <el-table-column align="center" prop="name" label="提交人" width="180"></el-table-column>
@@ -56,6 +72,10 @@ export default {
         data_total:0,
         deleteOrderId:0,
         payOrderId:0,
+        selEndDate:"",
+        selStartDate:"",
+        selStatus:"0",
+        selAccount:"",
       };
     }, 
     mounted: function() {
@@ -78,10 +98,11 @@ export default {
       async handle_get_list()
       {
           let params = {
-            'order_status': 0,//all status
+            'account': this.selAccount,
+            'order_status': this.selStatus,//all status
             'try_scope': 3,//all companies' orders
-            'start_time': '',
-            'end_time': '',
+            'start_time': this.selStartDate,
+            'end_time': this.selEndDate,
             'offset': (this.data_current_page - 1) * this.data_per_page,
             'limit': this.data_per_page
           };
@@ -241,6 +262,10 @@ export default {
                    this.$message.error("订单撤销失败");            
             });
       },
+      search()
+      {
+         this.handle_get_list(); 
+      }
     }
 };
 </script>
@@ -258,3 +283,13 @@ export default {
   padding: 0.5em 1.5em 5.5em 1.5em;
 }
 </style>
+
+<style>
+.qrorderListVue .el-select .el-input {
+  width: 8em;
+}
+
+.qrorderListVue .el-date-editor.el-input, .el-date-editor.el-input__inner {
+  width: 12.5em;
+}
+</style>>
