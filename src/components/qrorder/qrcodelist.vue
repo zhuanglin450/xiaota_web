@@ -5,9 +5,6 @@
       <el-link class="float-right" type="info" @click="goBack">返回</el-link>
     </div>
     <div style="padding: 1em 0 0.25em 0; text-align:right">
-      <el-button type="info" plain size="small" style="margin-right: 2em;" v-print="'#printContent'">
-        输出到图像
-      </el-button>
       <a class="bar1">大小：</a>
       <el-select style="margin-right: 2em;" placeholder="请选择"
         v-model="selectVal" 
@@ -20,15 +17,18 @@
           :disabled="item.disabled">
         </el-option>
       </el-select>
+      <el-button type="primary" style="margin-right: 2em;" v-print="'#printContent'">
+        打印
+      </el-button>
     </div>
     <div class="flex-row-left-wrap qrlistStyle" style="margin-top:1.5em;" id="printContent" >
-        <div v-for="item in qrcontent" :key="item.qr_id" style="padding:0.5em;">
+        <div v-for="item in qrcontent" :key="item.qr_id" style="padding:1em 1.5em">
           <div class="bar2" >
             <a>编号: {{item.qr_id}}</a><br>
             <a>间距: {{item.distance + "m"}}</a><br>
             <a>名称: {{item.qr_name}}</a>
           </div>
-          <div style="margin:0.25em" ref="codeDiv"></div>
+          <div style="margin-top:0.75em" ref="codeDiv"></div>
         </div> 
     </div>
   </div>
@@ -221,6 +221,7 @@ a {
 .bar1{
     color: #606266; 
     font-size: 1.25em;
+    margin-top:0.25em;
     text-align: left;
 }
 

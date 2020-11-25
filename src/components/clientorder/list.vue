@@ -1,7 +1,7 @@
 <template>
   <div>
     <div style="text-align:right; margin-top:0.25em; margin-right:1em "> 
-      <el-button type="primary" @click="downTemplateFile" size="small">模板下载</el-button>
+      <el-button type="primary" @click="downTemplateFile" size="small">订单模板</el-button>
       <el-upload
         style="display:inline-block"
         class="upload-demo"
@@ -14,7 +14,7 @@
         :on-success="handleUploadSuccess"
         :on-error="handleUploadError"
         :file-list="fileList">
-        <el-button size="small" type="primary">点击上传</el-button>
+        <el-button size="small" type="primary">订单导入</el-button>
         <!-- <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div> -->
       </el-upload>
     </div>
