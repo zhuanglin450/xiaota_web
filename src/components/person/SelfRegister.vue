@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="personSelfRegisterVue">
     <div class="header1">
       <a class="headertitle1">路由宝</a>    
     </div> 
@@ -24,10 +24,23 @@
           <el-input v-model="ruleForm.pEmail" placeholder="邮箱" maxlength="32"></el-input>
         </el-form-item>
         <el-form-item label="单位:" prop="pCompany" >
-          <el-input v-model="ruleForm.pCompany" placeholder="单位" maxlength="32"></el-input>
+          <el-select filterable allow-create default-first-option placeholder="单位" v-model="ruleForm.pCompany" maxlength="32"
+            @change="changeCompanyName" >
+           <el-option v-for="item in companyoptions"
+              :key="item.id"
+              :label="item.companyName"
+              :value="item.companyName">
+            </el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="部门:" prop="pBumen" >
-          <el-input v-model="ruleForm.pBumen" placeholder="部门" maxlength="32"></el-input>
+        <el-form-item label="部门:" prop="department" >
+          <el-select filterable allow-create default-first-option placeholder="部门" v-model="ruleForm.department" maxlength="32">
+           <el-option v-for="item in departmentoptions"
+              :key="item.id"
+              :label="item.departmentName"
+              :value="item.departmentName">
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="职位:" prop="pZhiwei" >
           <el-input v-model="ruleForm.pZhiwei" placeholder="职位" maxlength="32"></el-input>
@@ -80,7 +93,7 @@ export default {
           pTel:"",
           pEmail:"",
           pCompany:"",
-          pBumen:"",
+          department:"",
           pZhiwei:"",
           pAddr:"",
         },
@@ -94,10 +107,18 @@ export default {
           pTel:[{required: true, min:11, max:11, message: '输入位数有误', trigger: 'blur'}],
           pEmail:[{required: true, message: '请填写邮箱地址', trigger: 'change'},
                   {validator: valemail, trigger: "blur"}]
-        }
+        },
+        companyoptions:[],
+        departmentoptions:[],
+        allDepartment:null,
       };
     },
-    mounted: function() {
+    mounted: async function() {
+
+      this.allDepartment = new Map();
+      await this.loadCompany();
+      await this.loadDepartment();
+
     },
     methods: {
       postRegist()
@@ -112,8 +133,8 @@ export default {
                 "email":this.ruleForm.pEmail, 
                 "title":this.ruleForm.pZhiwei,
                 "phone":this.ruleForm.pTel,
-                "company":this.ruleForm.company,
-                "department":this.ruleForm.pBumen,
+                "company":this.ruleForm.pCompany,
+                "department":this.ruleForm.department,
                 "address":this.ruleForm.pAddr,
                 "roles": [4]//app 上是3，web上是4
               };
@@ -152,7 +173,76 @@ export default {
               })
               this.ruleForm.pEmail = ''
           }
-      }
+      },
+      async loadCompany()
+      {
+          let response = await this.$axios.get("/api/company");
+          console.log(response);
+          if(response.status != 200)
+          {
+              this.$message.error("请求数据失败!");
+              return;
+          }
+          if(response.data.code != 200)
+          {
+              this.$message.error( response.data.message);
+              return;
+          }
+ 
+            //请求成功
+          let table = response.data.data.companyList;  
+          this.companyoptions = table;
+      },
+      async loadDepartment()
+      {  
+          let response = await this.$axios.get("/api/department"); 
+          console.log(response);
+          if(response.status != 200)
+          {
+            this.$message.error("请求数据失败!");
+            return;
+          }
+          if(response.data.code != 200)
+          {
+              this.$message.error( response.data.message);
+              return;
+          }
+
+          //成功返回
+          let depts = response.data.data.departments;
+          depts.forEach( ele => {
+                if( ele.departmentName == null || ele.departmentName == '')
+                  return;
+
+                let cp = this.companyoptions.find(item => item.id == ele.companyId);
+                if(cp != undefined && cp != null)
+                {
+                  if(this.allDepartment.has( cp.companyName))
+                  {
+                    let arr = this.allDepartment.get( cp.companyName );
+                    arr.push(ele);
+                  }
+                  else
+                  {
+                    let arr = [];
+                    arr.push(ele);
+                    this.allDepartment.set(cp.companyName, arr);
+                  }
+                }
+            });               
+      },
+      changeCompanyName()
+      {
+          this.ruleForm.department = "";
+          if(!this.allDepartment.has(this.ruleForm.pCompany))
+          {
+              this.departmentoptions = [];
+          }
+          else
+          {
+              this.departmentoptions = this.allDepartment.get(this.ruleForm.pCompany);
+          }
+      },
     },
 };
 </script>
@@ -196,12 +286,20 @@ export default {
     color:#606266;
 }
 
-.content1 .el-input {
+.content1 .el-input, .content1 .el-select  {
   width:20em;
 }
 
 .content1 .el-input + .el-form-item__error {
   left:1em;
+}
+
+</style>
+<style>
+
+.personSelfRegisterVue .el-select .el-input.el-input--suffix {
+  padding: 0 0.5em;
+  width: 100%;
 }
 
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="systemManageAdduserVue">
     <div class="stitlebar">
       <a class="float-left" style="color: royalblue; text-decoration:none;">系统管理 / 用户管理 / 添加用户 </a>
       <el-link class="float-right" type="info"  @click="goback">返回</el-link>
@@ -12,8 +12,25 @@
         <div><a>姓名:</a><el-input placeholder="姓名" v-model="accountInfo.name" maxlength="20"></el-input></div>
         <div><a>手机号码:</a><el-input placeholder="手机号码" v-model="accountInfo.phone" maxlength="11"></el-input></div>
         <div><a>邮箱:</a><el-input placeholder="邮箱" v-model="accountInfo.email" maxlength="32"></el-input></div>
-        <div><a>单位:</a><el-input placeholder="单位" v-model="accountInfo.company" maxlength="32"></el-input></div>
-        <div><a>部门:</a><el-input placeholder="部门" v-model="accountInfo.department" maxlength="32"></el-input></div>
+        <div><a>单位:</a>
+        <el-select filterable allow-create default-first-option placeholder="单位" v-model="accountInfo.company" maxlength="32"
+            @change="changeCompanyName" >
+           <el-option v-for="item in companyoptions"
+              :key="item.id"
+              :label="item.companyName"
+              :value="item.companyName">
+            </el-option>
+          </el-select>
+        </div>
+        <div><a>部门:</a>
+        <el-select filterable allow-create default-first-option placeholder="部门" v-model="accountInfo.department" maxlength="32">
+           <el-option v-for="item in departmentoptions"
+              :key="item.id"
+              :label="item.departmentName"
+              :value="item.departmentName">
+            </el-option>
+          </el-select>
+        </div>
         <div><a>职位:</a><el-input placeholder="职位" v-model="accountInfo.title" maxlength="32" ></el-input></div>
         <div><a>地址:</a><el-input placeholder="地址" v-model="accountInfo.address" maxlength="100"></el-input></div>
         <div class="rolesSelDiv"><a style="vertical-align:top">角色:</a><div class="rolesSel">
@@ -62,11 +79,13 @@ export default {
           allroles:[],
           selroles:[],                    
           isError:false,
-          errorMsg:""
-
+          errorMsg:"",
+          companyoptions:[],
+          departmentoptions:[],
+          allDepartment:null,
       };
     },
-    mounted:function(){
+    mounted: async function(){
         let roles = JSON.parse(sessionStorage.getItem("roles"));
         if(roles != null)
         {
@@ -81,6 +100,11 @@ export default {
         }
 
       //  let url = this.$route.path.toLowerCase();
+
+        
+        this.allDepartment = new Map();
+        await this.loadCompany();
+        await this.loadDepartment();
      },
     created:function()
     {
@@ -185,7 +209,75 @@ export default {
       goback()
       { 
         this.$router.push("/admin/manageusers");
-      }
+      },
+      
+      async loadCompany()
+      {
+          let response = await fetch.get("/api/company");
+          if(response.code == null)
+          {
+              this.$message.error("请求数据失败!");
+              return;
+          }
+          if(response.code != 200)
+          {
+              this.$message.error( response.message);
+              return;
+          }
+ 
+            //请求成功
+          let table = response.data.companyList;  
+          this.companyoptions = table;
+      },
+      async loadDepartment()
+      {  
+          let response = await fetch.get("/api/department"); 
+          if(response.code == null)
+          {
+            this.$message.error("请求数据失败!");
+            return;
+          }
+          if(response.code != 200)
+          {
+              this.$message.error( response.message);
+              return;
+          }
+
+          //成功返回
+          let depts = response.data.departments;
+          depts.forEach( ele => {
+                if( ele.departmentName == null || ele.departmentName == '')
+                  return;
+
+                let cp = this.companyoptions.find(item => item.id == ele.companyId);
+                if(cp != undefined && cp != null)
+                {
+                  if(this.allDepartment.has( cp.companyName))
+                  {
+                    let arr = this.allDepartment.get( cp.companyName );
+                    arr.push(ele);
+                  }
+                  else
+                  {
+                    let arr = [];
+                    arr.push(ele);
+                    this.allDepartment.set(cp.companyName, arr);
+                  }
+                }
+            });               
+      },
+      changeCompanyName()
+      {
+          this.accountInfo.department = "";
+          if(!this.allDepartment.has(this.accountInfo.company))
+          {
+              this.departmentoptions = [];
+          }
+          else
+          {
+              this.departmentoptions = this.allDepartment.get(this.accountInfo.company);
+          }
+      },
 
     }
 };
@@ -223,7 +315,7 @@ export default {
     display: inline-block;
 }
 
-.el-input {
+.el-input, .el-select {
     width:21em;
 }
 
@@ -240,4 +332,11 @@ export default {
   padding-left: 1em;
 }
  
+</style>
+
+<style>
+.systemManageAdduserVue .el-select .el-input.el-input--suffix {
+  padding: 0 0.5em;
+  width: 100%;
+}
 </style>

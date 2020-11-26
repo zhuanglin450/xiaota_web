@@ -21,7 +21,7 @@ import ClientOrderList from '@/components/clientorder/list'
 import ClientOrderDetail from '@/components/clientorder/detail'
 import ClientOrderNewBatch from '@/components/clientorder/newBatch'
 import ClientOrderNew from '@/components/clientorder/new'
-
+import adminCompanyList from '@/components/company/list'
 
 //cv以下代码解决路由地址重复的报错问题(一劳永逸)
 // const originalPush = VueRouter.prototype.push
@@ -98,7 +98,13 @@ const router = new Router({
                     path: '/admin/orderQrcodeList',
                     name: 'adminQrOrderQrcodeList',
                     component: QrOrderQrcodeList,
-                }
+                },
+                {
+                    path: '/admin/companys',
+                    name: 'adminCompanyList',
+                    component: adminCompanyList,
+                    
+                },
             ]
         },
         {
