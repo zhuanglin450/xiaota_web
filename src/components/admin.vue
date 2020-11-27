@@ -238,11 +238,6 @@ export default {
     overflow: auto;
 }
 
-.el-menu-item {
-  height:100%;
-  line-height: 3em;
-}
-
 .menubar {
   float:left; 
   width:84%; 
@@ -261,6 +256,11 @@ export default {
 
 .menubar .el-menu.el-menu--horizontal {
   border-bottom: 0px;
+}
+
+.el-menu--horizontal>.el-menu-item {
+  height:100%;
+  line-height: 3em;
 }
 
 </style>
