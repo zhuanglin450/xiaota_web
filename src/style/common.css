@@ -65,6 +65,10 @@ a.el-link:hover {
     line-height: 2.25em !important;
 }
 
+.el-message-box__input > .el-input {
+    width: 24em;
+}
+
 .el-button {
     padding: 0.6em 1em;
 }

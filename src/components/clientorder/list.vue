@@ -169,21 +169,20 @@ export default {
                     _this.$message.error("获取订单列表错误");
                 });
 
-
         },
 
       // 初始页currentPage、初始每页数据数pagesize和数据data
         handleSizeChange: function (size) {
             this.data_per_page = size;
-            if(this.data_total == this.tableData.length && this.data_total <= this.data_per_page)
-                return;
+            // if(this.data_total == this.tableData.length && this.data_total <= this.data_per_page)
+            //     return;
             this.handle_get_list() ;
             // console.log(this.data_per_page)  //每页下拉显示数据
         },
         handleCurrentChange: function(currentPage){
             this.data_current_page = currentPage;
-            if(this.data_total == this.tableData.length && this.data_total <= this.data_per_page)
-              return;
+            // if(this.data_total == this.tableData.length && this.data_total <= this.data_per_page)
+            //   return;
             this.handle_get_list() ;
             // console.log(this.data_current_page)  //点击第几页
         },
@@ -255,8 +254,10 @@ export default {
          this.$message.error("上传失败") ;
       },
       handleUploadSuccess(response){
-        if(response.code == 200 && response.data.errorCode ==0) 
+        if(response.code == 200 && response.data.errorCode ==0) {
             this.$message.success("上传成功") ;
+            this.handleCurrentChange(1);
+        }
         else
             this.$message.error("上传失败") ;
       },

@@ -4,10 +4,8 @@
       <a class="float-left" style="color:#303133;">个人信息</a>
     </div> -->
     <div class="content">
-        <div><a>账号:</a><el-input placeholder="账号" :readonly="true" :disabled="true" v-model="accountInfo.account"></el-input></div>
- 
+        <div><a>账号:</a><el-input placeholder="账号" :readonly="true" :disabled="true" v-model="accountInfo.account"></el-input></div> 
         <div style="height:2em" ><el-checkbox v-model="bUpdatePassword"  @change='enableUpdatePassword' >设置密码</el-checkbox></div>
-
         <div><a>请设置密码:</a><el-input placeholder="输入密码" :disabled="!bUpdatePassword" v-model="pPassword" show-password style="margin-left:0.5em"></el-input></div>
         <div><a>请确认密码:</a><el-input placeholder="请确认密码" :disabled="!bUpdatePassword" v-model="pPassword2" show-password style="margin-left:0.5em"></el-input></div>
         <div><a>姓名:</a><el-input placeholder="姓名" v-model="accountInfo.name"></el-input></div>

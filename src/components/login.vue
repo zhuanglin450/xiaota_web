@@ -202,6 +202,42 @@ export default {
 
       if(account != null && account.trim() != '')
       {
+         this.$axios.get("/api/accounts/exist/"+ this.ruleForm.account)
+            //成功返回
+            .then(response => {
+                if(response.status == 200 && response.data.code == 200) {
+                      this.$prompt('请输入邮箱:', '重置密码', {
+                          confirmButtonText: '确定',
+                          cancelButtonText: '取消',
+                          inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
+                          inputValidator: function(val){
+                            if(val == null || val.trim() == "")
+                                return "请输入邮箱!";
+                            if(val != response.data.data.account_info.email)
+                                return "邮箱有误";
+                             return true;
+                          },
+                          // inputErrorMessage: '邮箱格式不正确'
+                        }).then(({ value }) => {
+
+                            this.modifyPassword();
+                        }).catch(() => {                          
+                        });
+                }
+                else
+                {
+                  this.$message.error(response.data.message);
+                }
+            })
+            //失败返回
+            .catch(error => {
+                  this.$message.error("接口调用失败!");
+            });
+      }
+
+    },  
+    modifyPassword()
+    {
           //一定是用反单引号啊！不要写成单引号了！！
           this.$confirm(`确定要重置[ ${this.ruleForm.account}]密码吗？`, '警告', {
                 confirmButtonText: '确定',
@@ -228,14 +264,9 @@ export default {
 
               }).catch(() => {
                 // 如果取消跳转地址栏会变化，这时保持地址栏不变
-                var k = 0;
               });
 
-
-
-      }
-
-    },  
+    }
   },
   destroyed: function() {
     // console.log("destroyed vue");

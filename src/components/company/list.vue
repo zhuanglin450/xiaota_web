@@ -15,8 +15,9 @@
     <div class="tableStyle">
       <el-table :data="tableData"
         style="margin-bottom: 20px;"
-        row-key="id" border 
-        :tree-props="{children: 'children', hasChildren: 'hasChildren'}">  <!-- default-expand-all lazy :load="loadNode" -->
+        row-key="id" border
+        ref="multipleTable" 
+        :tree-props="{children: 'children', hasChildren: 'hasChildren'}">   <!-- default-expand-all lazy :load="loadNode" -->
         <el-table-column header-align="center" prop="companyName" label="公司名"></el-table-column>
         <el-table-column header-align="center" prop="departmentName" label="部门"></el-table-column>
         <el-table-column align="center" label="操作" width="200">
@@ -62,7 +63,6 @@ export default {
         // },
         //formLabelWidth: '120px',
         newCompanyName:"",
-
       };
     }, 
      mounted: async function() { 
@@ -140,7 +140,7 @@ export default {
       {
          this.handle_get_list(); 
       },
-      async addCompany()
+      addCompany()
       {
           if(this.newCompanyName == "")
           {
@@ -164,7 +164,6 @@ export default {
                   return;
               } 
 
-
               this.$confirm('添加成功', '提示', {
                 confirmButtonText : '确定',
                 showCancelButton : false,
@@ -177,11 +176,59 @@ export default {
       },
       handleAddDept(index, row)
       {
+        this.$prompt('', '添加部门', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            //inputPattern: /[\w!#$%&'*+/=?^_`{|}~-]+(?:\.[\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\w](?:[\w-]*[\w])?\.)+[\w](?:[\w-]*[\w])?/,
+             inputValidator: function(val){ return (val == null || val.trim() == "")? "请输入名称!":true;},
+            // inputErrorMessage: '邮箱格式不正确'
+          }).then(({ value }) => {
+              this.addDepartment(value, row.id, row);
+          }).catch(() => {
+            
+          });
+      },
+      addDepartment(departmentName1, companyId1, row)  //新增部门
+      {
+          if(departmentName1 == "")
+          {
+            this.$message.warning( "请输入部门名");
+            return;
+          }
 
+          let param = {
+            companyId: companyId1,
+            departmentName: departmentName1,
+          };
+
+          fetch.post("/api/department/add_modify", param)
+            .then(response => {
+                    
+              if(response.code != 200)
+              {
+                  this.$message.error( response.message);
+                  return;
+              } 
+
+              this.$confirm('添加成功', '提示', {
+                confirmButtonText : '确定',
+                showCancelButton : false,
+                type: 'success'
+              });
+
+              console.log(response.data);
+              row.children.push(response.data);
+              // //重新加载子树
+              this.$refs.multipleTable.toggleRowExpansion(row, false);
+              this.$refs.multipleTable.toggleRowExpansion(row, true);
+                      
+            })
+            .catch(error => {
+                this.$message.error("获取列表错误");
+            });
       },
       handleDelete(index, row)
       {
-        console.log(index, row);        
         let url = "";
         if(row.companyId == null )  // 公司
         {
@@ -201,9 +248,35 @@ export default {
               } 
 
               this.$message.success('删除成功');
+
+              if(row.companyId == null )  // 公司
+              {
+                  let r = this.tableData.findIndex(e => e.id === row.id);
+                  if(r != -1) this.tableData.splice(r, 1);
+              }
+              else //部门
+              {
+                this.tableDataTemp = this.tableData;
+                for(let i=0;i<this.tableDataTemp.length;i++)  
+                {
+                    if(this.tableDataTemp[i].id === row.companyId)  
+                    {
+                      
+                      let r = this.tableDataTemp[i].children.findIndex(e => e.id === row.id);
+                      if(r != -1) this.tableDataTemp[i].children.splice(r, 1);
+                      
+                      //重新加载子树
+                      this.$refs.multipleTable.toggleRowExpansion(this.tableData[i], false);
+                      this.$refs.multipleTable.toggleRowExpansion(this.tableData[i], true);
+                      break;
+                    }
+                }
+                this.tableData =  this.tableDataTemp;
+              }
+
             })
             .catch(error => {
-                this.$message.error("请求s错误");
+                this.$message.error("请求错误");
             });
 
       },

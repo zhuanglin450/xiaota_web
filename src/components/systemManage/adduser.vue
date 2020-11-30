@@ -33,16 +33,12 @@
         </div>
         <div><a>职位:</a><el-input placeholder="职位" v-model="accountInfo.title" maxlength="32" ></el-input></div>
         <div><a>地址:</a><el-input placeholder="地址" v-model="accountInfo.address" maxlength="100"></el-input></div>
-        <div class="rolesSelDiv"><a style="vertical-align:top">角色:</a><div class="rolesSel">
+        <div class="rolesSelDiv"><a style="vertical-align:top">角色:</a>
+          <div class="rolesSel">
           <el-checkbox-group v-model="selroles">
             <el-checkbox v-for="role1 in allroles" :label="role1.label" :key="role1.id"></el-checkbox>
-          </el-checkbox-group></div>
-          <!-- <el-select v-model="accountInfo.roles" default-first-option placeholder="请选择" class="rolesSel">
-              <el-option key="1" label="1" value="1"></el-option>
-              <el-option key="2" label="2" value="2"></el-option>
-              <el-option key="3" label="3" value="3"></el-option>
-              <el-option key="4" label="4" value="4"></el-option>
-          </el-select> -->
+          </el-checkbox-group>
+          </div>
         </div>
         <div v-if="isError" style="width:18em; height:2em; margin:0 auto" >
           <el-alert style="height:2em;" :title="errorMsg"  type="error" :closable="false"></el-alert></div>
@@ -120,55 +116,49 @@ export default {
         let roles = JSON.parse(sessionStorage.getItem("roles"));
         if(roles == null)
         {
-          this.isError = true;
-          this.errorMsg = "角色不能为空"
-          return ;
+          return this.changeTip("角色不能为空");
         }
-
-        if(this.accountInfo.account == "")
+        if(this.accountInfo.account == "" || this.accountInfo.account.trim() == "")
         {
-          this.isError = true;
-          this.errorMsg = "账号不能为空"
-          return ;
+          return this.changeTip("账号不能为空");
+        }
+        if(this.accountInfo.name == "" || this.accountInfo.name.trim() == "")
+        {
+          return this.changeTip("姓名不能为空");
         }
         if(this.accountInfo.password == "")
         {
-          this.isError = true;
-          this.errorMsg = "密码不能为空"
-          return ;
+          return this.changeTip("密码不能为空");
+        }
+        if(this.accountInfo.password.length < 6 )
+        {
+          return this.changeTip("密码长度不能小于6位");
         }
         if(this.accountInfo.password != this.pPassword2 )
         {
-          this.isError = true;
-          this.errorMsg = "两次密码不一样"
-          return ;
+          return this.changeTip("两次密码不一样");
         }
-        if(this.accountInfo.phone == "" )
+        if(this.accountInfo.phone == "")
         {
-          this.isError = true;
-          this.errorMsg = "手机号不能为空"
-          return ;
+          return this.changeTip("手机号不能为空");
+        }
+        if(!(/^1[34578]\d{9}$/.test(this.accountInfo.phone)))
+        {
+          return this.changeTip("手机号格式有误");
         }
         if(this.accountInfo.email == "" )
         {
-          this.isError = true;
-          this.errorMsg = "邮箱不能为空"
-          return ;
+          return this.changeTip("邮箱不能为空");
+        }
+        var regEmail = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
+        if ( !regEmail.test(this.accountInfo.email)) 
+        {
+          return this.changeTip("邮箱格式有误");
         }
         if(this.selroles.length == 0 )
         {
-          this.isError = true;
-          this.errorMsg = "请选择角色"
-          return ;
+          return this.changeTip("请选择角色");
         }
-        var regEmail = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
-        if (this.accountInfo.email != '' && !regEmail.test(this.accountInfo.email)) 
-        {
-          this.isError = true;
-          this.errorMsg = "邮箱格式不正确"
-          return ;
-        }
-        
 
         this.isError = false;
 
@@ -193,7 +183,7 @@ export default {
                     if(131073 == response.code) 
                       this.$alert('提交失败，账号名已存在!', '提示', { type: 'error', confirmButtonText: '确定' });
                     else
-                      this.$alert('提交失败', '提示', { type: 'error', confirmButtonText: '确定' });
+                      this.$alert(response.message, '提示', { type: 'error', confirmButtonText: '确定' });
                     return;
                 }
                     
@@ -205,7 +195,11 @@ export default {
                 this.$alert('提交失败', '提示', { type: 'error', confirmButtonText: '确定' });
             });
       },
-
+      changeTip(tip)
+      {
+          this.isError = true;
+          this.errorMsg = tip;
+      },
       goback()
       { 
         this.$router.push("/admin/manageusers");

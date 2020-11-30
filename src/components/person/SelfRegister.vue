@@ -83,6 +83,21 @@ export default {
               callback(new Error("邮箱格式不正确"));
           }
       }
+      
+      var validateStr = async (rule, value, callback) => {
+        if (rule.field == "pAccount" && value.trim() == "") {
+          callback(new Error("请填写账号"));
+        }
+        if (rule.field == "pShowname" && value.trim() == "") {
+          callback(new Error("请填写姓名"));
+        }
+      }
+
+      var validatePhone = async (rule, value, callback) => {
+        if (!(/^1[34578]\d{9}$/.test(value))){
+          callback(new Error("手机号码格式有误"));
+        }
+      }
 
       return { 
         ruleForm:{
@@ -98,13 +113,16 @@ export default {
           pAddr:"",
         },
         rules: {
-          pAccount:[{required: true, message: '请填写账号', trigger: 'change'}],
-          pShowname:[{required: true, message: '请填写姓名', trigger: 'change'}],
+          pAccount:[{required: true, message: '请填写账号', trigger: 'change'},
+                    { validator: validateStr, trigger: "change" }],
+          pShowname:[{required: true, message: '请填写姓名', trigger: 'change'},
+                    { validator: validateStr, trigger: "change" }],
           pPassword:[{required: true, message: '请填写密码', trigger: 'change'},
                     { validator: validatePass, trigger: "change" }],
           pPassword2:[{required: true, message: '请填写密码', trigger: 'change'},
                     { validator: validatePass, trigger: "change" }],
-          pTel:[{required: true, min:11, max:11, message: '输入位数有误', trigger: 'blur'}],
+          pTel:[{required: true, min:6, max:11, message: '输入位数有误', trigger: 'blur'},
+                    { validator: validatePhone, trigger: "change" }],
           pEmail:[{required: true, message: '请填写邮箱地址', trigger: 'change'},
                   {validator: valemail, trigger: "blur"}]
         },
