@@ -1,3 +1,7 @@
+//var aesjs = require('aes-js');
+import Aes from "aes-js";
+import CryptoJS from 'crypto-js';
+
 /**
  * 对对象进行比较
  */

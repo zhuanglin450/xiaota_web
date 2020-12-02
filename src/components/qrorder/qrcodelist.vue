@@ -39,6 +39,8 @@ import QRCode from "qrcodejs2";
 
 import fetch from "../../assets/js/fetch";
 import qs from "querystring";
+import {encrypt} from "../../assets/js/tool.js"; 
+import {decrypt} from "../../assets/js/tool.js";
 
 export default {
   name: "qrcodeList",
@@ -149,9 +151,15 @@ export default {
 
       if(qrcontent.length==1)
       {
+        var strOrign = JSON.stringify(qrcontent[0]);
+
+        var strEnc = QR_ENCRYPT==true?encrypt(strOrign):strOrign;
+
+        var strDenc = QR_ENCRYPT==true?decrypt(strEnc):strEnc;
+
         this.$refs.codeDiv[0].innerHTML = ''; //清除已有的
         this.q1 = new QRCode(this.$refs.codeDiv[0], {
-            text: JSON.stringify(qrcontent[0]),
+            text: JSON.stringify(strEnc),
             width: wid,
             height: hei,
             colorDark: "#333333", //二维码颜色
@@ -164,8 +172,11 @@ export default {
         for(let i=0;i<qrcontent.length;++i)
         {
           this.$refs.codeDiv[i].innerHTML = ''; //清除已有的
+          var strOrign = JSON.stringify(qrcontent[i]);
+
+          var strEnc = QR_ENCRYPT==true?encrypt(strOrign):strOrign;
           this.q1 = new QRCode(this.$refs.codeDiv[i], {
-              text: JSON.stringify(qrcontent[i]),
+              text: JSON.stringify(strEnc),
               width: wid,
               height: hei,
               colorDark: "#333333", //二维码颜色
