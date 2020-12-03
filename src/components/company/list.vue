@@ -216,8 +216,8 @@ export default {
                 type: 'success'
               });
 
-              console.log(response.data);
-              row.children.push(response.data);
+              response.data.departments[0].id += 1000000;
+              row.children.push(response.data.departments[0]);
               // //重新加载子树
               this.$refs.multipleTable.toggleRowExpansion(row, false);
               this.$refs.multipleTable.toggleRowExpansion(row, true);
