@@ -30,6 +30,13 @@
 
       </el-form>
     </div>
+
+      <div style=" margin-top:0.9em;">
+          <el-link type="primary" @click="openIntroduction" >公司介绍</el-link>
+          <span> &ensp; &ensp; &ensp; &ensp; &ensp; </span>
+            <span style="color:skyblue"><el-link type="primary" @click="downloadApk" >android 客户端下载</el-link> 
+          </span>
+      </div>
   </div>
 </template>
 
@@ -266,6 +273,16 @@ export default {
                 // 如果取消跳转地址栏会变化，这时保持地址栏不变
               });
 
+    },
+    openIntroduction()
+    {
+          window.open("/api/io/xiaotaPdf", "_blank");       
+    },
+    downloadApk()
+    { 
+          const link = document.createElement('a');
+          link.href = "/api/io/xiaotaApk";
+          link.click()
     }
   },
   destroyed: function() {
