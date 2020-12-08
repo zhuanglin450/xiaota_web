@@ -32,7 +32,7 @@
     </div>
 
       <div style=" margin-top:0.9em;">
-          <el-link type="primary" @click="openIntroduction" >公司介绍</el-link>
+          <el-link type="primary" @click="openIntroduction" target="_blank">公司介绍</el-link>
           <span> &ensp; &ensp; &ensp; &ensp; &ensp; </span>
             <span style="color:skyblue"><el-link type="primary" @click="downloadApk" >android 客户端下载</el-link> 
           </span>
@@ -46,7 +46,7 @@
 // $route name params/ path query
 // vue代理
 import { mapActions } from "vuex";
-import PRODUCT_DOCUMENT from "../assets/js/global.js"
+import {PRODUCT_DOCUMENT as aa} from "../assets/js/global.js"
 
 var _this;
 // import "../assets/js/util";
@@ -277,7 +277,12 @@ export default {
     },
     openIntroduction()
     {
-          window.open("/api/static_resource/"+PRODUCT_DOCUMENT, "_blank");
+      let url = "/api/static_resource/"+ (PRODUCT_DOCUMENT);
+      let encodeURL = url;//encodeURI(url);
+      window.open(encodeURL, "_blank");
+
+//      window.location.href=encodeURL;
+      return false;
     },
     downloadApk()
     { 
