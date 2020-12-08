@@ -46,6 +46,7 @@
 // $route name params/ path query
 // vue代理
 import { mapActions } from "vuex";
+import PRODUCT_DOCUMENT from "../assets/js/global.js"
 
 var _this;
 // import "../assets/js/util";
@@ -276,13 +277,14 @@ export default {
     },
     openIntroduction()
     {
-          window.open("/api/io/xiaotaPdf", "_blank");       
+          window.open("/api/static_resource/"+PRODUCT_DOCUMENT, "_blank");
     },
     downloadApk()
     { 
-          const link = document.createElement('a');
-          link.href = "/api/io/xiaotaApk";
-          link.click()
+          window.open("/api/io/xiaotaApk", "_blank");
+          //const link = document.createElement('a');
+          //link.href = "/api/io/xiaotaApk";
+          //link.click()
     }
   },
   destroyed: function() {
